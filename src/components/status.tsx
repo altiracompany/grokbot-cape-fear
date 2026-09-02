@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { FREE_TRIAL } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import type { Wedge } from "@/lib/field";
-import type { BuyerStatus, Decision, LeadStatus, ScreenGrade, Stage } from "@/lib/types";
+import type { BuyerStatus, Decision, HuntStatus, LeadStatus, ScreenGrade, Stage } from "@/lib/types";
 
 export function DecisionBadge({ decision }: { decision: Decision }) {
   const tone =
@@ -31,6 +31,12 @@ export function ScreenBadge({ screen }: { screen: ScreenGrade }) {
 export function BuyerBadge({ status }: { status: BuyerStatus }) {
   const tone = status === "active" ? "go" : status === "paused" ? "maybe" : "muted";
   return <Badge tone={tone}>{status}</Badge>;
+}
+
+export function HuntBadge({ hunt }: { hunt: HuntStatus }) {
+  const tone = hunt === "paying" ? "go" : hunt === "trial" ? "maybe" : hunt === "pitched" ? "live" : "muted";
+  const label = hunt === "paying" ? "Paying" : hunt === "trial" ? "Trial" : hunt === "pitched" ? "Pitched" : "Open";
+  return <Badge tone={tone}>{label}</Badge>;
 }
 
 export function WedgeBadge({ wedge }: { wedge: Wedge }) {

@@ -2,17 +2,19 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { nicheById } from "./niches";
 import { decide } from "./scoring";
-import { pplPrice } from "./pricing";
+import { pplPrice, monthlySeat } from "./pricing";
 import { scriptCall } from "./conversation";
 import { cityForCounties, defaultHoods } from "./territory";
 import { domainFor, trackingFor, uid } from "./utils";
 import { INITIAL_BUYERS, INITIAL_LEADS, INITIAL_MARKETS, inferCounty, withRolledUpCounts } from "./seed";
 import { FREE_TRIAL } from "./types";
+import { nextHunt } from "./seats";
 import type {
   Buyer,
   BuyerStatus,
   CallTurn,
   County,
+  HuntStatus,
   Lead,
   LeadStatus,
   Market,
@@ -34,6 +36,7 @@ type NewBuyerInput = {
   phone: string;
   email: string;
   marketId: string;
+  county: County;
   pplRate: number;
   monthlyCap: number;
 };
@@ -70,6 +73,7 @@ type AgencyState = {
   addBuyer: (input: NewBuyerInput) => string;
   updateBuyer: (id: string, patch: Partial<Buyer>) => void;
   setBuyerStatus: (id: string, status: BuyerStatus) => void;
+  advanceHunt: (id: string) => HuntStatus | null;
   captureLead: (input: NewLeadInput) => string;
   screenLead: (leadId: string, patch: ScreenPatch) => void;
   addTapeTurn: (leadId: string, speaker: CallTurn["speaker"], text: string) => void;
@@ -189,6 +193,7 @@ export const useAgency = create<AgencyState>()(
         const market = get().markets.find((m) => m.id === input.marketId);
         if (!market) return "";
         const id = uid("by");
+        const niche = nicheById(market.nicheId);
         const buyer: Buyer = {
           id,
           name: input.name.trim(),
@@ -197,14 +202,17 @@ export const useAgency = create<AgencyState>()(
           email: input.email.trim(),
           marketIds: [input.marketId],
           nicheId: market.nicheId,
+          county: input.county ?? market.counties[0] ?? "new-hanover",
           pplRate: input.pplRate || market.pplPrice,
+          monthlySeat: monthlySeat(niche),
           monthlyCap: input.monthlyCap || 12,
-          status: "active",
+          status: "prospect",
+          hunt: "pitched",
           soldThisMonth: 0,
           spendThisMonth: 0,
           freeRemaining: FREE_TRIAL,
           freeUsed: 0,
-          notes: "2 free screened handoffs, then PPL.",
+          notes: "2 free then monthly seat.",
         };
         set({ buyers: [buyer, ...get().buyers] });
         return id;
@@ -217,6 +225,30 @@ export const useAgency = create<AgencyState>()(
         set({
           buyers: get().buyers.map((b) => (b.id === id ? { ...b, status } : b)),
         }),
+      advanceHunt: (id) => {
+        const current = get().buyers.find((b) => b.id === id);
+        if (!current) return null;
+        const next = nextHunt(current.hunt);
+        if (!next) return null;
+        set({
+          buyers: get().buyers.map((b) => {
+            if (b.id !== id) return b;
+            if (next === "trial") {
+              return {
+                ...b,
+                hunt: next,
+                status: "active" as const,
+                freeRemaining: Math.max(b.freeRemaining, FREE_TRIAL - b.freeUsed),
+              };
+            }
+            if (next === "paying") {
+              return { ...b, hunt: next, status: "active" as const, freeRemaining: 0 };
+            }
+            return { ...b, hunt: next };
+          }),
+        });
+        return next;
+      },
       captureLead: (input) => {
         const market = get().markets.find((m) => m.id === input.marketId);
         const id = uid("ld");
@@ -380,7 +412,7 @@ export const useAgency = create<AgencyState>()(
         }),
     }),
     {
-      name: "grokbot-capefear-v2",
+      name: "freedom-project-v5",
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : localStorage)),
       skipHydration: true,
       partialize: (s) => ({ markets: s.markets, buyers: s.buyers, leads: s.leads }),

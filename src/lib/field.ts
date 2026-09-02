@@ -1,7 +1,16 @@
 import type { Market, Niche } from "./types";
-import { money } from "./utils";
 
-export type RivalId = "angi" | "thumbtack" | "lsa" | "yelp" | "local-seo" | "rank-rent" | "ai-farm";
+export type RivalId =
+  | "angi"
+  | "thumbtack"
+  | "lsa"
+  | "yelp"
+  | "local-seo"
+  | "rank-rent"
+  | "ai-farm"
+  | "leadhub"
+  | "leadlatency"
+  | "votel";
 export type Wedge = "flank" | "fight" | "skip";
 export type Density = "thin" | "mixed" | "packed";
 
@@ -85,9 +94,37 @@ export const RIVALS: Rival[] = [
     leak: "Google already suppressing it. No reviews engine. No human on the line.",
     ourMove: "Unique Cape Fear copy, real hours, real tracking, real desk. Don't race page count.",
   },
+  {
+    id: "leadhub",
+    name: "Leadhub",
+    camp: "copycat",
+    play: "HVAC / plumbing / roofing agency. PPC + SEO + Yelp on THEIR site. 'Marketing partner.'",
+    leak: "Packed LSA categories. They polish the owner's brand. Owner keeps the asset — and the missed calls.",
+    ourMove: "Don't fight plumber/HVAC. We own the ranker in septic, dryer, dock, well. $500/wk exclusive. Desk answers.",
+  },
+  {
+    id: "leadlatency",
+    name: "Lead Latency",
+    camp: "copycat",
+    play: "$397/mo CRM: funnels, SMS, dialer, reviews. Software rental.",
+    leak: "Zero Cape Fear demand. A dashboard is not a job. Same empty queue as Bark.",
+    ourMove: "They sell a tool. We sell a screened job. If they already have the CRM, they still need our seat.",
+  },
+  {
+    id: "votel",
+    name: "Votel.ai",
+    camp: "copycat",
+    play: "$97/mo white-label AI: sites, funnels, AI receptionist, CRM. Sold to agencies for HVAC/plumber clients.",
+    leak: "Software is not demand. AI answers a number nobody ranks. Same empty queue as Bark and Lead Latency.",
+    ourMove: "Don't clone the platform. Steal after-hours capture later. This week: own the page, human screen, $500/wk seat.",
+  },
 ];
 
 export const ENGAGE: { title: string; rule: string }[] = [
+  {
+    title: "Tri-county lock",
+    rule: "Cape Fear: New Hanover, Pender, Brunswick. Alamo: Bexar, Comal, Guadalupe. Atascosa and Wilson wait until 15 Alamo seats pay. No downtown SA plumber/HVAC.",
+  },
   {
     title: "Don't buy their auction",
     rule: "Never enter Wilmington plumber, HVAC, or electrician. LSA + Angi own that fight. You will lose on bid price.",
@@ -125,7 +162,7 @@ export const NICHE_FIELD: Record<string, NicheField> = {
     rankRent: "thin",
     angiPpl: "$45–$90 shared",
     why: "Family pumpers, brochure sites. Angi lists it; nobody ranks 'septic pumping Wilmington NC.' LSA barely covers pumping.",
-    doThis: "Own wilmingtonseptic.com. Screen backups. Two trucks on 2-free then $50.",
+    doThis: "Own wilmingtonseptic.com. Screen backups. 2 free then $500/wk.",
     dont: "Don't pitch city plumbers. That's LSA.",
   },
   dryer: {
@@ -138,7 +175,7 @@ export const NICHE_FIELD: Record<string, NicheField> = {
     rankRent: "thin",
     angiPpl: "$20–$45 (HVAC upsell)",
     why: "Best wedge. HVAC techs upsell it. No dedicated LSA. Humidity + long vents. Copycats haven't noticed yet.",
-    doThis: "Keep the page #1. Same-day screen. Flood LintLock with 2-free then $25.",
+    doThis: "Keep the page #1. Same-day screen. 2 free then $500/wk.",
     dont: "Don't expand into duct cleaning vs national HVAC. Stay dryer vent.",
   },
   generator: {
@@ -151,7 +188,7 @@ export const NICHE_FIELD: Record<string, NicheField> = {
     rankRent: "mixed",
     angiPpl: "$90–$180 shared",
     why: "Florence memory. $12–20k tickets. LSA electricians exist — they are not generator specialists. Rank-rent will show up after the next named storm.",
-    doThis: "Own standby + storm language. Desk qualifies panel and county before the $180 handoff.",
+    doThis: "Own standby + storm language. Desk qualifies panel and county. $500/wk.",
     dont: "Don't fight 'Wilmington electrician.' That's Google's auction.",
   },
   well: {
@@ -164,7 +201,7 @@ export const NICHE_FIELD: Record<string, NicheField> = {
     rankRent: "thin",
     angiPpl: "$50–$120 shared",
     why: "Pender/Brunswick wells. Mills ignore rural. Same dirt as septic. New shops chase city HVAC.",
-    doThis: "Ship penderwellpump.com. No-water is 24/7. Two free then $125.",
+    doThis: "Ship penderwellpump.com. No-water is 24/7. 2 free then $500/wk.",
     dont: "Don't run Wilmington city water-heater ads. Stay wells.",
   },
   garage: {
@@ -284,6 +321,71 @@ export const NICHE_FIELD: Record<string, NicheField> = {
     doThis: "Only after dryer vent is printing. Storm-window only.",
     dont: "Don't be the fifth 'Wilmington gutter cleaning' page.",
   },
+  tree: {
+    nicheId: "tree",
+    wedge: "flank",
+    angi: "mixed",
+    lsa: "thin",
+    thumbtack: "mixed",
+    localSeo: "mixed",
+    rankRent: "thin",
+    angiPpl: "$40–$120 shared",
+    why: "Storm take-downs. Angi lists tree; the 3-pack is still mom-and-pop. Named storms print. Mills go quiet in November.",
+    doThis: "Own emergency tree + hanger language. Screen access and power lines. $500/wk.",
+    dont: "Don't bid generic 'landscaper Wilmington.' That's a different fight.",
+  },
+  water: {
+    nicheId: "water",
+    wedge: "fight",
+    angi: "mixed",
+    lsa: "thin",
+    thumbtack: "mixed",
+    localSeo: "packed",
+    rankRent: "thin",
+    angiPpl: "$80–$200 shared",
+    why: "SERVPRO owns the brand. Independents still starve for overflow. Flood + insurance walk-through is the job.",
+    doThis: "Pitch independents the overflow SERVPRO can't take tonight. $500/wk. Don't pretend you're the franchise.",
+    dont: "Don't out-brand SERVPRO. Steal the 2am extract they miss.",
+  },
+  mosquito: {
+    nicheId: "mosquito",
+    wedge: "flank",
+    angi: "thin",
+    lsa: "thin",
+    thumbtack: "mixed",
+    localSeo: "thin",
+    rankRent: "thin",
+    angiPpl: "$20–$50 shared",
+    why: "Coastal NC is a mosquito factory. Franchises (Joe / Squad) run ads; independents don't own a county page.",
+    doThis: "Recurring barrier spray. $500/wk. Seasonal volume, weekly seat anyway.",
+    dont: "Don't add termite / general pest and fight Orkin.",
+  },
+  pool: {
+    nicheId: "pool",
+    wedge: "flank",
+    angi: "mixed",
+    lsa: "thin",
+    thumbtack: "mixed",
+    localSeo: "thin",
+    rankRent: "thin",
+    angiPpl: "$25–$60 shared",
+    why: "Brunswick golf + Landfall + new-build. Weekly routes beat one-off green-to-clean. Mills don't rank 'pool service Leland.'",
+    doThis: "Sell the weekly seat. $500/wk. Screen green vs route.",
+    dont: "Don't become a pool builder. Stay service.",
+  },
+  dock: {
+    nicheId: "dock",
+    wedge: "flank",
+    angi: "thin",
+    lsa: "thin",
+    thumbtack: "thin",
+    localSeo: "thin",
+    rankRent: "thin",
+    angiPpl: "Barely listed",
+    why: "Best new wedge. Wrightsville / Surf City / Southport. Mills don't know boat lifts. High ticket, thin SERP.",
+    doThis: "Own dock + lift. $500/wk. Screen tidal access.",
+    dont: "Don't add general marine mechanic and fight boat yards.",
+  },
 };
 
 const FALLBACK: Omit<NicheField, "nicheId"> = {
@@ -321,16 +423,16 @@ export function killShotSms(market: Market, niche: Niche) {
   const field = fieldFor(niche.id);
   return `You're paying Angi ${field.angiPpl} for a ${niche.name.toLowerCase()} lead 3 other trucks already called.
 
-We own ${market.domain}. Our desk answers ${market.trackingNumber}. One screened job — name, address, urgency, tape. Not a shared ping.
+We own ${market.domain}. Freedom Project Leads answers ${market.trackingNumber}. One screened job — name, address, urgency, tape. Not a shared ping.
 
-First 2 free. Then ${money(market.pplPrice)}.
+First 2 free. Then $500 a week for the county seat.
 
-Reply YES and a weekly cap.`;
+Reply YES.`;
 }
 
 export function killShotEmail(market: Market, niche: Niche) {
   const field = fieldFor(niche.id);
-  return `Subject: Stop buying Angi ${niche.name.toLowerCase()} leftovers — Cape Fear
+  return `Subject: Freedom Project Leads — stop buying Angi ${niche.name.toLowerCase()} leftovers
 
 ${field.why}
 
@@ -338,12 +440,12 @@ Angi / Thumbtack / LSA sell shared inventory. You pay ${field.angiPpl}. Four tru
 
 We own ${market.domain}. We answer ${market.trackingNumber}. You get one screened handoff.
 
-First 2 free. Then ${money(market.pplPrice)}.
+First 2 free. Then $500 a week exclusive.
 
 Do: ${field.doThis}
 Don't: ${field.dont}
 
-How many can you take this week after the 2 free?`;
+Reply YES for the county seat.`;
 }
 
 export function fieldWhy(nicheId: string) {

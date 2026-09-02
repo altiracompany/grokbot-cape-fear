@@ -17,7 +17,7 @@ export function nextActions(markets: Market[], buyers: Buyer[], leads: Lead[]): 
     const market = markets.find((m) => m.id === lead.marketId);
     if (!market) continue;
     const niche = nicheById(market.nicheId);
-    const eligible = eligibleBuyers(buyers, market.id);
+    const eligible = eligibleBuyers(buyers, market.id, lead.county);
 
     if (lead.screen === "unscreened" || lead.screen === "screening") {
       out.push({
@@ -69,12 +69,12 @@ export function nextActions(markets: Market[], buyers: Buyer[], leads: Lead[]): 
     }
     if (
       (market.stage === "live" || market.stage === "ranking") &&
-      marketBuyers.filter((b) => b.status === "active").length < 2
+      marketBuyers.filter((b) => b.hunt === "paying" || b.hunt === "trial").length === 0
     ) {
       out.push({
         id: `buyers-${market.id}`,
-        title: `Need a second owner · ${title}`,
-        why: "One truck is a bottleneck. Two actives + 2 free each fills the queue.",
+        title: `Sell the seat · ${title}`,
+        why: "Site is live. Empty county seats are leaving money on the desk.",
         to: "/buyers",
         tone: "work",
       });
@@ -89,6 +89,27 @@ export function nextActions(markets: Market[], buyers: Buyer[], leads: Lead[]): 
         tone: "work",
       });
     }
+  }
+
+  const alamoPay = buyers.filter((b) => b.hunt === "paying" && (b.county === "bexar" || b.county === "comal" || b.county === "guadalupe")).length;
+  const capePay = buyers.filter((b) => b.hunt === "paying" && (b.county === "new-hanover" || b.county === "pender" || b.county === "brunswick")).length;
+  if (alamoPay < 30) {
+    out.push({
+      id: "close-alamo",
+      title: `Close Alamo · ${alamoPay}/30 paying`,
+      why: `Bexar, Comal, Guadalupe. ${30 - alamoPay} seats open. $500/wk. Atascosa and Wilson wait.`,
+      to: "/buyers",
+      tone: "money",
+    });
+  }
+  if (capePay < 15) {
+    out.push({
+      id: "close-cape",
+      title: `Close Cape Fear · ${capePay}/30 paying`,
+      why: `${30 - capePay} NC seats still open. Don't starve the footprint that already pays.`,
+      to: "/buyers",
+      tone: "work",
+    });
   }
 
   const rank = { urgent: 0, money: 1, work: 2 };
@@ -168,9 +189,14 @@ export function freeOnBooks(buyers: Buyer[]) {
   return buyers.filter((b) => b.status === "active").reduce((s, b) => s + b.freeRemaining, 0);
 }
 
-export function eligibleBuyers(buyers: Buyer[], marketId: string) {
+export function eligibleBuyers(buyers: Buyer[], marketId: string, county?: County) {
   return buyers.filter(
-    (b) => b.status === "active" && b.marketIds.includes(marketId) && b.soldThisMonth < b.monthlyCap,
+    (b) =>
+      (b.hunt === "trial" || b.hunt === "paying") &&
+      b.status === "active" &&
+      b.marketIds.includes(marketId) &&
+      b.soldThisMonth < b.monthlyCap &&
+      (!county || b.county === county),
   );
 }
 

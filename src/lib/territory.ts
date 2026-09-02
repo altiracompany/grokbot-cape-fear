@@ -19,14 +19,41 @@ export const HOODS: { name: string; county: County; zip: string }[] = [
   { name: "St. James", county: "brunswick", zip: "28461" },
   { name: "Oak Island", county: "brunswick", zip: "28465" },
   { name: "Bolivia", county: "brunswick", zip: "28422" },
+  { name: "San Antonio", county: "bexar", zip: "78201" },
+  { name: "Stone Oak", county: "bexar", zip: "78258" },
+  { name: "Helotes", county: "bexar", zip: "78023" },
+  { name: "Leon Valley", county: "bexar", zip: "78238" },
+  { name: "New Braunfels", county: "comal", zip: "78130" },
+  { name: "Canyon Lake", county: "comal", zip: "78133" },
+  { name: "Bulverde", county: "comal", zip: "78163" },
+  { name: "Gruene", county: "comal", zip: "78130" },
+  { name: "Schertz", county: "guadalupe", zip: "78154" },
+  { name: "Cibolo", county: "guadalupe", zip: "78108" },
+  { name: "Seguin", county: "guadalupe", zip: "78155" },
+  { name: "McQueeney", county: "guadalupe", zip: "78123" },
 ];
 
-export const CAPE_NICHES = ["septic", "generator", "dryer", "garage", "well", "crawl"] as const;
+export const CAPE_NICHES = [
+  "septic",
+  "generator",
+  "dryer",
+  "well",
+  "garage",
+  "tree",
+  "water",
+  "mosquito",
+  "pool",
+  "dock",
+] as const;
 
 export function cityForCounties(counties: County[]) {
   if (counties.includes("new-hanover")) return "Wilmington";
   if (counties.includes("pender")) return "Hampstead";
-  return "Leland";
+  if (counties.includes("brunswick")) return "Leland";
+  if (counties.includes("comal")) return "New Braunfels";
+  if (counties.includes("guadalupe")) return "Schertz";
+  if (counties.includes("bexar")) return "San Antonio";
+  return "Wilmington";
 }
 
 export function defaultHoods(counties: County[]) {
@@ -45,5 +72,8 @@ export function inferCountyFromHood(hood: string, fallback: County = "new-hanove
   if (/hampstead|burgaw|rocky point|surf city|pender/.test(h)) return "pender";
   if (/leland|bolivia|southport|oak island|st\.? james|holden|brunswick/.test(h)) return "brunswick";
   if (/wilmington|porters|myrtle|carolina beach|wrightsville|landfall|kure/.test(h)) return "new-hanover";
+  if (/canyon lake|new braunfels|bulverde|gruene|comal/.test(h)) return "comal";
+  if (/schertz|cibolo|seguin|mcqueeney|guadalupe/.test(h)) return "guadalupe";
+  if (/san antonio|stone oak|helotes|leon valley|bexar/.test(h)) return "bexar";
   return fallback;
 }

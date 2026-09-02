@@ -29,7 +29,7 @@ export function HandoffDialog({ lead, trigger }: { lead: Lead; trigger?: React.R
   const [packet, setPacket] = useState("");
 
   const market = markets.find((m) => m.id === lead.marketId);
-  const eligible = eligibleBuyers(buyers, lead.marketId);
+  const eligible = eligibleBuyers(buyers, lead.marketId, lead.county);
   const selected = eligible.find((b) => b.id === buyerId) ?? eligible[0];
   const blocked = lead.screen !== "hot" && lead.screen !== "warm";
   const price = selected ? handoffPrice(selected) : 0;

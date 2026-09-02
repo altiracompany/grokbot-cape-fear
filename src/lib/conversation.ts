@@ -17,7 +17,7 @@ export function scriptCall(args: {
   const { niche, name, hood, service, tracking } = args;
   const first = name.split(" ")[0] ?? "there";
   return [
-    { at: "0:00", speaker: "agent", text: `Cape Fear ${niche.name.toLowerCase()}, this is the desk. You're on ${tracking}.` },
+    { at: "0:00", speaker: "agent", text: `Freedom Project Leads, ${niche.name.toLowerCase()}. Desk. You're on ${tracking}.` },
     { at: "0:06", speaker: "caller", text: `Hey — this is ${first} in ${hood}. I need ${service.toLowerCase()}.` },
     { at: "0:14", speaker: "agent", text: `Got it. Are you in New Hanover, Pender, or Brunswick?` },
     { at: "0:18", speaker: "caller", text: `${hood}. Can someone come today?` },
@@ -35,7 +35,7 @@ export function handoffPacket(lead: Lead, market: Market, niche: Niche, buyer: B
     .slice(-4)
     .map((t) => `${t.speaker === "agent" ? "Desk" : "Caller"}: ${t.text}`)
     .join("\n");
-  return `SCREENED HANDOFF — ${buyer.company}
+  return `FREEDOM PROJECT LEADS — ${buyer.company}
 
 ${priceLine}
 
@@ -55,5 +55,5 @@ We answered. We qualified. You roll. Do not call them a second time to "see if i
 }
 
 export function ownerOfferSms(market: Market, niche: Niche, ppl: number) {
-  return `Stop buying Angi leftovers. Cape Fear ${niche.name.toLowerCase()} — we own ${market.domain}, we answer ${market.trackingNumber}. Screened job, not a shared ping. First 2 free. Then ${money(ppl)}. Reply YES and a weekly cap.`;
+  return `Stop buying Angi leftovers. Freedom Project Leads — ${niche.name.toLowerCase()} in Cape Fear. We own ${market.domain}, we answer ${market.trackingNumber}. Screened job, not a shared ping. First 2 free. Then $500/wk exclusive. Reply YES.`;
 }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NewMarketDialog } from "@/components/new-market-dialog";
+import { BRAND, BRAND_MARK, BRAND_SHORT, BRAND_TAG } from "@/lib/brand";
 import { useAgency } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +14,7 @@ const NAV = [
   { to: "/", label: "Desk", icon: LayoutGrid },
   { to: "/queue", label: "Queue", icon: Headset },
   { to: "/markets", label: "Markets", icon: MapPinned },
-  { to: "/buyers", label: "Owners", icon: Users },
+  { to: "/buyers", label: "Hunt", icon: Users },
   { to: "/playbook", label: "Playbook", icon: BookOpen },
 ] as const;
 
@@ -63,7 +64,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="md:pl-56">
           <div className="mx-auto flex min-h-dvh max-w-6xl flex-col px-4 pt-4 pb-24 md:px-8 md:pt-8 md:pb-10">
             <div className="mb-6 hidden items-center justify-between md:flex">
-              <p className="font-mono text-xs tracking-widest text-muted uppercase">Cape Fear · 2 free then PPL</p>
+              <p className="font-mono text-xs tracking-widest text-muted uppercase">
+                Freedom Project · Cape Fear + Alamo · $500/wk
+              </p>
               <NewMarketDialog />
             </div>
             {children}
@@ -104,11 +107,11 @@ function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <Link to="/" className="flex items-center gap-2.5">
       <span className="flex size-8 items-center justify-center rounded-md bg-elevated font-display text-sm font-semibold text-fg shadow-[var(--shadow-border)]">
-        L
+        {BRAND_MARK}
       </span>
       <span className={cn("leading-tight", compact && "sr-only md:not-sr-only")}>
-        <span className="block font-medium tracking-[0.18em] text-fg uppercase">Grokbot</span>
-        {!compact ? <span className="block text-xs text-subtle">Cape Fear desk</span> : null}
+        <span className="block font-medium tracking-[0.12em] text-fg uppercase">{BRAND_SHORT}</span>
+        {!compact ? <span className="block text-xs text-subtle">{BRAND_TAG}</span> : null}
       </span>
     </Link>
   );

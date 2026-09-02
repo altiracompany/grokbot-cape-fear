@@ -1,136 +1,227 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CopyBlock } from "@/components/copy-block";
 import { NewBuyerDialog } from "@/components/new-buyer-dialog";
-import { BuyerBadge, FreeMeter } from "@/components/status";
-import { buyerIntro } from "@/lib/copy";
+import { FreeMeter, HuntBadge } from "@/components/status";
+import { ValueCard } from "@/components/value-showcase";
+import { huntCounts, nextHunt, payingWeekly, seatEmail, seatSms, targetWeekly, countyLabel } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
-import { money } from "@/lib/utils";
+import { cn, money } from "@/lib/utils";
+import { REGIONS, countiesIn, type County, type HuntStatus, type Region } from "@/lib/types";
 import type { Buyer } from "@/lib/types";
 
 export const Route = createFileRoute("/buyers")({ component: BuyersPage });
 
-function BuyersPage() {
-  const markets = useAgency((s) => s.markets);
-  const buyers = useAgency((s) => s.buyers);
-  const setBuyerStatus = useAgency((s) => s.setBuyerStatus);
+const HUNT_FILTERS: { id: "all" | HuntStatus; label: string }[] = [
+  { id: "all", label: "All seats" },
+  { id: "paying", label: "Paying" },
+  { id: "trial", label: "Trial" },
+  { id: "pitched", label: "Pitched" },
+  { id: "open", label: "Open" },
+];
 
-  const spend = buyers.reduce((s, b) => s + b.spendThisMonth, 0);
-  const freeLeft = buyers.filter((b) => b.status === "active").reduce((s, b) => s + b.freeRemaining, 0);
+function BuyersPage() {
+  const buyers = useAgency((s) => s.buyers);
+  const advanceHunt = useAgency((s) => s.advanceHunt);
+  const [huntFilter, setHuntFilter] = useState<(typeof HUNT_FILTERS)[number]["id"]>("all");
+  const [regionFilter, setRegionFilter] = useState<Region>("alamo");
+  const [countyFilter, setCountyFilter] = useState<County | "all">("all");
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  const counts = huntCounts(buyers, regionFilter);
+  const weekly = payingWeekly(buyers, regionFilter);
+  const target = targetWeekly(regionFilter);
+  const countyOpts = countiesIn(regionFilter);
+
+  const rows = useMemo(() => {
+    return buyers
+      .filter((b) => countyOpts.some((c) => c.id === b.county))
+      .filter((b) => (huntFilter === "all" ? true : b.hunt === huntFilter))
+      .filter((b) => (countyFilter === "all" ? true : b.county === countyFilter))
+      .sort((a, b) => {
+        const order: HuntStatus[] = ["paying", "trial", "pitched", "open"];
+        const d = order.indexOf(a.hunt) - order.indexOf(b.hunt);
+        if (d !== 0) return d;
+        if (a.nicheId !== b.nicheId) return a.nicheId.localeCompare(b.nicheId);
+        return a.county.localeCompare(b.county);
+      });
+  }, [buyers, huntFilter, countyFilter, countyOpts]);
 
   return (
     <main className="flex flex-col gap-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Cape Fear owners</p>
-          <h1 className="mt-1 font-display text-3xl font-medium tracking-tight">Owners</h1>
+          <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Freedom Project Leads</p>
+          <h1 className="mt-1 font-display text-3xl font-medium tracking-tight">Hunt</h1>
           <p className="mt-2 max-w-xl text-sm text-muted">
-            Local operators. Two screened handoffs free, then PPL. They never own the ranker or the tape.
+            Alamo first: Bexar, Comal, Guadalupe. 30 seats × $500/wk. Atascosa and Wilson wait. Cape Fear still pays.
           </p>
         </div>
         <NewBuyerDialog />
       </header>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Card className="rounded-xl p-4">
-          <p className="text-xs tracking-wider text-muted uppercase">Owners</p>
-          <p className="mt-2 font-mono text-2xl tabular-nums">{buyers.length}</p>
+          <p className="text-xs tracking-wider text-muted uppercase">Paying</p>
+          <p className="mt-2 font-mono text-2xl tabular-nums">
+            {counts.paying}
+            <span className="text-sm text-subtle">/{counts.target}</span>
+          </p>
         </Card>
         <Card className="rounded-xl p-4">
-          <p className="text-xs tracking-wider text-muted uppercase">Free left</p>
-          <p className="mt-2 font-mono text-2xl tabular-nums">{freeLeft}</p>
+          <p className="text-xs tracking-wider text-muted uppercase">This week</p>
+          <p className="mt-2 font-mono text-2xl tabular-nums">{money(weekly)}</p>
         </Card>
-        <Card className="rounded-xl p-4 col-span-2 md:col-span-1">
-          <p className="text-xs tracking-wider text-muted uppercase">Spend MTD</p>
-          <p className="mt-2 font-mono text-2xl tabular-nums">{money(spend)}</p>
+        <Card className="rounded-xl p-4">
+          <p className="text-xs tracking-wider text-muted uppercase">If 30 pay</p>
+          <p className="mt-2 font-mono text-2xl tabular-nums">{money(target)}<span className="text-sm text-subtle">/wk</span></p>
+        </Card>
+        <Card className="rounded-xl p-4">
+          <p className="text-xs tracking-wider text-muted uppercase">Still open</p>
+          <p className="mt-2 font-mono text-2xl tabular-nums">{counts.gap}</p>
         </Card>
       </div>
 
+      <div className="flex flex-col gap-2">
+        <div className="-mx-4 flex gap-1 overflow-x-auto px-4 md:mx-0 md:px-0">
+          {HUNT_FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setHuntFilter(f.id)}
+              className={cn(
+                "h-11 shrink-0 rounded-md px-4 text-sm",
+                huntFilter === f.id ? "bg-elevated text-fg" : "text-muted hover:text-fg",
+              )}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div className="-mx-4 flex gap-1 overflow-x-auto px-4 md:mx-0 md:px-0">
+          {REGIONS.map((r) => (
+            <button
+              key={r.id}
+              type="button"
+              onClick={() => {
+                setRegionFilter(r.id);
+                setCountyFilter("all");
+              }}
+              className={cn(
+                "h-11 shrink-0 rounded-md px-4 text-sm",
+                regionFilter === r.id ? "bg-elevated text-fg" : "text-muted hover:text-fg",
+              )}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+        <div className="-mx-4 flex gap-1 overflow-x-auto px-4 md:mx-0 md:px-0">
+          <button
+            type="button"
+            onClick={() => setCountyFilter("all")}
+            className={cn(
+              "h-11 shrink-0 rounded-md px-4 text-sm",
+              countyFilter === "all" ? "bg-elevated text-fg" : "text-muted hover:text-fg",
+            )}
+          >
+            Core 3
+          </button>
+          {countyOpts.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => setCountyFilter(c.id)}
+              className={cn(
+                "h-11 shrink-0 rounded-md px-4 text-sm",
+                countyFilter === c.id ? "bg-elevated text-fg" : "text-muted hover:text-fg",
+              )}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="grid gap-2">
-        {buyers.map((buyer) => (
-          <BuyerRow
+        {rows.map((buyer) => (
+          <SeatRow
             key={buyer.id}
             buyer={buyer}
-            onStatus={(s) => {
-              setBuyerStatus(buyer.id, s);
-              toast.success(`${buyer.company} → ${s}`);
+            expanded={openId === buyer.id}
+            onToggle={() => setOpenId(openId === buyer.id ? null : buyer.id)}
+            onAdvance={() => {
+              const next = advanceHunt(buyer.id);
+              if (!next) {
+                toast.message(`${buyer.company} already paying.`);
+                return;
+              }
+              toast.success(`${buyer.company} → ${next}`);
             }}
           />
         ))}
       </div>
     </main>
   );
+}
 
-  function BuyerRow({
-    buyer,
-    onStatus,
-  }: {
-    buyer: Buyer;
-    onStatus: (s: Buyer["status"]) => void;
-  }) {
-    const market = markets.find((m) => m.id === buyer.marketIds[0]);
-    const niche = nicheById(buyer.nicheId);
-    const capPct = buyer.monthlyCap > 0 ? buyer.soldThisMonth / buyer.monthlyCap : 0;
-    return (
-      <article className="grid gap-3 rounded-xl bg-surface p-4 shadow-[var(--shadow-border)]">
-        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="font-medium">{buyer.company}</p>
-              <BuyerBadge status={buyer.status} />
-              <FreeMeter used={buyer.freeUsed} remaining={buyer.freeRemaining} />
-            </div>
-            <p className="mt-1 text-sm text-muted">
-              {buyer.name} · {buyer.phone}
-            </p>
-            <p className="mt-1 text-xs text-subtle">
-              {market ? (
-                <Link to="/markets/$marketId" params={{ marketId: market.id }} className="hover:text-fg">
-                  {niche.name} · {market.city}
-                </Link>
-              ) : (
-                niche.name
-              )}
-              {buyer.notes ? ` · ${buyer.notes}` : ""}
-            </p>
-          </div>
+function SeatRow({
+  buyer,
+  expanded,
+  onToggle,
+  onAdvance,
+}: {
+  buyer: Buyer;
+  expanded: boolean;
+  onToggle: () => void;
+  onAdvance: () => void;
+}) {
+  const niche = nicheById(buyer.nicheId);
+  const next = nextHunt(buyer.hunt);
+  const nextLabel =
+    next === "pitched" ? "Mark pitched" : next === "trial" ? "Start 2 free" : next === "paying" ? "Convert paying" : null;
+
+  return (
+    <article className="grid gap-3 rounded-xl bg-surface p-4 shadow-[var(--shadow-border)]">
+      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <button type="button" onClick={onToggle} className="min-w-0 text-left">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-sm tabular-nums">
-              {buyer.freeRemaining > 0 ? "2 free, then " : ""}
-              {money(buyer.pplRate)}
-            </span>
-            <span className="text-sm text-muted">
-              {buyer.soldThisMonth}/{buyer.monthlyCap} · {money(buyer.spendThisMonth)}
-            </span>
-            {buyer.status === "active" ? (
-              <Button type="button" size="sm" variant="secondary" onClick={() => onStatus("paused")}>
-                Pause
-              </Button>
-            ) : (
-              <Button type="button" size="sm" onClick={() => onStatus("active")}>
-                Activate
-              </Button>
-            )}
+            <p className="font-medium">{buyer.company}</p>
+            <HuntBadge hunt={buyer.hunt} />
           </div>
+          <p className="mt-1 text-sm text-muted">
+            {niche.name} · {countyLabel(buyer.county)} · {buyer.name}
+          </p>
+          <p className="mt-1 font-mono text-xs text-subtle">
+            $500/wk · then {money(buyer.pplRate)} overage
+          </p>
+        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {buyer.hunt === "trial" ? <FreeMeter used={buyer.freeUsed} remaining={buyer.freeRemaining} /> : null}
+          {nextLabel ? (
+            <Button type="button" size="sm" onClick={onAdvance}>
+              {nextLabel}
+            </Button>
+          ) : (
+            <p className="text-xs tracking-wider text-go uppercase">Seat sold</p>
+          )}
         </div>
-        <div className="h-1.5 overflow-hidden rounded-full bg-elevated">
-          <div
-            className="h-full rounded-full bg-accent"
-            style={{ width: `${Math.min(100, Math.max(4, capPct * 100))}%` }}
-          />
+      </div>
+      {expanded ? (
+        <div className="grid gap-3 border-t border-border pt-3">
+          <p className="text-sm text-muted">{buyer.notes}</p>
+          <p className="font-mono text-xs text-subtle">
+            {buyer.phone} · {buyer.email}
+          </p>
+          <CopyBlock label="Text" text={seatSms(buyer)} />
+          <CopyBlock label="Email" text={seatEmail(buyer)} />
+          <ValueCard niche={niche} />
         </div>
-        {market ? (
-          <CopyBlock
-            label="Text to send"
-            text={buyerIntro(buyer, market, niche)}
-            grokKind="outreach"
-            grokBrief={`SMS to ${buyer.name} at ${buyer.company} for ${market.city} ${niche.name} PPL at ${buyer.pplRate}, cap ${buyer.monthlyCap}. Auction parked.`}
-          />
-        ) : null}
-      </article>
-    );
-  }
+      ) : null}
+    </article>
+  );
 }

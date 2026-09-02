@@ -41,6 +41,73 @@ export function exclusiveReserve(niche: Niche, leadOverride?: number) {
   return Math.round((rev * 0.33) / 10) * 10;
 }
 
+/** One price. Exclusive county seat. 4-week month. */
+export const WEEKLY_SEAT = 500;
+export const MONTHLY_SEAT = WEEKLY_SEAT * 4;
+
+export function weeklySeat(_niche?: Niche) {
+  return WEEKLY_SEAT;
+}
+
+export function monthlySeat(_niche?: Niche) {
+  return MONTHLY_SEAT;
+}
+
+export type ConservativeValue = {
+  jobValue: number;
+  jobRange: string;
+  closeRate: number;
+  ev: number;
+  weeklySeat: number;
+  screenedPerWeek: number;
+  expectedClosed: number;
+  expectedRev: number;
+  leftover: number;
+  closedToCover: number;
+  screenedToCover: number;
+  weeksOneJobCovers: number;
+  angiLead: number;
+  angiClose: number;
+  angiCostPerJob: number;
+  ourCostPerClosed: number;
+  coversOnOneJob: boolean;
+};
+
+/** Slow week. 40% of modeled monthly volume. Close rates already underwritten. */
+export function conservativeValue(niche: Niche): ConservativeValue {
+  const ev = expectedValue(niche);
+  const screenedPerWeek = Math.max(1, Math.round((niche.typicalMonthlyLeads * 0.4) / 4.3));
+  const expectedClosed = +(screenedPerWeek * niche.closeRate).toFixed(1);
+  const expectedRev = Math.round(expectedClosed * niche.jobValue);
+  const leftover = expectedRev - WEEKLY_SEAT;
+  const closedToCover = Math.max(1, Math.ceil(WEEKLY_SEAT / niche.jobValue));
+  const screenedToCover = Math.max(1, Math.ceil(WEEKLY_SEAT / Math.max(ev, 1)));
+  const weeksOneJobCovers = +(niche.jobValue / WEEKLY_SEAT).toFixed(1);
+  const angiLead = 70;
+  const angiClose = 0.12;
+  const angiCostPerJob = Math.round(angiLead / angiClose);
+  const ourCostPerClosed = expectedClosed > 0 ? Math.round(WEEKLY_SEAT / expectedClosed) : WEEKLY_SEAT;
+  return {
+    jobValue: niche.jobValue,
+    jobRange: niche.jobRange,
+    closeRate: niche.closeRate,
+    ev: Math.round(ev),
+    weeklySeat: WEEKLY_SEAT,
+    screenedPerWeek,
+    expectedClosed,
+    expectedRev,
+    leftover,
+    closedToCover,
+    screenedToCover,
+    weeksOneJobCovers,
+    angiLead,
+    angiClose,
+    angiCostPerJob,
+    ourCostPerClosed,
+    coversOnOneJob: niche.jobValue >= WEEKLY_SEAT,
+  };
+}
+
 export function handoffPrice(buyer: Buyer) {
   if (buyer.freeRemaining > 0) return 0;
   return buyer.pplRate;

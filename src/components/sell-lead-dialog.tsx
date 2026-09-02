@@ -23,7 +23,7 @@ export function SellLeadDialog({ lead, trigger }: { lead: Lead; trigger?: React.
   const [buyerId, setBuyerId] = useState("");
 
   const market = markets.find((m) => m.id === lead.marketId);
-  const eligible = eligibleBuyers(buyers, lead.marketId);
+  const eligible = eligibleBuyers(buyers, lead.marketId, lead.county);
   const selected = eligible.find((b) => b.id === buyerId) ?? eligible[0];
 
   function sell() {

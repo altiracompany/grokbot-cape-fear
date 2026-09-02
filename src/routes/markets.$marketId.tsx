@@ -11,7 +11,7 @@ import { CopyBlock } from "@/components/copy-block";
 import { NewBuyerDialog } from "@/components/new-buyer-dialog";
 import { HandoffDialog } from "@/components/handoff-dialog";
 import { MarketField } from "@/components/field-view";
-import { BuyerBadge, DecisionBadge, FreeBadge, LeadBadge, ScreenBadge, StageBadge, WedgeBadge } from "@/components/status";
+import { DecisionBadge, FreeBadge, HuntBadge, LeadBadge, ScreenBadge, StageBadge, WedgeBadge } from "@/components/status";
 import { eligibleBuyers } from "@/lib/actions";
 import { countyNames } from "@/lib/territory";
 import { buildBlueprint } from "@/lib/blueprint";
@@ -299,11 +299,11 @@ function BuyersTab() {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-medium">{b.company}</p>
-                <BuyerBadge status={b.status} />
+                <HuntBadge hunt={b.hunt} />
                 <FreeBadge remaining={b.freeRemaining} />
               </div>
               <p className="text-sm text-muted">
-                {b.name} · {money(b.pplRate)} · {b.soldThisMonth}/{b.monthlyCap}
+                {b.name} · $500/wk · {b.soldThisMonth}/{b.monthlyCap}
               </p>
             </div>
             <Button

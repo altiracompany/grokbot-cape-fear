@@ -5,23 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { HandoffDialog } from "@/components/handoff-dialog";
 import { MillsStrip } from "@/components/field-view";
+import { ValueStrip } from "@/components/value-showcase";
 import { ScreenBadge, StageBadge } from "@/components/status";
 import {
-  captureRate,
   countyRollup,
   deskLines,
   freeOnBooks,
   hotCount,
   nextActions,
   ownedHot,
-  revenueMtd,
   ringing,
   unscreenedCount,
 } from "@/lib/actions";
 import { countyLabel } from "@/lib/conversation";
+import { huntCounts, payingWeekly } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
-import { cn, money, pct } from "@/lib/utils";
+import { cn, money } from "@/lib/utils";
 import type { NextAction } from "@/lib/types";
 
 export const Route = createFileRoute("/")({ component: CommandCenter });
@@ -42,11 +42,14 @@ function CommandCenter() {
   const hot = ownedHot(leads);
   const ring = ringing(leads);
   const lines = deskLines(markets, leads);
+  const huntAlamo = huntCounts(buyers, "alamo");
+  const huntCape = huntCounts(buyers, "capefear");
+  const mrr = payingWeekly(buyers);
   const kpis = [
     { label: "On the line", value: String(unscreenedCount(leads) + hotCount(leads)) },
-    { label: "Hot we own", value: String(hot.length) },
-    { label: "Tapes kept", value: pct(captureRate(leads)) },
-    { label: "Paid MTD", value: money(revenueMtd(markets)) },
+    { label: "Alamo seats", value: `${huntAlamo.paying}/30` },
+    { label: "Cape Fear", value: `${huntCape.paying}/30` },
+    { label: "This week", value: money(mrr) },
     { label: "Free left", value: String(freeOnBooks(buyers)) },
   ];
 
@@ -68,11 +71,10 @@ function CommandCenter() {
     <main className="flex flex-col gap-8">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex flex-col gap-2">
-          <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Cape Fear · tri-county</p>
-          <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">We own the hot leads</h1>
+          <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Freedom Project Leads · two footprints</p>
+          <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">Alamo. Then Cape Fear.</h1>
           <p className="max-w-xl text-sm text-muted">
-            New Hanover, Pender, Brunswick. Don't fight Angi on plumber. Flank what they list but don't rank. Our desk
-            answers. First two free.
+            Bexar, Comal, Guadalupe — 30 seats. Atascosa and Wilson wait. Cape Fear still has paying trucks. $500/wk exclusive.
           </p>
         </div>
         <Button type="button" onClick={ping}>
@@ -90,7 +92,7 @@ function CommandCenter() {
       </section>
 
       <section className="grid gap-3">
-        <h2 className="text-sm font-medium tracking-wider text-muted uppercase">Tri-county coverage</h2>
+        <h2 className="text-sm font-medium tracking-wider text-muted uppercase">County coverage</h2>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {counties.map((c) => (
             <Card key={c.id} className="rounded-xl p-4">
@@ -114,6 +116,8 @@ function CommandCenter() {
           ))}
         </div>
       </section>
+
+      <ValueStrip />
 
       <MillsStrip />
 

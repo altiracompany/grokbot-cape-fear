@@ -1,10 +1,11 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import { BRAND, BRAND_BLURB } from "@/lib/brand";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { AppShell } from "@/components/app-shell";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "GROKBOT Cape Fear Desk";
+const APP_NAME = BRAND;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -15,7 +16,7 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#0c0c0b" },
       {
         name: "description",
-        content: "GROKBOT Cape Fear desk. We own the hot leads. Call center screens every conversation. Two free handoffs, then PPL.",
+        content: BRAND_BLURB,
       },
     ],
     links: [

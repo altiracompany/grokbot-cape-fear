@@ -56,6 +56,7 @@ export function trackingFor(state: string) {
     NV: "775",
     WI: "608",
     NC: "910",
+    TX: "210",
     IA: "515",
     KY: "859",
     OK: "918",

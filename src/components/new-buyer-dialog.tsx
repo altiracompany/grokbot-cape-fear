@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
+import { COUNTIES, type County } from "@/lib/types";
 import { money } from "@/lib/utils";
 
 export function NewBuyerDialog({ marketId, trigger }: { marketId?: string; trigger?: ReactNode }) {
@@ -26,6 +27,7 @@ export function NewBuyerDialog({ marketId, trigger }: { marketId?: string; trigg
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [cap, setCap] = useState("12");
+  const [county, setCounty] = useState<County>("brunswick");
 
   const market = markets.find((m) => m.id === (marketId || mid));
 
@@ -38,10 +40,11 @@ export function NewBuyerDialog({ marketId, trigger }: { marketId?: string; trigg
       phone,
       email,
       marketId: market.id,
+      county,
       pplRate: market.pplPrice,
       monthlyCap: Number(cap) || 12,
     });
-    toast.success(`${company} gets 2 free screened handoffs, then ${money(market.pplPrice)}`);
+    toast.success(`${company} pitched for ${COUNTIES.find((c) => c.id === county)?.label} · $500/wk`);
     setOpen(false);
     setName("");
     setCompany("");
@@ -54,9 +57,9 @@ export function NewBuyerDialog({ marketId, trigger }: { marketId?: string; trigg
       <DialogTrigger asChild>{trigger ?? <Button size="sm">Onboard owner</Button>}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Onboard an owner</DialogTitle>
+          <DialogTitle>Claim a county seat</DialogTitle>
           <DialogDescription>
-            First 2 screened handoffs free. Then PPL. They get the job, not the site, not the tape.
+            One owner per niche per county. 2 free jobs, then the monthly seat. They never own the page.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="grid gap-3">
@@ -97,15 +100,32 @@ export function NewBuyerDialog({ marketId, trigger }: { marketId?: string; trigg
               <Input id="be" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
           </div>
-          <div className="grid gap-1.5">
-            <Label htmlFor="cap">Monthly cap</Label>
-            <Input id="cap" inputMode="numeric" value={cap} onChange={(e) => setCap(e.target.value)} />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="grid gap-1.5">
+              <Label htmlFor="cty">County seat</Label>
+              <select
+                id="cty"
+                value={county}
+                onChange={(e) => setCounty(e.target.value as County)}
+                className="h-11 rounded-md bg-elevated px-3 text-sm text-fg shadow-[var(--shadow-border)]"
+              >
+                {COUNTIES.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="cap">Overage cap</Label>
+              <Input id="cap" inputMode="numeric" value={cap} onChange={(e) => setCap(e.target.value)} />
+            </div>
           </div>
           <p className="text-sm text-muted">
-            2 free screened jobs, then {market ? money(market.pplPrice) : "—"} each. First-claim. We keep the line.
+            2 free, then $500 a week exclusive. Extra jobs {market ? money(market.pplPrice) : "—"}.
           </p>
           <Button type="submit" className="w-full">
-            Give them 2 free
+            Add to hunt
           </Button>
         </form>
       </DialogContent>

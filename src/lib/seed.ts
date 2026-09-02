@@ -1,8 +1,10 @@
 import { inferCountyFromHood } from "./territory";
-import { pplPrice } from "./pricing";
+import { monthlySeat, pplPrice } from "./pricing";
 import { nicheById } from "./niches";
+import { HUNT, SEAT_NICHES, marketIdForNiche } from "./seats";
+import { domainFor } from "./utils";
 import { FREE_TRIAL } from "./types";
-import type { Buyer, CallTurn, County, Lead, Market } from "./types";
+import type { Buyer, CallTurn, County, HuntStatus, Lead, Market } from "./types";
 
 const NOW = Date.parse("2026-09-02T15:18:00.000Z");
 
@@ -20,6 +22,7 @@ function m(
     leadsThisMonth?: number;
     soldThisMonth?: number;
     revenueThisMonth?: number;
+    state?: string;
   },
 ): Market {
   const niche = nicheById(partial.nicheId);
@@ -32,6 +35,50 @@ function m(
     ...partial,
   };
 }
+
+const ALAMO_NOTES: Record<string, string> = {
+  septic: "Comal/Guadalupe septic belt. Unincorporated Bexar. Do not rank downtown SAWS sewer.",
+  generator: "ERCOT ice + Hill Country outages. Don't fight SA electrician LSA.",
+  dryer: "North Bexar / New Braunfels volume. Not the hero ticket.",
+  well: "Comal hill wells. Mills ignore. Strongest rural TX seat.",
+  garage: "Fight storm doors only. Overhead Door owns generic SA.",
+  tree: "Storm take-downs + oak wilt language. Angi lists it, nobody owns emergency.",
+  water: "Steal SERVPRO overflow. Don't pretend you're the franchise.",
+  mosquito: "Recurring barrier. Franchises run ads, don't own the county page.",
+  pool: "Strongest TX volume. Stone Oak / New Braunfels / Cibolo weekly.",
+  dock: "Canyon Lake + McQueeney lifts. Not the River Walk. Thinnest SERP.",
+};
+
+const ALAMO_MARKETS: Market[] = SEAT_NICHES.map((id, i) => {
+  const niche = nicheById(id);
+  return m({
+    id: `alamo-${id}`,
+    city: "New Braunfels",
+    state: "TX",
+    nicheId: id,
+    counties: ["bexar", "comal", "guadalupe"],
+    neighborhoods: ["New Braunfels", "Canyon Lake", "Schertz", "Cibolo", "Stone Oak", "Helotes", "Seguin"],
+    population: 2400000,
+    domain: domainFor("alamo", niche.slug),
+    trackingNumber: `(210) 555-01${String(i).padStart(2, "0")}`,
+    score: {
+      demand: 8,
+      jobValue: niche.jobValue >= 1000 ? 9 : 7,
+      weakCompetitors: 8,
+      willingness: 8,
+      ease: 8,
+      notes: ALAMO_NOTES[id],
+    },
+    stage: id === "septic" || id === "pool" || id === "well" || id === "dock" ? "build" : "score",
+    callsThisMonth: 0,
+    jobsEstimated: 0,
+    rankMaps: null,
+    rankOrganic: null,
+    aiCitations: null,
+    topQueries: [`${niche.name.toLowerCase()} New Braunfels`, `${niche.name.toLowerCase()} Schertz TX`],
+    createdAt: "2026-09-02",
+  });
+});
 
 export const SEED_MARKETS: Market[] = [
   m({
@@ -194,6 +241,137 @@ export const SEED_MARKETS: Market[] = [
     topQueries: [],
     createdAt: "2026-09-01",
   }),
+  m({
+    id: "wilmington-tree",
+    city: "Wilmington",
+    nicheId: "tree",
+    counties: ["new-hanover", "pender", "brunswick"],
+    neighborhoods: ["Porters Neck", "Hampstead", "Leland", "Myrtle Grove", "Oak Island"],
+    population: 493000,
+    domain: "capefeartree.com",
+    trackingNumber: "(910) 555-0160",
+    score: {
+      demand: 8,
+      jobValue: 8,
+      weakCompetitors: 7,
+      willingness: 8,
+      ease: 8,
+      notes: "Storm take-downs. Angi lists it. Nobody owns emergency tree + hanger.",
+    },
+    stage: "build",
+    callsThisMonth: 0,
+    jobsEstimated: 0,
+    rankMaps: null,
+    rankOrganic: null,
+    aiCitations: null,
+    topQueries: ["emergency tree removal Wilmington", "storm tree Leland"],
+    createdAt: "2026-09-02",
+  }),
+  m({
+    id: "wilmington-water",
+    city: "Wilmington",
+    nicheId: "water",
+    counties: ["new-hanover", "pender", "brunswick"],
+    neighborhoods: ["Wilmington", "Leland", "Hampstead", "Carolina Beach", "Southport"],
+    population: 493000,
+    domain: "capefearwaterdamage.com",
+    trackingNumber: "(910) 555-0166",
+    score: {
+      demand: 8,
+      jobValue: 9,
+      weakCompetitors: 5,
+      willingness: 8,
+      ease: 6,
+      notes: "SERVPRO owns the brand. Independents take overflow. Fight, don't hero.",
+    },
+    stage: "score",
+    callsThisMonth: 0,
+    jobsEstimated: 0,
+    rankMaps: null,
+    rankOrganic: null,
+    aiCitations: null,
+    topQueries: [],
+    createdAt: "2026-09-02",
+  }),
+  m({
+    id: "wilmington-mosquito",
+    city: "Wilmington",
+    nicheId: "mosquito",
+    counties: ["new-hanover", "pender", "brunswick"],
+    neighborhoods: ["Wrightsville", "Hampstead", "St. James", "Landfall", "Leland"],
+    population: 493000,
+    domain: "capefearmosquito.com",
+    trackingNumber: "(910) 555-0176",
+    score: {
+      demand: 9,
+      jobValue: 6,
+      weakCompetitors: 8,
+      willingness: 8,
+      ease: 9,
+      notes: "Coastal mosquito factory. Recurring barrier. Franchises run ads, don't own the page.",
+    },
+    stage: "build",
+    callsThisMonth: 0,
+    jobsEstimated: 0,
+    rankMaps: null,
+    rankOrganic: null,
+    aiCitations: null,
+    topQueries: ["mosquito spray Wilmington", "yard mosquito Leland"],
+    createdAt: "2026-09-02",
+  }),
+  m({
+    id: "wilmington-pool",
+    city: "Wilmington",
+    nicheId: "pool",
+    counties: ["new-hanover", "brunswick", "pender"],
+    neighborhoods: ["Landfall", "Leland", "St. James", "Hampstead", "Porters Neck"],
+    population: 493000,
+    domain: "capefearpoolservice.com",
+    trackingNumber: "(910) 555-0182",
+    score: {
+      demand: 8,
+      jobValue: 6,
+      weakCompetitors: 8,
+      willingness: 7,
+      ease: 8,
+      notes: "Weekly routes. Brunswick golf + Landfall. Thin dedicated SERP.",
+    },
+    stage: "score",
+    callsThisMonth: 0,
+    jobsEstimated: 0,
+    rankMaps: null,
+    rankOrganic: null,
+    aiCitations: null,
+    topQueries: [],
+    createdAt: "2026-09-02",
+  }),
+  m({
+    id: "wilmington-dock",
+    city: "Wilmington",
+    nicheId: "dock",
+    counties: ["new-hanover", "brunswick", "pender"],
+    neighborhoods: ["Wrightsville", "Surf City", "Southport", "Oak Island", "Figure Eight"],
+    population: 493000,
+    domain: "capefeardock.com",
+    trackingNumber: "(910) 555-0188",
+    score: {
+      demand: 7,
+      jobValue: 9,
+      weakCompetitors: 9,
+      willingness: 8,
+      ease: 8,
+      notes: "Best new wedge. Boat lifts. Mills don't list this right.",
+    },
+    stage: "build",
+    callsThisMonth: 0,
+    jobsEstimated: 0,
+    rankMaps: null,
+    rankOrganic: null,
+    aiCitations: null,
+    topQueries: ["boat lift repair Wrightsville", "dock repair Southport"],
+    createdAt: "2026-09-02",
+  }),
+  ...ALAMO_MARKETS,
 ];
 
 function buyer(partial: Omit<Buyer, "soldThisMonth" | "spendThisMonth" | "freeRemaining" | "freeUsed"> & {
@@ -202,108 +380,43 @@ function buyer(partial: Omit<Buyer, "soldThisMonth" | "spendThisMonth" | "freeRe
   freeRemaining?: number;
   freeUsed?: number;
 }): Buyer {
+  const hunt: HuntStatus = partial.hunt;
+  const trialOpen = hunt === "trial" || hunt === "pitched" || hunt === "open";
   return {
     soldThisMonth: 0,
     spendThisMonth: 0,
-    freeRemaining: FREE_TRIAL,
-    freeUsed: 0,
+    freeRemaining: hunt === "paying" ? 0 : trialOpen ? FREE_TRIAL : 0,
+    freeUsed: hunt === "paying" ? FREE_TRIAL : 0,
     ...partial,
   };
 }
 
-export const SEED_BUYERS: Buyer[] = [
-  buyer({
-    id: "by-pell",
-    name: "Wayne Pell",
-    company: "Pell Septic",
-    phone: "(910) 555-2201",
-    email: "wayne@pellseptic.example",
-    marketIds: ["wilmington-septic"],
-    nicheId: "septic",
-    pplRate: 50,
+function huntStatus(h: HuntStatus): Buyer["status"] {
+  if (h === "paying" || h === "trial") return "active";
+  return "prospect";
+}
+
+export const SEED_BUYERS: Buyer[] = HUNT.map((row) => {
+  const niche = nicheById(row.nicheId);
+  return buyer({
+    id: row.id,
+    name: row.name,
+    company: row.company,
+    phone: row.phone,
+    email: row.email,
+    marketIds: [marketIdForNiche(row.nicheId, row.county)],
+    nicheId: row.nicheId,
+    county: row.county,
+    pplRate: pplPrice(niche),
+    monthlySeat: monthlySeat(niche),
     monthlyCap: 20,
-    status: "active",
-    notes: "Backups 24/7. Two trucks. Used both free. Paying now.",
-  }),
-  buyer({
-    id: "by-cape",
-    name: "Rita Holton",
-    company: "Cape Pumping Co",
-    phone: "(910) 555-2208",
-    email: "rita@capepump.example",
-    marketIds: ["wilmington-septic"],
-    nicheId: "septic",
-    pplRate: 50,
-    monthlyCap: 12,
-    status: "active",
-    notes: "Pender + Brunswick inspections. One free left.",
-  }),
-  buyer({
-    id: "by-grant",
-    name: "Eli Grant",
-    company: "Grant Electric",
-    phone: "(910) 555-3302",
-    email: "eli@grantelectric.example",
-    marketIds: ["wilmington-generator"],
-    nicheId: "generator",
-    pplRate: 180,
-    monthlyCap: 8,
-    status: "active",
-    notes: "Kohler + Generac. Both free still open. Landfall / St. James.",
-  }),
-  buyer({
-    id: "by-storm",
-    name: "Paige Nunez",
-    company: "Stormline Power",
-    phone: "(910) 555-3310",
-    email: "paige@stormline.example",
-    marketIds: ["wilmington-generator"],
-    nicheId: "generator",
-    pplRate: 175,
-    monthlyCap: 6,
-    status: "active",
-    notes: "Answers in under 8 min. One free used.",
-  }),
-  buyer({
-    id: "by-lint",
-    name: "Chris Lang",
-    company: "LintLock Cape Fear",
-    phone: "(910) 555-1180",
-    email: "chris@lintlock.example",
-    marketIds: ["wilmington-dryer"],
-    nicheId: "dryer",
-    pplRate: 25,
-    monthlyCap: 40,
-    status: "active",
-    notes: "Same-day. Two techs. Both free still open.",
-  }),
-  buyer({
-    id: "by-salt",
-    name: "Nora Vines",
-    company: "Salt Air Doors",
-    phone: "(910) 555-4401",
-    email: "nora@saltair.example",
-    marketIds: ["wilmington-garage"],
-    nicheId: "garage",
-    pplRate: 35,
-    monthlyCap: 18,
-    status: "prospect",
-    notes: "Waiting on ranking. Offer the 2 free when we go live.",
-  }),
-  buyer({
-    id: "by-well",
-    name: "Sage Patton",
-    company: "Pender Pump Co",
-    phone: "(910) 555-5502",
-    email: "sage@penderpump.example",
-    marketIds: ["pender-well"],
-    nicheId: "well",
-    pplRate: 125,
-    monthlyCap: 10,
-    status: "prospect",
-    notes: "Wants the 2 free the week the site ranks.",
-  }),
-];
+    status: huntStatus(row.hunt),
+    hunt: row.hunt,
+    notes: row.notes,
+    freeRemaining: row.hunt === "paying" ? 0 : FREE_TRIAL,
+    freeUsed: row.hunt === "paying" ? FREE_TRIAL : row.id === "by-storm" ? 1 : 0,
+  });
+});
 
 type LeadSeed = Omit<Lead, "id">;
 
@@ -325,7 +438,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     urgency: "now",
     screenNotes: "Brunswick. Sewage in yard. Home now. Not a realtor. Wants a truck today.",
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic, this is the desk. You're on 910-555-0144."],
+      ["0:00", "agent", "Freedom Project Leads, septic, this is the desk. You're on 910-555-0144."],
       ["0:07", "caller", "This is Carla in Leland. Sewage is in the yard. Both bathrooms are down."],
       ["0:16", "agent", "How long, and can a truck get in?"],
       ["0:20", "caller", "Since this morning. Driveway's clear. I'm home."],
@@ -350,7 +463,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     urgency: "week",
     screenNotes: "Pender. Real estate close Friday. Need pump + inspect. Callback done, waiting on lot access.",
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic — calling about the form you just sent."],
+      ["0:00", "agent", "Freedom Project Leads, septic — calling about the form you just sent."],
       ["0:08", "caller", "Yeah, closing Friday in Hampstead. Lender wants a pump and inspect."],
       ["0:18", "agent", "We cover Pender. Who's the listing agent, and is the lid already marked?"],
       ["0:24", "caller", "Lid's in the back. I can meet tomorrow morning."],
@@ -373,7 +486,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     urgency: "week",
     screenNotes: "",
     conversation: turns([
-      ["0:00", "agent", "Cape Fear generators, desk."],
+      ["0:00", "agent", "Freedom Project Leads, generators, desk."],
       ["0:05", "caller", "Helen in St. James. Last outage was eleven hours. I want a whole-house unit."],
       ["0:14", "agent", "Stay on. I'm pulling the screen — county, panel, and whether you want a site visit this week."],
     ]),
@@ -395,7 +508,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     urgency: "today",
     screenNotes: "New Hanover. Burning smell, long run. Home after 2. Not a landlord mill.",
     conversation: turns([
-      ["0:00", "agent", "Cape Fear dryer vents, desk."],
+      ["0:00", "agent", "Freedom Project Leads, dryer vents, desk."],
       ["0:06", "caller", "Dryer takes 90 minutes and it smells like burning. Myrtle Grove."],
       ["0:14", "agent", "That's a fire risk. You in New Hanover?"],
       ["0:17", "caller", "Yes. I can be home after two."],
@@ -419,7 +532,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     urgency: "today",
     screenNotes: "New Hanover. Spring snapped, door off track. Cars trapped. Salt rust on cables.",
     conversation: turns([
-      ["0:00", "agent", "Cape Fear garage doors — calling on your form."],
+      ["0:00", "agent", "Freedom Project Leads, garage doors — calling on your form."],
       ["0:07", "caller", "Spring snapped. Door's off the track. Both cars are in."],
       ["0:14", "agent", "Anyone hurt? And is this Myrtle Grove / New Hanover?"],
       ["0:18", "caller", "Nobody hurt. Yes. Hardware is rusted to hell from the salt."],
@@ -446,7 +559,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     soldAt: ago(9.7),
     free: true,
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic, desk."],
+      ["0:00", "agent", "Freedom Project Leads, septic, desk."],
       ["0:05", "caller", "Need a pump in Porters Neck. Last one was 2019."],
       ["0:12", "agent", "That's New Hanover. I'll screen and hand you to the owner."],
     ]),
@@ -472,7 +585,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     soldAt: ago(13.6),
     free: true,
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic, calling on your form."],
+      ["0:00", "agent", "Freedom Project Leads, septic, calling on your form."],
       ["0:06", "caller", "Can't find the lid. Carolina Beach. Selling next month."],
     ]),
   },
@@ -497,7 +610,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     soldAt: ago(17.8),
     free: false,
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic."],
+      ["0:00", "agent", "Freedom Project Leads, septic."],
       ["0:04", "caller", "Backup in Leland. Now."],
     ]),
   },
@@ -522,7 +635,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     soldAt: ago(21.5),
     free: true,
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic, desk."],
+      ["0:00", "agent", "Freedom Project Leads, septic, desk."],
       ["0:05", "caller", "Southport closing Monday. Need inspect plus pump."],
     ]),
   },
@@ -547,7 +660,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     soldAt: ago(11.4),
     free: true,
     conversation: turns([
-      ["0:00", "agent", "Cape Fear generators."],
+      ["0:00", "agent", "Freedom Project Leads, generators."],
       ["0:05", "caller", "Landfall. Want a 24kW. Panel is 200 amp."],
     ]),
   },
@@ -572,7 +685,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     soldAt: ago(8.8),
     free: true,
     conversation: turns([
-      ["0:00", "agent", "Cape Fear dryer vents."],
+      ["0:00", "agent", "Freedom Project Leads, dryer vents."],
       ["0:04", "caller", "Leland. Vent hasn't been done in four years."],
     ]),
   },
@@ -594,7 +707,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     screenNotes: "No answer on two follow-ups. Dead.",
     deadReason: "No answer on two follow-ups",
     conversation: turns([
-      ["0:00", "agent", "Cape Fear septic, calling on your form."],
+      ["0:00", "agent", "Freedom Project Leads, septic, calling on your form."],
       ["0:08", "agent", "Second attempt. Voicemail."],
     ]),
   },
@@ -642,7 +755,7 @@ export function withRolledUpCounts(markets: Market[], buyers: Buyer[], leads: Le
       soldThisMonth: sold.length,
       spendThisMonth: sold.reduce((s, l) => s + (l.soldPrice ?? 0), 0),
       freeUsed,
-      freeRemaining: Math.max(0, FREE_TRIAL - freeUsed),
+      freeRemaining: b.hunt === "paying" ? 0 : Math.max(0, FREE_TRIAL - freeUsed),
     };
   });
   return { markets: nextMarkets, buyers: nextBuyers, leads };

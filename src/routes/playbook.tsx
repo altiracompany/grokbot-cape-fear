@@ -4,15 +4,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-view";
-import { NICHES } from "@/lib/niches";
-import { exclusiveReserve, pplPrice } from "@/lib/pricing";
+import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
-import { CAPE_NICHES } from "@/lib/territory";
-import { cn, money } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
 
-const TABS = ["Field", "Rules", "PPL"] as const;
+const TABS = ["Field", "Rules", "Value"] as const;
 
 function Playbook() {
   const resetDesk = useAgency((s) => s.resetDesk);
@@ -82,8 +80,9 @@ function Playbook() {
             <Card>
               <CardTitle>First 2 free</CardTitle>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Every owner starts with two screened handoffs at $0. Prove the desk. Third job is PPL. If they ghost a
-                free one, pause them. Free does not mean unscreened.
+                Every owner starts with two screened handoffs at $0. Prove the desk. Then they pay the monthly seat —
+                exclusive for that county. Overage is PPL. If they ghost a free one, pause them. Free does not mean
+                unscreened.
               </p>
             </Card>
           </section>
@@ -92,12 +91,17 @@ function Playbook() {
             <h2 className="text-sm font-medium tracking-wider text-muted uppercase">Cape Fear stack</h2>
             <Card>
               <ol className="grid gap-2 text-sm text-muted">
-                <li>1. Wilmington septic — live. Flank. Screen backups. 2 free then $50.</li>
-                <li>2. Dryer vent — live. Best wedge. Season is open. Copycats haven't noticed.</li>
-                <li>3. Standby generator — live. Highest ticket. Don't fight electrician LSA.</li>
-                <li>4. Garage door — ranking. Fight, not flank. Salt + hurricane only.</li>
-                <li>5. Pender well pump — building. Mills ignore rural. Ship it.</li>
-                <li>6. Brunswick crawl space — skip the city. Ninja owns Wilmington.</li>
+                <li>1. Septic — live. Flank. $500/wk.</li>
+                <li>2. Dryer vent — live. Best wedge. $500/wk.</li>
+                <li>3. Standby generator — live. $500/wk. Don't fight electrician LSA.</li>
+                <li>4. Well pump — building. Mills ignore rural. $500/wk.</li>
+                <li>5. Garage door — ranking. Fight on salt + hurricane only. $500/wk.</li>
+                <li>6. Storm / tree — ship it. $500/wk. Named storms print.</li>
+                <li>7. Water damage — fight SERVPRO on overflow, not brand. $500/wk.</li>
+                <li>8. Mosquito — coastal factory. Recurring. $500/wk.</li>
+                <li>9. Pool — Brunswick golf + Landfall routes. $500/wk.</li>
+                <li>10. Dock / lift — thinnest SERP, highest new wedge. $500/wk.</li>
+                <li>Skip: handyman, tow, generic plumber/HVAC. Bark already proved that.</li>
               </ol>
             </Card>
           </section>
@@ -118,33 +122,9 @@ function Playbook() {
         </div>
       ) : null}
 
-      {tab === "PPL" ? (
+      {tab === "Value" ? (
         <div className="grid gap-8">
-          <section className="grid gap-3">
-            <h2 className="text-sm font-medium tracking-wider text-muted uppercase">PPL card</h2>
-            <div className="overflow-x-auto rounded-2xl bg-surface shadow-[var(--shadow-border)]">
-              <table className="w-full text-left text-sm">
-                <thead className="text-xs tracking-wider text-muted uppercase">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Niche</th>
-                    <th className="px-4 py-3 font-medium">Job</th>
-                    <th className="px-4 py-3 font-medium">PPL</th>
-                    <th className="px-4 py-3 font-medium">Exclusive later</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {NICHES.filter((n) => (CAPE_NICHES as readonly string[]).includes(n.id)).map((n) => (
-                    <tr key={n.id} className="border-t border-border">
-                      <td className="px-4 py-3">{n.name}</td>
-                      <td className="px-4 py-3 font-mono tabular-nums">{n.jobRange}</td>
-                      <td className="px-4 py-3 font-mono tabular-nums">{money(pplPrice(n))}</td>
-                      <td className="px-4 py-3 font-mono text-subtle tabular-nums">{money(exclusiveReserve(n))}/mo</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
+          <ValueShowcase />
 
           <section className="grid gap-3">
             <h2 className="text-sm font-medium tracking-wider text-muted uppercase">Desk</h2>
