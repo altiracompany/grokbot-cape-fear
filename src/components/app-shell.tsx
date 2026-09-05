@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, Headset, LayoutGrid, MapPinned, Menu, Users } from "lucide-react";
+import { BookOpen, Headset, LayoutGrid, Menu, MessageSquare, Users } from "lucide-react";
 import { Toaster } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -11,12 +11,18 @@ import { useAgency } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/", label: "Desk", icon: LayoutGrid },
+  { to: "/desk", label: "Desk", icon: LayoutGrid },
+  { to: "/outreach", label: "Send", icon: MessageSquare },
   { to: "/queue", label: "Queue", icon: Headset },
-  { to: "/markets", label: "Markets", icon: MapPinned },
   { to: "/buyers", label: "Hunt", icon: Users },
   { to: "/playbook", label: "Playbook", icon: BookOpen },
 ] as const;
+
+const DESK_PREFIX = ["/desk", "/outreach", "/queue", "/markets", "/buyers", "/playbook", "/leads", "/book"];
+
+function isDesk(pathname: string) {
+  return DESK_PREFIX.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -33,6 +39,14 @@ export function AppShell({ children }: { children: ReactNode }) {
       cancelled = true;
     };
   }, [markHydrated]);
+
+  if (!isDesk(pathname)) {
+    return (
+      <TooltipProvider delayDuration={200}>
+        {children}
+      </TooltipProvider>
+    );
+  }
 
   return (
     <TooltipProvider delayDuration={200}>
@@ -65,7 +79,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="mx-auto flex min-h-dvh max-w-6xl flex-col px-4 pt-4 pb-24 md:px-8 md:pt-8 md:pb-10">
             <div className="mb-6 hidden items-center justify-between md:flex">
               <p className="font-mono text-xs tracking-widest text-muted uppercase">
-                Freedom Project · Cape Fear + Alamo · $500/wk
+                Freedom Project · send from 210 / 830
               </p>
               <NewMarketDialog />
             </div>
@@ -75,7 +89,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-border bg-bg/95 md:hidden">
           {NAV.map((item) => {
-            const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+            const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
             const Icon = item.icon;
             return (
               <Link
@@ -105,7 +119,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
-    <Link to="/" className="flex items-center gap-2.5">
+    <Link to="/desk" className="flex items-center gap-2.5">
       <span className="flex size-8 items-center justify-center rounded-md bg-elevated font-display text-sm font-semibold text-fg shadow-[var(--shadow-border)]">
         {BRAND_MARK}
       </span>
@@ -121,7 +135,7 @@ function NavList({ pathname, unsold }: { pathname: string; unsold: number }) {
   return (
     <nav className="mt-8 flex flex-col gap-1">
       {NAV.map((item) => {
-        const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+        const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
         const Icon = item.icon;
         return (
           <Link
@@ -140,6 +154,12 @@ function NavList({ pathname, unsold }: { pathname: string; unsold: number }) {
           </Link>
         );
       })}
+      <Link to="/" className="mt-4 px-3 text-xs text-subtle hover:text-muted">
+        Public site
+      </Link>
+      <Link to="/markets" className="px-3 text-xs text-subtle hover:text-muted">
+        Markets
+      </Link>
     </nav>
   );
 }

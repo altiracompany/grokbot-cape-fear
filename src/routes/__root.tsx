@@ -1,5 +1,5 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
-import { BRAND, BRAND_BLURB } from "@/lib/brand";
+import { BRAND, BRAND_PUBLIC } from "@/lib/brand";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { AppShell } from "@/components/app-shell";
@@ -16,7 +16,7 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#0c0c0b" },
       {
         name: "description",
-        content: BRAND_BLURB,
+        content: BRAND_PUBLIC,
       },
     ],
     links: [
