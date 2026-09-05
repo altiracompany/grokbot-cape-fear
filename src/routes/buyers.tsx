@@ -7,7 +7,7 @@ import { CopyBlock } from "@/components/copy-block";
 import { NewBuyerDialog } from "@/components/new-buyer-dialog";
 import { FreeMeter, HuntBadge } from "@/components/status";
 import { ValueCard } from "@/components/value-showcase";
-import { huntCounts, nextHunt, payingWeekly, seatEmail, seatSms, targetWeekly, countyLabel } from "@/lib/seats";
+import { huntCounts, nextHunt, payingWeekly, seatEmail, seatSms, targetWeekly, countyLabel, turnkeyEmail, turnkeySms } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
 import { cn, money } from "@/lib/utils";
@@ -217,8 +217,10 @@ function SeatRow({
           <p className="font-mono text-xs text-subtle">
             {buyer.phone} · {buyer.email}
           </p>
-          <CopyBlock label="Text" text={seatSms(buyer)} />
-          <CopyBlock label="Email" text={seatEmail(buyer)} />
+          <CopyBlock label="Text — dedicated $500/wk" text={seatSms(buyer)} />
+          <CopyBlock label="Email — dedicated" text={seatEmail(buyer)} />
+          <CopyBlock label="Text — turnkey (busy)" text={turnkeySms(buyer)} />
+          <CopyBlock label="Email — turnkey" text={turnkeyEmail(buyer)} />
           <ValueCard niche={niche} />
         </div>
       ) : null}

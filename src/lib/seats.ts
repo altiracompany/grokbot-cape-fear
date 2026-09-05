@@ -1,6 +1,6 @@
 import { COUNTIES, regionOf, type Buyer, type County, type HuntStatus, type Region } from "./types";
 import { nicheById } from "./niches";
-import { MONTHLY_SEAT, WEEKLY_SEAT } from "./pricing";
+import { MONTHLY_SEAT, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
 import { money } from "./utils";
 
 /** 10 niches we actually sell. 3 counties. 30 exclusive monthly seats. */
@@ -202,6 +202,43 @@ First 2 screened jobs: free
 Then: $500 a week dedicated. Extra jobs ${money(buyer.pplRate)} if you want them.
 
 One company per county.${extra} Reply YES.`;
+}
+
+export function turnkeySms(buyer: Buyer) {
+  const niche = nicheById(buyer.nicheId);
+  const county = countyLabel(buyer.county);
+  const first = buyer.name.split(" ")[0] ?? "Hey";
+  return `${first} — you're busy. Angi still sells your name to 4 trucks.
+
+Freedom Project Leads is your dedicated ${niche.name.toLowerCase()} lead gen for ${county}. Turnkey: we run the ads, we answer, we screen, we send the job to your truck. You roll. That's it.
+
+Stand-up ${money(TURNKEY_SETUP)}. Then ${money(TURNKEY_WEEKLY)} a week. First 2 jobs free so you see the desk.
+
+Reply TURNKEY.`;
+}
+
+export function turnkeyEmail(buyer: Buyer) {
+  const niche = nicheById(buyer.nicheId);
+  const county = countyLabel(buyer.county);
+  return `Subject: Turnkey ${county} ${niche.name.toLowerCase()} lead gen — you just roll
+
+${buyer.name} —
+
+You're booked. You don't have time to babysit Angi, ads, or a receptionist.
+
+We're your dedicated lead gen. Turnkey:
+- We run the ${county} ${niche.name.toLowerCase()} demand
+- Our desk answers and screens every call
+- You get a packet: name, address, job, urgency, tape
+- You roll. We don't share you with 4 other companies
+
+Stand-up: ${money(TURNKEY_SETUP)} (line, ads, desk)
+Then: ${money(TURNKEY_WEEKLY)} a week
+First 2 screened jobs: free
+
+Dedicated ${money(WEEKLY_SEAT)}/wk is the line if you still want to be in the mix. Turnkey is for owners who won't lift a finger.
+
+Reply TURNKEY and we start this week.`;
 }
 
 export function nextHunt(current: HuntStatus): HuntStatus | null {

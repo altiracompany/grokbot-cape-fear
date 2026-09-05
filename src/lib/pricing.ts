@@ -41,9 +41,13 @@ export function exclusiveReserve(niche: Niche, leadOverride?: number) {
   return Math.round((rev * 0.33) / 10) * 10;
 }
 
-/** One price. Exclusive county seat. 4-week month. */
+/** One price. Dedicated county line. 4-week month. */
 export const WEEKLY_SEAT = 500;
 export const MONTHLY_SEAT = WEEKLY_SEAT * 4;
+/** Busy professional. We run demand + desk. They only roll. */
+export const TURNKEY_SETUP = 2500;
+export const TURNKEY_WEEKLY = 750;
+export const TURNKEY_MONTHLY = TURNKEY_WEEKLY * 4;
 
 export function weeklySeat(_niche?: Niche) {
   return WEEKLY_SEAT;

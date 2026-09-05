@@ -6,11 +6,12 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-view";
 import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
-import { cn } from "@/lib/utils";
+import { TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
 
-const TABS = ["Field", "Rules", "Value"] as const;
+const TABS = ["Field", "Rules", "Value", "Offers"] as const;
 
 function Playbook() {
   const resetDesk = useAgency((s) => s.resetDesk);
@@ -22,8 +23,7 @@ function Playbook() {
         <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Rules</p>
         <h1 className="mt-1 font-display text-3xl font-medium tracking-tight">Playbook</h1>
         <p className="mt-2 max-w-xl text-sm text-muted">
-          Don't fight Angi on plumber. Flank niches they list but don't rank. Own the page. Answer the phone. Copycats
-          clone anything that prints — ship first.
+          Don't fight Angi on plumber. Flank niches they list but don't rank. Dedicated lead gen. Answer the phone. Close.
         </p>
       </header>
 
@@ -71,10 +71,10 @@ function Playbook() {
               </p>
             </Card>
             <Card>
-              <CardTitle>We own the hot leads</CardTitle>
+              <CardTitle>Dedicated, not landlord</CardTitle>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Exclusive. Not a shared mill dump. Domain, GBP, content, tracking number stay ours. Owners buy the job,
-                not the site. Auction stays parked.
+                To the owner we are their lead gen company. Never "we own the page." One company per county. Jobs go to
+                their truck. Auction stays parked.
               </p>
             </Card>
             <Card>
@@ -142,6 +142,45 @@ function Playbook() {
               </Button>
             </Card>
           </section>
+        </div>
+      ) : null}
+
+      {tab === "Offers" ? (
+        <div className="grid gap-4">
+          <p className="text-sm text-muted">
+            Other models don't matter until a phone rings. Two SKUs. Same desk. Sell Dedicated unless they're too busy
+            to care — then Turnkey.
+          </p>
+          <div className="grid gap-3 md:grid-cols-2">
+            <Card>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Core</p>
+              <CardTitle className="mt-1">Dedicated</CardTitle>
+              <p className="mt-2 font-mono text-2xl tabular-nums">{money(WEEKLY_SEAT)}/wk</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                We answer. We screen. Packet to their truck. First 2 free. For owners already hunting leads.
+              </p>
+              <p className="mt-3 text-xs text-subtle">Reply YES</p>
+            </Card>
+            <Card>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Busy professional</p>
+              <CardTitle className="mt-1">Turnkey</CardTitle>
+              <p className="mt-2 font-mono text-2xl tabular-nums">
+                {money(TURNKEY_SETUP)} + {money(TURNKEY_WEEKLY)}/wk
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                We run ads, the line, after-hours, the screen. They only roll. Checkbook close. Same one-company rule.
+              </p>
+              <p className="mt-3 text-xs text-subtle">Reply TURNKEY</p>
+            </Card>
+          </div>
+          <Card>
+            <CardTitle>Live this week — ignore the rest</CardTitle>
+            <ol className="mt-3 grid gap-2 text-sm text-muted">
+              <li>1. 210 number on OpenPhone. Desk answers.</li>
+              <li>2. Outscraper: 10 real Comal septic phones. Text Dedicated. If they say they're slammed, send Turnkey.</li>
+              <li>3. One page live with that number. $50/day ads after the first YES — not before.</li>
+            </ol>
+          </Card>
         </div>
       ) : null}
     </main>
