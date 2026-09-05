@@ -1,10 +1,10 @@
 import { COUNTIES, type County } from "./types";
 import { SEAT_NICHES, countyLabel, marketIdForNiche, type SeatNicheId } from "./seats";
-import { TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
+import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
 import { nicheById } from "./niches";
 import { money, uid } from "./utils";
 
-export type OfferId = "dedicated" | "turnkey";
+export type OfferId = "dedicated" | "turnkey" | "eddm";
 
 export const OFFERS: {
   id: OfferId;
@@ -27,10 +27,23 @@ export const OFFERS: {
     weekly: TURNKEY_WEEKLY,
     blurb: "We run ads, the line, after-hours. You roll. $2,500 today, then $750/wk.",
   },
+  {
+    id: "eddm",
+    label: "EDDM starter",
+    dueToday: EDDM_PRICE,
+    weekly: 0,
+    blurb: `Your ad on our route mailer. ${EDDM_HOMES.toLocaleString()} homes. Drop this week. Line can follow.`,
+  },
 ];
 
 export function offerById(id: OfferId) {
   return OFFERS.find((o) => o.id === id) ?? OFFERS[0];
+}
+
+export function dueToday(offer: OfferId, addEddm: boolean) {
+  const base = offerById(offer).dueToday;
+  if (offer === "eddm") return EDDM_PRICE;
+  return base + (addEddm ? EDDM_PRICE : 0);
 }
 
 export function makeLiveCode() {
@@ -55,17 +68,21 @@ export const GO_NICHES = SEAT_NICHES;
 
 const PAY_KEY = "fpl-pay-v1";
 
-export type PayLinks = { dedicated: string; turnkey: string };
+export type PayLinks = { dedicated: string; turnkey: string; eddm: string };
+
+export function emptyPayLinks(): PayLinks {
+  return { dedicated: "", turnkey: "", eddm: "" };
+}
 
 export function loadPayLinks(): PayLinks {
-  if (typeof window === "undefined") return { dedicated: "", turnkey: "" };
+  if (typeof window === "undefined") return emptyPayLinks();
   try {
     const raw = window.localStorage.getItem(PAY_KEY);
-    if (!raw) return { dedicated: "", turnkey: "" };
+    if (!raw) return emptyPayLinks();
     const parsed = JSON.parse(raw) as Partial<PayLinks>;
-    return { dedicated: parsed.dedicated ?? "", turnkey: parsed.turnkey ?? "" };
+    return { dedicated: parsed.dedicated ?? "", turnkey: parsed.turnkey ?? "", eddm: parsed.eddm ?? "" };
   } catch {
-    return { dedicated: "", turnkey: "" };
+    return emptyPayLinks();
   }
 }
 
@@ -73,9 +90,14 @@ export function savePayLinks(links: PayLinks) {
   window.localStorage.setItem(PAY_KEY, JSON.stringify(links));
 }
 
-export function checkoutHref(offer: OfferId, code: string, email: string) {
+export function checkoutHref(offer: OfferId, code: string, email: string, addEddm = false) {
   const links = loadPayLinks();
-  const base = links[offer]?.trim();
+  let key: keyof PayLinks = "dedicated";
+  if (offer === "eddm") key = "eddm";
+  else if (offer === "turnkey") key = "turnkey";
+  else key = "dedicated";
+  if (addEddm && !links[key]) key = "eddm";
+  const base = links[key]?.trim();
   if (!base) return "";
   const url = new URL(base);
   url.searchParams.set("client_reference_id", code);
@@ -92,6 +114,7 @@ export type PendingSpin = {
   county: County;
   nicheId: SeatNicheId;
   offer: OfferId;
+  eddm: boolean;
 };
 
 export function stashPending(p: PendingSpin) {

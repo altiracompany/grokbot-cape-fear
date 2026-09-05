@@ -6,7 +6,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AREA_LINES, e164, lineForCounty, loadLines, saveLines, smsHref, type SavedLines } from "@/lib/lines";
-import { loadPayLinks, savePayLinks, type PayLinks } from "@/lib/spinup";
+import { emptyPayLinks, loadPayLinks, savePayLinks, type PayLinks } from "@/lib/spinup";
 import { seatSms, turnkeySms } from "@/lib/seats";
 import { useAgency } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/outreach")({ component: OutreachPage });
 function OutreachPage() {
   const buyers = useAgency((s) => s.buyers);
   const [lines, setLines] = useState<SavedLines>(() => (typeof window === "undefined" ? { "210": "", "830": "" } : loadLines()));
-  const [pay, setPay] = useState<PayLinks>(() => (typeof window === "undefined" ? { dedicated: "", turnkey: "" } : loadPayLinks()));
+  const [pay, setPay] = useState<PayLinks>(() => (typeof window === "undefined" ? emptyPayLinks() : loadPayLinks()));
   const [lineId, setLineId] = useState<"210" | "830">("830");
   const [offer, setOffer] = useState<"dedicated" | "turnkey">("dedicated");
   const [picked, setPicked] = useState<string | null>(null);
@@ -104,7 +104,8 @@ function OutreachPage() {
       <Card className="rounded-xl p-5">
         <CardTitle>Stripe — they pay, line goes live</CardTitle>
         <p className="mt-2 text-sm text-muted">
-          Stripe Dashboard → Payment links. Dedicated $500. Turnkey $2,500. Success URL: this site /live?paid=1
+          Stripe Dashboard → Payment links. Dedicated $500. Turnkey $2,500. EDDM $300. Success URL: this site
+          /live?paid=1
         </p>
         <div className="mt-4 grid gap-3">
           <div className="grid gap-1.5">
@@ -128,6 +129,19 @@ function OutreachPage() {
               placeholder="https://buy.stripe.com/…"
               onChange={(e) => {
                 const next = { ...pay, turnkey: e.target.value };
+                setPay(next);
+                savePayLinks(next);
+              }}
+            />
+          </div>
+          <div className="grid gap-1.5">
+            <Label htmlFor="pay-e">EDDM $300 · 5k homes</Label>
+            <Input
+              id="pay-e"
+              value={pay.eddm}
+              placeholder="https://buy.stripe.com/…"
+              onChange={(e) => {
+                const next = { ...pay, eddm: e.target.value };
                 setPay(next);
                 savePayLinks(next);
               }}

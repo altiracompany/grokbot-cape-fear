@@ -48,6 +48,9 @@ export const MONTHLY_SEAT = WEEKLY_SEAT * 4;
 export const TURNKEY_SETUP = 2500;
 export const TURNKEY_WEEKLY = 750;
 export const TURNKEY_MONTHLY = TURNKEY_WEEKLY * 4;
+/** Slot on our route mailer. 5,000 homes. Get started this week. */
+export const EDDM_PRICE = 300;
+export const EDDM_HOMES = 5000;
 
 export function weeklySeat(_niche?: Niche) {
   return WEEKLY_SEAT;

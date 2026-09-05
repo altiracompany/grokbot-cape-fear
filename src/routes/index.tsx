@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PublicFrame } from "@/components/public-frame";
 import { BRAND, BRAND_PUBLIC, PUBLIC_AREAS, PUBLIC_URL } from "@/lib/brand";
-import { TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { money } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({ component: PublicHome });
@@ -42,7 +42,7 @@ const FAQS = [
   },
   {
     q: "What does it cost?",
-    a: `Dedicated ${money(WEEKLY_SEAT)} a week after two free jobs. Turnkey is ${money(TURNKEY_SETUP)} to stand up, then ${money(TURNKEY_WEEKLY)} a week — we run ads, the phone, the screen.`,
+    a: `Dedicated ${money(WEEKLY_SEAT)} a week after two free jobs. Turnkey is ${money(TURNKEY_SETUP)} to stand up, then ${money(TURNKEY_WEEKLY)} a week. Need jobs this week? EDDM ${money(EDDM_PRICE)} — your ad to ${EDDM_HOMES.toLocaleString()} homes.`,
   },
   {
     q: "Where do you work?",
@@ -114,7 +114,7 @@ function PublicHome() {
         </div>
       </section>
 
-      <section id="offers" className="scroll-mt-24 grid gap-4 border-t border-border py-16 md:grid-cols-2">
+      <section id="offers" className="scroll-mt-24 grid gap-4 border-t border-border py-16 md:grid-cols-3">
         <Card className="rounded-2xl p-8">
           <p className="font-mono text-xs tracking-wider text-subtle uppercase">Dedicated</p>
           <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(WEEKLY_SEAT)}/wk</p>
@@ -129,6 +129,14 @@ function PublicHome() {
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
             We run ads, the line, after-hours. You only roll. Checkbook close.
+          </p>
+        </Card>
+        <Card className="rounded-2xl p-8">
+          <p className="font-mono text-xs tracking-wider text-subtle uppercase">EDDM · start this week</p>
+          <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(EDDM_PRICE)}</p>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            Your ad on our route mailer. {EDDM_HOMES.toLocaleString()} homes. Drop while the phone line ramps. One
+            company on the piece.
           </p>
         </Card>
       </section>

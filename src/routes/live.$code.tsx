@@ -33,6 +33,7 @@ function LivePage() {
       offer: buyer.offer ?? "dedicated",
       code,
       paid: true,
+      eddm: buyer.eddm,
     });
   }, [hydrated, paid, buyer, code, spinUp]);
 
@@ -89,9 +90,19 @@ function LivePage() {
           </Card>
           <Card className="rounded-xl p-5">
             <p className="font-mono text-xs tracking-wider text-subtle uppercase">Then</p>
-            <p className="mt-2 font-mono text-xl tabular-nums">{money(offer.weekly)}/wk</p>
+            <p className="mt-2 font-mono text-xl tabular-nums">
+              {offer.weekly ? `${money(offer.weekly)}/wk` : "Mail first"}
+            </p>
           </Card>
         </div>
+
+        {buyer.eddm ? (
+          <Card className="rounded-xl p-5">
+            <p className="font-mono text-xs tracking-wider text-subtle uppercase">EDDM</p>
+            <p className="mt-2 text-lg">5,000 homes on your routes. Flyer in drop.</p>
+            <p className="mt-1 text-sm text-muted">Your name, phone, service. One company on the piece. Cove takes the inbound.</p>
+          </Card>
+        ) : null}
 
         <section>
           <h2 className="font-display text-2xl font-medium tracking-tight">Pre-screened jobs</h2>

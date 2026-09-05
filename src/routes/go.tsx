@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { PublicFrame } from "@/components/public-frame";
 import {
   checkoutHref,
+  dueToday,
   GO_COUNTIES,
   GO_NICHES,
   makeLiveCode,
@@ -17,6 +18,7 @@ import {
   stashPending,
   type OfferId,
 } from "@/lib/spinup";
+import { EDDM_HOMES, EDDM_PRICE } from "@/lib/pricing";
 import { countyLabel } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
@@ -36,6 +38,7 @@ function GoPage() {
   const [county, setCounty] = useState<County>("comal");
   const [nicheId, setNicheId] = useState<(typeof GO_NICHES)[number]>("septic");
   const [offer, setOffer] = useState<OfferId>("dedicated");
+  const [addEddm, setAddEddm] = useState(false);
   const [busy, setBusy] = useState(false);
 
   const taken = useMemo(
@@ -52,6 +55,8 @@ function GoPage() {
 
   const picked = offerById(offer);
   const niche = nicheById(nicheId);
+  const eddmOn = offer === "eddm" || addEddm;
+  const today = dueToday(offer, addEddm);
 
   function start() {
     const code = makeLiveCode();
@@ -65,12 +70,13 @@ function GoPage() {
       offer,
       code,
       paid: false,
+      eddm: eddmOn,
     });
     if (!id) {
       toast.error("That county is taken. Pick another.");
       return null;
     }
-    stashPending({ code, name, company, phone, email, county, nicheId, offer });
+    stashPending({ code, name, company, phone, email, county, nicheId, offer, eddm: eddmOn });
     return code;
   }
 
@@ -85,14 +91,14 @@ function GoPage() {
       return;
     }
     setBusy(true);
-    const payUrl = checkoutHref(offer, "pending", email);
+    const payUrl = checkoutHref(offer, "pending", email, addEddm);
     const code = start();
     if (!code) {
       setBusy(false);
       return;
     }
     if (payUrl) {
-      const href = checkoutHref(offer, code, email);
+      const href = checkoutHref(offer, code, email, addEddm);
       window.location.href = href;
       return;
     }
@@ -107,8 +113,8 @@ function GoPage() {
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Start now</p>
           <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">Pay. Line live. Jobs on your phone.</h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-            One company per county. Cove answers. We screen. You get the packet. First two jobs free — then the weekly
-            seat. No waiting on a sales call.
+            One company per county. Cove answers. We screen. Need jobs this week? Add EDDM — {money(EDDM_PRICE)} puts
+            your ad in {EDDM_HOMES.toLocaleString()} homes on the route.
           </p>
           <form onSubmit={submit} className="mt-10 grid gap-4">
             <Field label="Your name" htmlFor="n">
@@ -158,8 +164,28 @@ function GoPage() {
             ) : (
               <p className="text-sm text-go">{countyLabel(county)} {niche.name} is open.</p>
             )}
+            {offer !== "eddm" ? (
+              <label className="flex min-h-11 items-start gap-3 text-sm leading-relaxed">
+                <input
+                  type="checkbox"
+                  className="mt-1 size-4"
+                  checked={addEddm}
+                  onChange={(e) => setAddEddm(e.target.checked)}
+                />
+                <span>
+                  Add EDDM — {money(EDDM_PRICE)} · {EDDM_HOMES.toLocaleString()} homes on your routes. Mail drops while
+                  the line ramps.
+                </span>
+              </label>
+            ) : null}
             <Button type="submit" className="h-12" disabled={busy || taken}>
-              {checkoutHref(offer, "x", "") ? `Pay ${money(picked.dueToday)} · start` : `Start · 2 free then ${money(picked.weekly)}/wk`}
+              {checkoutHref(offer, "x", "", addEddm)
+                ? `Pay ${money(today)} · start`
+                : offer === "eddm"
+                  ? `Start EDDM · ${money(EDDM_PRICE)} · ${EDDM_HOMES.toLocaleString()} homes`
+                  : addEddm
+                    ? `Start · 2 free + EDDM ${money(EDDM_PRICE)}`
+                    : `Start · 2 free then ${money(picked.weekly)}/wk`}
             </Button>
             <p className="text-xs text-subtle">
               If a card link is live, you pay now and the county locks. If not, two free jobs start now — we text the
@@ -172,7 +198,10 @@ function GoPage() {
             <button
               key={o.id}
               type="button"
-              onClick={() => setOffer(o.id)}
+              onClick={() => {
+                setOffer(o.id);
+                if (o.id === "eddm") setAddEddm(false);
+              }}
               className={cn(
                 "rounded-2xl p-6 text-left shadow-[var(--shadow-border)]",
                 offer === o.id ? "bg-elevated" : "bg-surface",
@@ -180,7 +209,11 @@ function GoPage() {
             >
               <p className="font-mono text-xs tracking-wider text-subtle uppercase">{o.label}</p>
               <p className="mt-2 font-display text-3xl font-medium tracking-tight">
-                {o.id === "turnkey" ? `${money(o.dueToday)} today` : `${money(o.weekly)}/wk`}
+                {o.id === "turnkey"
+                  ? `${money(o.dueToday)} today`
+                  : o.id === "eddm"
+                    ? `${money(o.dueToday)} · 5k homes`
+                    : `${money(o.weekly)}/wk`}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">{o.blurb}</p>
             </button>

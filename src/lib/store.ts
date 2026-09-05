@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { nicheById } from "./niches";
 import { decide } from "./scoring";
-import { pplPrice, monthlySeat, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
+import { pplPrice, monthlySeat, TURNKEY_WEEKLY, WEEKLY_SEAT, EDDM_PRICE } from "./pricing";
 import { scriptCall } from "./conversation";
 import { cityForCounties, defaultHoods } from "./territory";
 import { domainFor, trackingFor, uid } from "./utils";
@@ -48,9 +48,10 @@ type SpinInput = {
   email: string;
   county: County;
   nicheId: string;
-  offer: "dedicated" | "turnkey";
+  offer: "dedicated" | "turnkey" | "eddm";
   code: string;
   paid: boolean;
+  eddm?: boolean;
 };
 
 type NewLeadInput = {
@@ -238,7 +239,13 @@ export const useAgency = create<AgencyState>()(
             set({
               buyers: get().buyers.map((b) =>
                 b.id === existing.id
-                  ? { ...b, hunt: "paying" as const, status: "active" as const, freeRemaining: existing.freeUsed >= 2 ? 0 : existing.freeRemaining }
+                  ? {
+                      ...b,
+                      hunt: "paying" as const,
+                      status: "active" as const,
+                      eddm: input.eddm || b.eddm,
+                      freeRemaining: existing.freeUsed >= 2 ? 0 : existing.freeRemaining,
+                    }
                   : b,
               ),
             });
@@ -253,8 +260,13 @@ export const useAgency = create<AgencyState>()(
             b.status !== "paused",
         );
         if (taken && taken.phone.replace(/\D/g, "") !== input.phone.replace(/\D/g, "")) return "";
-        const weekly = input.offer === "turnkey" ? TURNKEY_WEEKLY * 4 : WEEKLY_SEAT * 4;
+        const wantsEddm = input.offer === "eddm" || Boolean(input.eddm);
+        const weekly = input.offer === "turnkey" ? TURNKEY_WEEKLY * 4 : input.offer === "eddm" ? 0 : WEEKLY_SEAT * 4;
         const id = uid("by");
+        const paidAmt = input.paid
+          ? (input.offer === "turnkey" ? 2500 : input.offer === "eddm" ? EDDM_PRICE : 500) +
+            (wantsEddm && input.offer !== "eddm" ? EDDM_PRICE : 0)
+          : 0;
         const buyer: Buyer = {
           id,
           name: input.name.trim(),
@@ -270,12 +282,17 @@ export const useAgency = create<AgencyState>()(
           status: "active",
           hunt: input.paid ? "paying" : "trial",
           soldThisMonth: 0,
-          spendThisMonth: input.paid ? (input.offer === "turnkey" ? 2500 : 500) : 0,
+          spendThisMonth: paidAmt,
           freeRemaining: FREE_TRIAL,
           freeUsed: 0,
-          notes: input.paid ? "Paid. Line live. Screen to this truck." : "Self-serve. 2 free. Cove live.",
+          notes: wantsEddm
+            ? "EDDM 5,000 homes queued. Screen inbound to this truck."
+            : input.paid
+              ? "Paid. Line live. Screen to this truck."
+              : "Self-serve. 2 free. Cove live.",
           offer: input.offer,
           liveCode: input.code,
+          eddm: wantsEddm,
         };
         set({ buyers: [buyer, ...get().buyers] });
         return id;

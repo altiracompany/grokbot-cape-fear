@@ -6,7 +6,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-view";
 import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
-import { TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
@@ -148,10 +148,9 @@ function Playbook() {
       {tab === "Offers" ? (
         <div className="grid gap-4">
           <p className="text-sm text-muted">
-            Other models don't matter until a phone rings. Two SKUs. Same desk. Sell Dedicated unless they're too busy
-            to care — then Turnkey.
+            Other models don't matter until a phone rings. Dedicated, Turnkey, or EDDM to start this week.
           </p>
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-3">
             <Card>
               <p className="font-mono text-xs tracking-wider text-subtle uppercase">Core</p>
               <CardTitle className="mt-1">Dedicated</CardTitle>
@@ -172,13 +171,23 @@ function Playbook() {
               </p>
               <p className="mt-3 text-xs text-subtle">Reply TURNKEY</p>
             </Card>
+            <Card>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Start this week</p>
+              <CardTitle className="mt-1">EDDM</CardTitle>
+              <p className="mt-2 font-mono text-2xl tabular-nums">{money(EDDM_PRICE)}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Ad on our route mailer. {EDDM_HOMES.toLocaleString()} homes. They get inbound while Cove ramps. One
+                company on the piece.
+              </p>
+              <p className="mt-3 text-xs text-subtle">Reply MAIL</p>
+            </Card>
           </div>
           <Card>
             <CardTitle>Live this week — ignore the rest</CardTitle>
             <ol className="mt-3 grid gap-2 text-sm text-muted">
-              <li>1. 210 number on OpenPhone. Desk answers.</li>
-              <li>2. Outscraper: 10 real Comal septic phones. Text Dedicated. If they say they're slammed, send Turnkey.</li>
-              <li>3. One page live with that number. $50/day ads after the first YES — not before.</li>
+              <li>1. Cove 210 + 830. Desk answers.</li>
+              <li>2. Outscraper: 10 real Comal septic phones. Text Dedicated. Slammed → Turnkey. Want jobs this week → EDDM $300.</li>
+              <li>3. First YES: spin /go. Mail drop if they paid EDDM.</li>
             </ol>
           </Card>
         </div>

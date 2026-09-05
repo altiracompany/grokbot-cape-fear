@@ -108,8 +108,9 @@ export type Buyer = {
   freeRemaining: number;
   freeUsed: number;
   notes: string;
-  offer?: "dedicated" | "turnkey";
+  offer?: "dedicated" | "turnkey" | "eddm";
   liveCode?: string;
+  eddm?: boolean;
 };
 
 export type CallTurn = {
