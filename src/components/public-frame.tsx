@@ -20,8 +20,8 @@ export function PublicFrame({ children }: { children: ReactNode }) {
             <a href="/#offers" className="hidden hover:text-fg sm:inline">
               Offers
             </a>
-            <Link to="/apply" className="hover:text-fg">
-              Apply
+            <Link to="/go" className="hover:text-fg">
+              Start
             </Link>
           </nav>
         </div>

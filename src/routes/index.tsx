@@ -73,7 +73,7 @@ function PublicHome() {
         <p className="max-w-xl text-lg leading-relaxed text-muted">{BRAND_PUBLIC}</p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild className="h-12 min-w-44 px-6">
-            <Link to="/apply">
+            <Link to="/go">
               Get two jobs free
               <ArrowRight className="size-4" />
             </Link>
@@ -160,7 +160,7 @@ function PublicHome() {
         <h2 className="font-display text-3xl font-medium tracking-tight">Two free jobs. Then you decide.</h2>
         <div>
           <Button asChild className="h-12 min-w-44 px-6">
-            <Link to="/apply">
+            <Link to="/go">
               Talk to the desk
               <ArrowRight className="size-4" />
             </Link>

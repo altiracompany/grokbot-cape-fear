@@ -2,13 +2,13 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { nicheById } from "./niches";
 import { decide } from "./scoring";
-import { pplPrice, monthlySeat } from "./pricing";
+import { pplPrice, monthlySeat, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
 import { scriptCall } from "./conversation";
 import { cityForCounties, defaultHoods } from "./territory";
 import { domainFor, trackingFor, uid } from "./utils";
 import { INITIAL_BUYERS, INITIAL_LEADS, INITIAL_MARKETS, inferCounty, withRolledUpCounts } from "./seed";
 import { FREE_TRIAL } from "./types";
-import { nextHunt } from "./seats";
+import { marketIdForNiche, nextHunt } from "./seats";
 import type {
   Buyer,
   BuyerStatus,
@@ -41,6 +41,18 @@ type NewBuyerInput = {
   monthlyCap: number;
 };
 
+type SpinInput = {
+  name: string;
+  company: string;
+  phone: string;
+  email: string;
+  county: County;
+  nicheId: string;
+  offer: "dedicated" | "turnkey";
+  code: string;
+  paid: boolean;
+};
+
 type NewLeadInput = {
   marketId: string;
   name: string;
@@ -71,6 +83,7 @@ type AgencyState = {
   setScore: (id: string, score: Scorecard) => void;
   setStage: (id: string, stage: Stage) => void;
   addBuyer: (input: NewBuyerInput) => string;
+  spinUp: (input: SpinInput) => string;
   updateBuyer: (id: string, patch: Partial<Buyer>) => void;
   setBuyerStatus: (id: string, status: BuyerStatus) => void;
   advanceHunt: (id: string) => HuntStatus | null;
@@ -213,6 +226,56 @@ export const useAgency = create<AgencyState>()(
           freeRemaining: FREE_TRIAL,
           freeUsed: 0,
           notes: "2 free then monthly seat.",
+        };
+        set({ buyers: [buyer, ...get().buyers] });
+        return id;
+      },
+      spinUp: (input) => {
+        const marketId = marketIdForNiche(input.nicheId, input.county);
+        const existing = get().buyers.find((b) => b.liveCode === input.code);
+        if (existing) {
+          if (input.paid && existing.hunt !== "paying") {
+            set({
+              buyers: get().buyers.map((b) =>
+                b.id === existing.id
+                  ? { ...b, hunt: "paying" as const, status: "active" as const, freeRemaining: existing.freeUsed >= 2 ? 0 : existing.freeRemaining }
+                  : b,
+              ),
+            });
+          }
+          return existing.id;
+        }
+        const taken = get().buyers.find(
+          (b) =>
+            b.nicheId === input.nicheId &&
+            b.county === input.county &&
+            (b.hunt === "trial" || b.hunt === "paying") &&
+            b.status !== "paused",
+        );
+        if (taken && taken.phone.replace(/\D/g, "") !== input.phone.replace(/\D/g, "")) return "";
+        const weekly = input.offer === "turnkey" ? TURNKEY_WEEKLY * 4 : WEEKLY_SEAT * 4;
+        const id = uid("by");
+        const buyer: Buyer = {
+          id,
+          name: input.name.trim(),
+          company: input.company.trim() || input.name.trim(),
+          phone: input.phone.trim(),
+          email: input.email.trim(),
+          marketIds: [marketId],
+          nicheId: input.nicheId,
+          county: input.county,
+          pplRate: pplPrice(nicheById(input.nicheId)),
+          monthlySeat: weekly,
+          monthlyCap: 12,
+          status: "active",
+          hunt: input.paid ? "paying" : "trial",
+          soldThisMonth: 0,
+          spendThisMonth: input.paid ? (input.offer === "turnkey" ? 2500 : 500) : 0,
+          freeRemaining: FREE_TRIAL,
+          freeUsed: 0,
+          notes: input.paid ? "Paid. Line live. Screen to this truck." : "Self-serve. 2 free. Cove live.",
+          offer: input.offer,
+          liveCode: input.code,
         };
         set({ buyers: [buyer, ...get().buyers] });
         return id;
