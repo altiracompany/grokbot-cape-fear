@@ -6,4 +6,7 @@ export const BRAND_BLURB =
   "Freedom Project Leads. Your dedicated lead generation. We screen every call and send the job to your truck. First 2 free, then $500 a week.";
 export const BRAND_PUBLIC =
   "Dedicated lead generation for one company per county. We answer. We screen. You roll.";
-export const PUBLIC_AREAS = "Bexar, Comal, and Guadalupe Counties — New Braunfels, Canyon Lake, San Antonio, Seguin, Cibolo.";
+export const PUBLIC_URL = "https://freedomprojectleads.com";
+export const PUBLIC_AREAS =
+  "Bexar, Comal, and Guadalupe Counties — New Braunfels, Canyon Lake, San Antonio, Seguin, Cibolo.";
+

@@ -95,7 +95,7 @@ function OutreachPage() {
           </li>
           <li>3. Paste both above. 210 = Bexar. 830 = Comal / Guadalupe.</li>
           <li>4. AI can answer after hours. You still screen the hot job before it hits the truck.</li>
-          <li>5. When they Google you: grokbot-cape-fear.vercel.app — the public site, not this desk.</li>
+          <li>5. When they Google you: the public site, not this desk. Guard locks this board.</li>
         </ol>
       </Card>
 

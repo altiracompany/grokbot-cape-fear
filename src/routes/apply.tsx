@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PublicFrame } from "@/components/public-frame";
 import { Toaster } from "sonner";
+import { applyAllowed, cleanPhone, cleanText, mailtoSafe } from "@/lib/guard";
 
 export const Route = createFileRoute("/apply")({ component: ApplyPage });
 
@@ -27,18 +28,26 @@ function ApplyPage() {
   const [county, setCounty] = useState("comal");
   const [niche, setNiche] = useState("Septic");
   const [busy, setBusy] = useState(false);
+  const [trap, setTrap] = useState("");
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) {
-      toast.error("Name and phone.");
+    if (!applyAllowed(trap)) {
+      toast.error("Hold. Try again in a minute.");
+      return;
+    }
+    const n = cleanText(name);
+    const c = cleanText(company);
+    const p = cleanPhone(phone);
+    if (!n || p.replace(/\D/g, "").length < 10) {
+      toast.error("Name and a real phone.");
       return;
     }
     const offer = busy ? "TURNKEY" : "DEDICATED";
-    const body = encodeURIComponent(
-      `Name: ${name}\nCompany: ${company || "—"}\nPhone: ${phone}\nCounty: ${county}\nNiche: ${niche}\nOffer: ${offer}`,
+    window.location.href = mailtoSafe(
+      `${offer} · ${county} ${niche}`,
+      `Name: ${n}\nCompany: ${c || "—"}\nPhone: ${p}\nCounty: ${county}\nNiche: ${niche}\nOffer: ${offer}`,
     );
-    window.location.href = `mailto:desk@freedomprojectleads.com?subject=${encodeURIComponent(`${offer} · ${county} ${niche}`)}&body=${body}`;
     toast.success("Opening mail. If nothing opens, text the desk from the number we used.");
   }
 
@@ -52,14 +61,18 @@ function ApplyPage() {
           Tell us the county and the work. We'll text from a 210 or 830. Dedicated lead gen — one company, not a mill.
         </p>
         <form onSubmit={submit} className="mt-10 grid gap-4">
+          <div className="absolute -left-[9999px] h-0 overflow-hidden" aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input id="website" tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
+          </div>
           <Field label="Your name" htmlFor="n">
-            <Input id="n" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
+            <Input id="n" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} autoComplete="name" />
           </Field>
           <Field label="Company" htmlFor="c">
-            <Input id="c" value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" />
+            <Input id="c" value={company} maxLength={80} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" />
           </Field>
           <Field label="Mobile" htmlFor="p">
-            <Input id="p" value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" autoComplete="tel" />
+            <Input id="p" value={phone} maxLength={20} onChange={(e) => setPhone(e.target.value)} inputMode="tel" autoComplete="tel" />
           </Field>
           <Field label="County" htmlFor="co">
             <select
@@ -68,9 +81,9 @@ function ApplyPage() {
               onChange={(e) => setCounty(e.target.value)}
               className="h-11 w-full rounded-md border border-input bg-elevated px-3 text-sm"
             >
-              {COUNTIES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.label}
+              {COUNTIES.map((x) => (
+                <option key={x.id} value={x.id}>
+                  {x.label}
                 </option>
               ))}
             </select>
@@ -82,8 +95,8 @@ function ApplyPage() {
               onChange={(e) => setNiche(e.target.value)}
               className="h-11 w-full rounded-md border border-input bg-elevated px-3 text-sm"
             >
-              {NICHES.map((n) => (
-                <option key={n}>{n}</option>
+              {NICHES.map((x) => (
+                <option key={x}>{x}</option>
               ))}
             </select>
           </Field>
@@ -100,7 +113,7 @@ function ApplyPage() {
   );
 }
 
-function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: React.ReactNode }) {
+function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: ReactNode }) {
   return (
     <div className="grid gap-1.5">
       <Label htmlFor={htmlFor}>{label}</Label>

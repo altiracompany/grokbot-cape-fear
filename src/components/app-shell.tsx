@@ -1,12 +1,14 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, Headset, LayoutGrid, Menu, MessageSquare, Users } from "lucide-react";
+import { Headset, LayoutGrid, Menu, MessageSquare, Shield, Users } from "lucide-react";
 import { Toaster } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NewMarketDialog } from "@/components/new-market-dialog";
+import { DeskLock } from "@/components/desk-lock";
 import { BRAND, BRAND_MARK, BRAND_SHORT, BRAND_TAG } from "@/lib/brand";
+import { isDeskPath } from "@/lib/guard";
 import { useAgency } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -15,14 +17,8 @@ const NAV = [
   { to: "/outreach", label: "Send", icon: MessageSquare },
   { to: "/queue", label: "Queue", icon: Headset },
   { to: "/buyers", label: "Hunt", icon: Users },
-  { to: "/playbook", label: "Playbook", icon: BookOpen },
+  { to: "/guard", label: "Guard", icon: Shield },
 ] as const;
-
-const DESK_PREFIX = ["/desk", "/outreach", "/queue", "/markets", "/buyers", "/playbook", "/leads", "/book"];
-
-function isDesk(pathname: string) {
-  return DESK_PREFIX.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-}
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -40,7 +36,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     };
   }, [markHydrated]);
 
-  if (!isDesk(pathname)) {
+  if (!isDeskPath(pathname)) {
     return (
       <TooltipProvider delayDuration={200}>
         {children}
@@ -83,7 +79,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </p>
               <NewMarketDialog />
             </div>
-            {children}
+            <DeskLock>{children}</DeskLock>
           </div>
         </div>
 
@@ -154,6 +150,9 @@ function NavList({ pathname, unsold }: { pathname: string; unsold: number }) {
           </Link>
         );
       })}
+      <Link to="/playbook" className="px-3 text-xs text-subtle hover:text-muted">
+        Playbook
+      </Link>
       <Link to="/" className="mt-4 px-3 text-xs text-subtle hover:text-muted">
         Public site
       </Link>

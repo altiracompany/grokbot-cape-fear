@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PublicFrame } from "@/components/public-frame";
-import { BRAND, BRAND_PUBLIC, PUBLIC_AREAS } from "@/lib/brand";
+import { BRAND, BRAND_PUBLIC, PUBLIC_AREAS, PUBLIC_URL } from "@/lib/brand";
 import { TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { money } from "@/lib/utils";
 
@@ -57,7 +57,7 @@ function PublicHome() {
     name: BRAND,
     description: BRAND_PUBLIC,
     areaServed: ["Bexar County", "Comal County", "Guadalupe County", "New Hanover County"],
-    url: "https://grokbot-cape-fear.vercel.app/",
+    url: PUBLIC_URL,
     priceRange: "$$",
   };
 

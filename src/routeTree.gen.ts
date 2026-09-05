@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as BuyersRouteImport } from './routes/buyers'
+import { Route as DeskRouteImport } from './routes/desk'
+import { Route as GuardRouteImport } from './routes/guard'
 import { Route as LeadsRouteImport } from './routes/leads'
 import { Route as MarketsRouteImport } from './routes/markets'
+import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as PlaybookRouteImport } from './routes/playbook'
 import { Route as QueueRouteImport } from './routes/queue'
 import { Route as MarketsIndexRouteImport } from './routes/markets.index'
@@ -26,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplyRoute = ApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookRoute = BookRouteImport.update({
   id: '/book',
   path: '/book',
@@ -36,6 +45,16 @@ const BuyersRoute = BuyersRouteImport.update({
   path: '/buyers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeskRoute = DeskRouteImport.update({
+  id: '/desk',
+  path: '/desk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuardRoute = GuardRouteImport.update({
+  id: '/guard',
+  path: '/guard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LeadsRoute = LeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -44,6 +63,11 @@ const LeadsRoute = LeadsRouteImport.update({
 const MarketsRoute = MarketsRouteImport.update({
   id: '/markets',
   path: '/markets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutreachRoute = OutreachRouteImport.update({
+  id: '/outreach',
+  path: '/outreach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaybookRoute = PlaybookRouteImport.update({
@@ -79,10 +103,14 @@ const QueueLeadIdRoute = QueueLeadIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/apply': typeof ApplyRoute
   '/book': typeof BookRoute
   '/buyers': typeof BuyersRoute
+  '/desk': typeof DeskRoute
+  '/guard': typeof GuardRoute
   '/leads': typeof LeadsRoute
   '/markets': typeof MarketsRouteWithChildren
+  '/outreach': typeof OutreachRoute
   '/playbook': typeof PlaybookRoute
   '/queue': typeof QueueRouteWithChildren
   '/markets/$marketId': typeof MarketsMarketIdRoute
@@ -92,9 +120,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/apply': typeof ApplyRoute
   '/book': typeof BookRoute
   '/buyers': typeof BuyersRoute
+  '/desk': typeof DeskRoute
+  '/guard': typeof GuardRoute
   '/leads': typeof LeadsRoute
+  '/outreach': typeof OutreachRoute
   '/playbook': typeof PlaybookRoute
   '/markets/$marketId': typeof MarketsMarketIdRoute
   '/queue/$leadId': typeof QueueLeadIdRoute
@@ -104,10 +136,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/apply': typeof ApplyRoute
   '/book': typeof BookRoute
   '/buyers': typeof BuyersRoute
+  '/desk': typeof DeskRoute
+  '/guard': typeof GuardRoute
   '/leads': typeof LeadsRoute
   '/markets': typeof MarketsRouteWithChildren
+  '/outreach': typeof OutreachRoute
   '/playbook': typeof PlaybookRoute
   '/queue': typeof QueueRouteWithChildren
   '/markets/$marketId': typeof MarketsMarketIdRoute
@@ -119,10 +155,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/apply'
     | '/book'
     | '/buyers'
+    | '/desk'
+    | '/guard'
     | '/leads'
     | '/markets'
+    | '/outreach'
     | '/playbook'
     | '/queue'
     | '/markets/$marketId'
@@ -132,9 +172,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/apply'
     | '/book'
     | '/buyers'
+    | '/desk'
+    | '/guard'
     | '/leads'
+    | '/outreach'
     | '/playbook'
     | '/markets/$marketId'
     | '/queue/$leadId'
@@ -143,10 +187,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/apply'
     | '/book'
     | '/buyers'
+    | '/desk'
+    | '/guard'
     | '/leads'
     | '/markets'
+    | '/outreach'
     | '/playbook'
     | '/queue'
     | '/markets/$marketId'
@@ -157,10 +205,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApplyRoute: typeof ApplyRoute
   BookRoute: typeof BookRoute
   BuyersRoute: typeof BuyersRoute
+  DeskRoute: typeof DeskRoute
+  GuardRoute: typeof GuardRoute
   LeadsRoute: typeof LeadsRoute
   MarketsRoute: typeof MarketsRouteWithChildren
+  OutreachRoute: typeof OutreachRoute
   PlaybookRoute: typeof PlaybookRoute
   QueueRoute: typeof QueueRouteWithChildren
 }
@@ -172,6 +224,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apply': {
+      id: '/apply'
+      path: '/apply'
+      fullPath: '/apply'
+      preLoaderRoute: typeof ApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book': {
@@ -188,6 +247,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuyersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/desk': {
+      id: '/desk'
+      path: '/desk'
+      fullPath: '/desk'
+      preLoaderRoute: typeof DeskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guard': {
+      id: '/guard'
+      path: '/guard'
+      fullPath: '/guard'
+      preLoaderRoute: typeof GuardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/leads': {
       id: '/leads'
       path: '/leads'
@@ -200,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/markets'
       fullPath: '/markets'
       preLoaderRoute: typeof MarketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outreach': {
+      id: '/outreach'
+      path: '/outreach'
+      fullPath: '/outreach'
+      preLoaderRoute: typeof OutreachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playbook': {
@@ -274,10 +354,14 @@ const QueueRouteWithChildren = QueueRoute._addFileChildren(QueueRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApplyRoute: ApplyRoute,
   BookRoute: BookRoute,
   BuyersRoute: BuyersRoute,
+  DeskRoute: DeskRoute,
+  GuardRoute: GuardRoute,
   LeadsRoute: LeadsRoute,
   MarketsRoute: MarketsRouteWithChildren,
+  OutreachRoute: OutreachRoute,
   PlaybookRoute: PlaybookRoute,
   QueueRoute: QueueRouteWithChildren,
 }
