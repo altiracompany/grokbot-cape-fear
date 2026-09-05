@@ -46,7 +46,7 @@ function OutreachPage() {
     }
     void navigator.clipboard.writeText(body);
     if (href) window.location.href = href;
-    toast.success(`Copied. Paste into Covered and send from the ${lineId} line.`);
+    toast.success(`Copied. Paste into Cove and send from the ${lineId} line.`);
   }
 
   function copyOnly() {
@@ -61,7 +61,7 @@ function OutreachPage() {
         <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Lazy outreach</p>
         <h1 className="mt-1 font-display text-3xl font-medium tracking-tight">210 or 830. Then send.</h1>
         <p className="mt-2 max-w-xl text-sm text-muted">
-          Buy two local lines in Covered. Paste them once. Tap a truck. Copy + send from Covered. That's the stack.
+          Buy two local lines in Cove. Paste them once. Tap a truck. Copy + send from Cove. That's the stack.
         </p>
       </header>
 
@@ -71,7 +71,7 @@ function OutreachPage() {
             <p className="font-mono text-xs tracking-wider text-subtle uppercase">{line.id} · {line.label}</p>
             <p className="mt-1 text-sm text-muted">{line.counties}</p>
             <Label htmlFor={`l-${line.id}`} className="mt-4">
-              Covered number
+              Cove number
             </Label>
             <Input
               id={`l-${line.id}`}
@@ -86,9 +86,9 @@ function OutreachPage() {
       </section>
 
       <Card className="rounded-xl p-5">
-        <CardTitle>Covered — skip OpenPhone</CardTitle>
+        <CardTitle>Cove — skip OpenPhone</CardTitle>
         <ol className="mt-3 grid gap-2 text-sm text-muted">
-          <li>1. Covered you already have. Don't buy OpenPhone.</li>
+          <li>1. Cove you already have. Don't buy OpenPhone.</li>
           <li>
             2. Add a <span className="text-fg">210</span> and an <span className="text-fg">830</span> on that account.
             Not a 512. Not an 800.
@@ -147,7 +147,7 @@ function OutreachPage() {
           <pre className="overflow-x-auto rounded-lg bg-elevated p-4 font-mono text-xs leading-relaxed whitespace-pre-wrap">{body}</pre>
           <div className="flex flex-wrap gap-2">
             <Button type="button" onClick={copyOnly} className="h-12">
-              Copy for Covered
+              Copy for Cove
             </Button>
             <Button type="button" variant="secondary" onClick={send} className="h-12">
               Also open Messages
