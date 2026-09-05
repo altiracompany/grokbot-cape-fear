@@ -23,7 +23,7 @@ export function scriptCall(args: {
     { at: "0:18", speaker: "caller", text: `${hood}. Can someone come today?` },
     { at: "0:24", speaker: "agent", text: `That's our coverage. What's going on, exactly?` },
     { at: "0:30", speaker: "caller", text: `${service}. I can be home. Phone is the best number.` },
-    { at: "0:38", speaker: "agent", text: `I'm going to screen this and hand you to a local owner, not a call mill. Stay by the phone.` },
+    { at: "0:38", speaker: "agent", text: `I'm going to screen this and connect you with your local company. Stay by the phone.` },
   ];
 }
 
@@ -51,9 +51,9 @@ ${lead.screenNotes || "In territory. Real job. Wants service. Not a mill dump."}
 Call excerpt
 ${lines || "(no transcript)"}
 
-We answered. We qualified. You roll. Do not call them a second time to "see if it's real" — we already did.`;
+We answered. We qualified. This one's yours. Do not call them a second time to "see if it's real" — we already did.`;
 }
 
 export function ownerOfferSms(market: Market, niche: Niche, ppl: number) {
-  return `Stop buying Angi leftovers. Freedom Project Leads — ${niche.name.toLowerCase()} in Cape Fear. We own ${market.domain}, we answer ${market.trackingNumber}. Screened job, not a shared ping. First 2 free. Then $500/wk exclusive. Reply YES.`;
+  return `Stop buying Angi leftovers. Freedom Project Leads — your dedicated ${niche.name.toLowerCase()} lead gen. We answer ${market.trackingNumber}. Screened job to your truck, not a shared ping. First 2 free. Then $500/wk. Reply YES.`;
 }

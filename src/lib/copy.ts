@@ -12,31 +12,31 @@ export function marketTitle(market: Market, niche: Niche) {
 export function pplPitch(market: Market, niche: Niche) {
   const math = pplMath(niche);
   const field = fieldFor(niche.id);
-  return `FREEDOM PROJECT LEADS — ${niche.name.toUpperCase()} / CAPE FEAR
+  return `FREEDOM PROJECT LEADS — ${niche.name.toUpperCase()} / YOUR DEDICATED LINE
 
-New Hanover · Pender · Brunswick.
-We own ${market.domain}. We answer ${market.trackingNumber}. You never talk to a raw caller.
+New Hanover · Pender · Brunswick · Bexar · Comal · Guadalupe.
+Your ${niche.name.toLowerCase()} lead gen. We answer ${market.trackingNumber}. You never talk to a raw caller.
 
 Wedge: ${field.wedge.toUpperCase()}
 Angi sells this at ${field.angiPpl}. Shared. Three other trucks on the same ping.
-We sell one screened job.
+You get one screened job — to your company.
 
 What you get
 - A screened handoff: name, phone, address, job, urgency, transcript
-- First ${FREE_TRIAL} free. Then $500 a week for the county seat
-- Extra jobs ${money(market.pplPrice)}. Pause anytime. We keep the ranker
+- First ${FREE_TRIAL} free. Then $500 a week dedicated
+- Extra jobs ${money(market.pplPrice)}. Pause anytime
 
 What you do not get
-- The site, the number, or a dump of unscreened form fills
+- A dump of unscreened form fills
 - Shared mill leads five other trucks already called
 
 The math
 Typical job: ${niche.jobRange} (we model ${money(niche.jobValue)})
 Close we underwrite: ${pct(niche.closeRate)}
 Expected value of a screened lead: ${money(math.expectedValue)}
-After the 2 free: $500 a week exclusive
+After the 2 free: $500 a week dedicated to you
 
-Reply YES for the county seat.`;
+Reply YES. We're your lead gen.`;
 }
 
 export function conservativePitch(niche: Niche) {
@@ -67,9 +67,9 @@ Seat: ${money(WEEKLY_SEAT)}
 ${leftoverLine}
 
 Angi: ~${money(v.angiLead)} shared × 4 trucks. ~${pct(v.angiClose)} close. ~${money(v.angiCostPerJob)} per booked job — and you paid when you lost.
-Us: exclusive, screened, tape included. ${money(WEEKLY_SEAT)} for the whole week.
+Us: dedicated, screened, tape included. ${money(WEEKLY_SEAT)} for the whole week.
 
-First 2 free. Then $500 a week. Freedom Project Leads keeps the page.`;
+First 2 free. Then $500 a week. Your lead gen. Not four other trucks.`;
 }
 
 export function outreachSms(market: Market, niche: Niche) {
@@ -106,9 +106,7 @@ Jobs estimated: ${market.jobsEstimated}
 Top queries: ${market.topQueries.join("; ") || "none logged"}
 Rank: Maps ${market.rankMaps ?? "—"} · Organic ${market.rankOrganic ?? "—"} · AI ${market.aiCitations ?? "—"}
 
-We answered every conversation. Freedom Project Leads. Owners got screened handoffs, not Angi leftovers. First ${FREE_TRIAL} per owner were free.
-
-We keep the domain.`;
+We answered every conversation. Freedom Project Leads — dedicated lead gen. Owners got screened jobs for their truck, not Angi leftovers. First ${FREE_TRIAL} per owner were free.`;
 }
 
 export function buyerIntro(buyer: Buyer, market: Market, niche: Niche) {
@@ -117,6 +115,6 @@ export function buyerIntro(buyer: Buyer, market: Market, niche: Niche) {
       ? `Paying $500 a week for the ${market.city} seat.`
       : buyer.freeRemaining > 0
         ? `${buyer.freeRemaining} free screened jobs left, then $500 a week exclusive.`
-        : `Trial used. $500 a week or we re-open the seat.`;
-  return `${buyer.name} — exclusive ${niche.name.toLowerCase()} · ${buyer.county.replace(/-/g, " ")}. Not Angi. Desk answers ${market.trackingNumber}. ${trial} Reply YES.`;
+        : `Trial used. $500 a week dedicated, or we pause.`;
+  return `${buyer.name} — your dedicated ${niche.name.toLowerCase()} lead gen · ${buyer.county.replace(/-/g, " ")}. Not Angi. Desk answers ${market.trackingNumber}. ${trial} Reply YES.`;
 }

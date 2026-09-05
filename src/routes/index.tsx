@@ -74,7 +74,7 @@ function CommandCenter() {
           <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Freedom Project Leads · two footprints</p>
           <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">Alamo. Then Cape Fear.</h1>
           <p className="max-w-xl text-sm text-muted">
-            Bexar, Comal, Guadalupe — 30 seats. Atascosa and Wilson wait. Cape Fear still has paying trucks. $500/wk exclusive.
+            Dedicated lead gen. One company per county. We screen. They get the job. $500/wk.
           </p>
         </div>
         <Button type="button" onClick={ping}>

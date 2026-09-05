@@ -175,13 +175,13 @@ export function seatSms(buyer: Buyer) {
   const area = regionOf(buyer.county) === "alamo" ? "Bexar / Comal / Guadalupe" : "Cape Fear";
   return `Bark had zero jobs in a 30-mile radius. They don't make demand here. Angi still sells your name to 4 trucks.
 
-We own the ${niche.name.toLowerCase()} page for ${county}. Freedom Project Leads answers, screens, and hands you the job — exclusive.
+Freedom Project Leads is your dedicated ${niche.name.toLowerCase()} lead gen for ${county}. We answer, we screen, we send the job to your truck — not four others.
 
-First 2 free. Then $500 a week for the ${county} seat. Pause anytime. We keep the page.
+First 2 free. Then $500 a week. Pause anytime.
 
-One truck in ${county}. ${area} only.
+One company in ${county}. ${area} only.
 
-Reply YES if you want ${county} exclusive.`;
+Reply YES if you want ${county} dedicated.`;
 }
 
 export function seatEmail(buyer: Buyer) {
@@ -189,19 +189,19 @@ export function seatEmail(buyer: Buyer) {
   const county = countyLabel(buyer.county);
   const area = regionOf(buyer.county) === "alamo" ? "Bexar, Comal, and Guadalupe" : "Cape Fear";
   const extra = regionOf(buyer.county) === "alamo" ? " Atascosa and Wilson wait." : "";
-  return `Subject: Freedom Project Leads — exclusive ${county} ${niche.name.toLowerCase()} · 2 free then $500/week
+  return `Subject: Freedom Project Leads — your dedicated ${county} ${niche.name.toLowerCase()} line · 2 free then $500/week
 
 ${buyer.name} —
 
 Bark and TaskRabbit don't create ${area} demand. Angi and Thumbtack buy Google, then sell the same name to 3–8 trucks.
 
-We own the ranking page. Call center screens every conversation. You get one hot job, not a credit pack.
+We're your dedicated lead gen. Desk screens every conversation. The job goes to your truck — not a credit pack.
 
-Seat: ${county} ${niche.name}
+Your line: ${county} ${niche.name}
 First 2 screened jobs: free
-Then: $500 a week exclusive. Overage ${money(buyer.pplRate)} if you want extra.
+Then: $500 a week dedicated. Extra jobs ${money(buyer.pplRate)} if you want them.
 
-One winner per county.${extra} Reply YES.`;
+One company per county.${extra} Reply YES.`;
 }
 
 export function nextHunt(current: HuntStatus): HuntStatus | null {

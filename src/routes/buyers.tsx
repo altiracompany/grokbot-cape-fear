@@ -58,7 +58,7 @@ function BuyersPage() {
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Freedom Project Leads</p>
           <h1 className="mt-1 font-display text-3xl font-medium tracking-tight">Hunt</h1>
           <p className="mt-2 max-w-xl text-sm text-muted">
-            Alamo first: Bexar, Comal, Guadalupe. 30 seats × $500/wk. Atascosa and Wilson wait. Cape Fear still pays.
+            Alamo first: Bexar, Comal, Guadalupe. Dedicated lead gen per company. $500/wk. Atascosa and Wilson wait.
           </p>
         </div>
         <NewBuyerDialog />

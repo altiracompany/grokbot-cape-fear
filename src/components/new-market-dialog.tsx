@@ -57,7 +57,7 @@ export function NewMarketDialog({ trigger }: { trigger?: ReactNode }) {
         <DialogHeader>
           <DialogTitle>Open a Cape Fear niche</DialogTitle>
           <DialogDescription>
-            New Hanover, Pender, Brunswick only. We own the site and the line. Owners get 2 free screened handoffs.
+            New Hanover, Pender, Brunswick only. We run the line. They get dedicated screened jobs — 2 free to start.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="grid gap-3">

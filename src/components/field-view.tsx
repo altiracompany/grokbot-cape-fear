@@ -155,7 +155,7 @@ export function MarketField({ market }: { market: Market }) {
         label="Kill-shot SMS"
         text={killShotSms(market, niche)}
         grokKind="outreach"
-        grokBrief={`Kill-shot SMS vs Angi for ${market.city} ${niche.name}. We own ${market.domain}. PPL ${money(market.pplPrice)}. Name the mill.`}
+        grokBrief={`Kill-shot SMS vs Angi for ${market.city} ${niche.name}. Dedicated lead gen. PPL ${money(market.pplPrice)}. Name the mill. Never say we own.`}
       />
     </div>
   );
@@ -187,8 +187,7 @@ export function MillsStrip() {
         <Card className="rounded-xl p-4">
           <CardTitle>Our wedge</CardTitle>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            Hyper-specific niches they list but don't rank. We own the page. We answer. One screened job, not four
-            trucks.
+            Hyper-specific niches they list but don't rank. Dedicated line. We answer. One screened job to their truck, not four.
           </p>
         </Card>
       </div>

@@ -59,7 +59,7 @@ export function NewBuyerDialog({ marketId, trigger }: { marketId?: string; trigg
         <DialogHeader>
           <DialogTitle>Claim a county seat</DialogTitle>
           <DialogDescription>
-            One owner per niche per county. 2 free jobs, then the monthly seat. They never own the page.
+            One company per niche per county. Dedicated screened jobs. 2 free, then $500 a week.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="grid gap-3">

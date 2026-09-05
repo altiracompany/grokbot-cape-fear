@@ -40,7 +40,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <aside className="fixed inset-y-0 left-0 z-30 hidden w-56 flex-col border-r border-border bg-bg px-4 py-5 md:flex">
           <Brand />
           <NavList pathname={pathname} unsold={unsold} />
-          <p className="mt-auto text-xs tracking-wide text-subtle uppercase">Own the tape. Hand the job.</p>
+          <p className="mt-auto text-xs tracking-wide text-subtle uppercase">Screen the call. Send their job.</p>
         </aside>
 
         <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-border bg-bg/90 px-4 py-3 backdrop-blur-sm md:hidden">

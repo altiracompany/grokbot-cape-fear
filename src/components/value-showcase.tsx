@@ -21,7 +21,7 @@ export function ValueShowcase({ focusId }: { focusId?: string }) {
         <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Conservative math</p>
         <h2 className="mt-1 font-display text-2xl font-medium tracking-tight">What the seat is worth</h2>
         <p className="mt-2 max-w-xl text-sm text-muted">
-          Underwritten job. Underwritten close. Slow week volume. Not a hero forecast. {money(WEEKLY_SEAT)}/wk exclusive.
+          Underwritten job. Underwritten close. Slow week volume. Not a hero forecast. {money(WEEKLY_SEAT)}/wk dedicated.
         </p>
       </div>
 

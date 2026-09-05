@@ -423,29 +423,29 @@ export function killShotSms(market: Market, niche: Niche) {
   const field = fieldFor(niche.id);
   return `You're paying Angi ${field.angiPpl} for a ${niche.name.toLowerCase()} lead 3 other trucks already called.
 
-We own ${market.domain}. Freedom Project Leads answers ${market.trackingNumber}. One screened job — name, address, urgency, tape. Not a shared ping.
+Freedom Project Leads is your dedicated ${niche.name.toLowerCase()} lead gen in ${market.city}. We answer ${market.trackingNumber}. One screened job — name, address, urgency, tape. Goes to your truck. Not a shared ping.
 
-First 2 free. Then $500 a week for the county seat.
+First 2 free. Then $500 a week dedicated.
 
 Reply YES.`;
 }
 
 export function killShotEmail(market: Market, niche: Niche) {
   const field = fieldFor(niche.id);
-  return `Subject: Freedom Project Leads — stop buying Angi ${niche.name.toLowerCase()} leftovers
+  return `Subject: Freedom Project Leads — your dedicated ${niche.name.toLowerCase()} line (stop buying Angi leftovers)
 
 ${field.why}
 
 Angi / Thumbtack / LSA sell shared inventory. You pay ${field.angiPpl}. Four trucks hit the same phone.
 
-We own ${market.domain}. We answer ${market.trackingNumber}. You get one screened handoff.
+We're your dedicated lead gen in ${market.city}. We answer ${market.trackingNumber}. You get one screened handoff — for your company.
 
-First 2 free. Then $500 a week exclusive.
+First 2 free. Then $500 a week dedicated.
 
 Do: ${field.doThis}
 Don't: ${field.dont}
 
-Reply YES for the county seat.`;
+Reply YES. We're your lead gen.`;
 }
 
 export function fieldWhy(nicheId: string) {
