@@ -20,6 +20,7 @@ import {
 import { countyLabel } from "@/lib/conversation";
 import { huntCounts, payingWeekly } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
+import { ScrubBoard } from "@/components/scrub-board";
 import { useAgency } from "@/lib/store";
 import { cn, money } from "@/lib/utils";
 import type { NextAction } from "@/lib/types";
@@ -74,13 +75,15 @@ function CommandCenter() {
           <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Freedom Project Leads · two footprints</p>
           <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">Alamo. Then Cape Fear.</h1>
           <p className="max-w-xl text-sm text-muted">
-            Dedicated lead gen. One company per county. We screen. They get the job. $500/wk.
+            $500/wk. Two free. One company. Optional $300 EDDM to 5k homes. Scrub at 5am.
           </p>
         </div>
         <Button type="button" onClick={ping}>
           Answer inbound
         </Button>
       </header>
+
+      <ScrubBoard compact />
 
       <section className="grid grid-cols-2 gap-3 md:grid-cols-5">
         {kpis.map((k) => (

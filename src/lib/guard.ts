@@ -10,6 +10,7 @@ export const DESK_PREFIX = [
   "/leads",
   "/book",
   "/guard",
+  "/scrub",
 ] as const;
 
 const PIN_HASH_KEY = "fpl-desk-pin-v1";

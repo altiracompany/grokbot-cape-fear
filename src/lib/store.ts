@@ -78,7 +78,9 @@ type AgencyState = {
   buyers: Buyer[];
   leads: Lead[];
   hydrated: boolean;
+  lastScrubAt: string | null;
   markHydrated: () => void;
+  markScrubbed: () => void;
   addMarket: (input: NewMarketInput) => string;
   updateMarket: (id: string, patch: Partial<Market>) => void;
   setScore: (id: string, score: Scorecard) => void;
@@ -130,7 +132,9 @@ export const useAgency = create<AgencyState>()(
       buyers: INITIAL_BUYERS,
       leads: INITIAL_LEADS,
       hydrated: false,
+      lastScrubAt: null,
       markHydrated: () => set({ hydrated: true }),
+      markScrubbed: () => set({ lastScrubAt: new Date().toISOString() }),
       addMarket: (input) => {
         const niche = nicheById(input.nicheId);
         const counties =
@@ -495,7 +499,7 @@ export const useAgency = create<AgencyState>()(
       name: "freedom-project-v5",
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : localStorage)),
       skipHydration: true,
-      partialize: (s) => ({ markets: s.markets, buyers: s.buyers, leads: s.leads }),
+      partialize: (s) => ({ markets: s.markets, buyers: s.buyers, leads: s.leads, lastScrubAt: s.lastScrubAt }),
     },
   ),
 );

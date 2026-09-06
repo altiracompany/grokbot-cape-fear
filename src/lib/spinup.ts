@@ -18,21 +18,21 @@ export const OFFERS: {
     label: "Dedicated",
     dueToday: WEEKLY_SEAT,
     weekly: WEEKLY_SEAT,
-    blurb: "We answer. We screen. Packet to your truck. First 2 free, then $500/wk.",
+    blurb: "The offer. We screen. You roll. 2 free, then $500/wk. One company.",
+  },
+  {
+    id: "eddm",
+    label: "EDDM",
+    dueToday: EDDM_PRICE,
+    weekly: 0,
+    blurb: `Start this week. Your ad. ${EDDM_HOMES.toLocaleString()} homes. $300.`,
   },
   {
     id: "turnkey",
     label: "Turnkey",
     dueToday: TURNKEY_SETUP,
     weekly: TURNKEY_WEEKLY,
-    blurb: "We run ads, the line, after-hours. You roll. $2,500 today, then $750/wk.",
-  },
-  {
-    id: "eddm",
-    label: "EDDM starter",
-    dueToday: EDDM_PRICE,
-    weekly: 0,
-    blurb: `Your ad on our route mailer. ${EDDM_HOMES.toLocaleString()} homes. Drop this week. Line can follow.`,
+    blurb: "Busy. We run it. $2,500 + $750/wk. Don't lead with this.",
   },
 ];
 

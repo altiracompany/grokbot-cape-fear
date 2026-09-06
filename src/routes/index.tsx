@@ -42,7 +42,7 @@ const FAQS = [
   },
   {
     q: "What does it cost?",
-    a: `Dedicated ${money(WEEKLY_SEAT)} a week after two free jobs. Turnkey is ${money(TURNKEY_SETUP)} to stand up, then ${money(TURNKEY_WEEKLY)} a week. Need jobs this week? EDDM ${money(EDDM_PRICE)} — your ad to ${EDDM_HOMES.toLocaleString()} homes.`,
+    a: `Dedicated ${money(WEEKLY_SEAT)} a week after two free jobs. Need jobs this week? EDDM ${money(EDDM_PRICE)} to ${EDDM_HOMES.toLocaleString()} homes. Turnkey is ${money(TURNKEY_SETUP)} + ${money(TURNKEY_WEEKLY)}/wk if you're slammed.`,
   },
   {
     q: "Where do you work?",
@@ -114,29 +114,19 @@ function PublicHome() {
         </div>
       </section>
 
-      <section id="offers" className="scroll-mt-24 grid gap-4 border-t border-border py-16 md:grid-cols-3">
+      <section id="offers" className="scroll-mt-24 grid gap-4 border-t border-border py-16 md:grid-cols-2">
         <Card className="rounded-2xl p-8">
-          <p className="font-mono text-xs tracking-wider text-subtle uppercase">Dedicated</p>
+          <p className="font-mono text-xs tracking-wider text-subtle uppercase">The offer</p>
           <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(WEEKLY_SEAT)}/wk</p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            We answer. We screen. Packet to your truck. First two free. For owners already buying leads.
+            Two jobs free. Then $500 a week. One company. We screen. You roll.
           </p>
         </Card>
         <Card className="rounded-2xl p-8">
-          <p className="font-mono text-xs tracking-wider text-subtle uppercase">Turnkey · busy professionals</p>
-          <p className="mt-3 font-display text-4xl font-medium tracking-tight">
-            {money(TURNKEY_SETUP)} + {money(TURNKEY_WEEKLY)}/wk
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-muted">
-            We run ads, the line, after-hours. You only roll. Checkbook close.
-          </p>
-        </Card>
-        <Card className="rounded-2xl p-8">
-          <p className="font-mono text-xs tracking-wider text-subtle uppercase">EDDM · start this week</p>
+          <p className="font-mono text-xs tracking-wider text-subtle uppercase">Start this week</p>
           <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(EDDM_PRICE)}</p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            Your ad on our route mailer. {EDDM_HOMES.toLocaleString()} homes. Drop while the phone line ramps. One
-            company on the piece.
+            EDDM. Your ad to {EDDM_HOMES.toLocaleString()} homes. Mail while the line ramps.
           </p>
         </Card>
       </section>

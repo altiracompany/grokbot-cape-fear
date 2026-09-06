@@ -148,7 +148,7 @@ function Playbook() {
       {tab === "Offers" ? (
         <div className="grid gap-4">
           <p className="text-sm text-muted">
-            Other models don't matter until a phone rings. Dedicated, Turnkey, or EDDM to start this week.
+            The offer is $500/wk. Two free. EDDM $300 if they need jobs this week. Turnkey only if they're slammed.
           </p>
           <div className="grid gap-3 md:grid-cols-3">
             <Card>
@@ -183,11 +183,11 @@ function Playbook() {
             </Card>
           </div>
           <Card>
-            <CardTitle>Live this week — ignore the rest</CardTitle>
+            <CardTitle>5am scrub</CardTitle>
             <ol className="mt-3 grid gap-2 text-sm text-muted">
-              <li>1. Cove 210 + 830. Desk answers.</li>
-              <li>2. Outscraper: 10 real Comal septic phones. Text Dedicated. Slammed → Turnkey. Want jobs this week → EDDM $300.</li>
-              <li>3. First YES: spin /go. Mail drop if they paid EDDM.</li>
+              <li>1. Screen overnight. Handoff hot.</li>
+              <li>2. Collect trials that burned 2 free.</li>
+              <li>3. Drop sold EDDM. Text 10 opens. Mark scrubbed.</li>
             </ol>
           </Card>
         </div>

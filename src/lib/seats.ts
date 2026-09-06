@@ -172,16 +172,13 @@ export function huntCounts(buyers: Buyer[], region?: Region | "all") {
 export function seatSms(buyer: Buyer) {
   const niche = nicheById(buyer.nicheId);
   const county = countyLabel(buyer.county);
-  const area = regionOf(buyer.county) === "alamo" ? "Bexar / Comal / Guadalupe" : "Cape Fear";
-  return `Bark had zero jobs in a 30-mile radius. They don't make demand here. Angi still sells your name to 4 trucks.
+  return `Angi still sells your name to 4 trucks.
 
-Freedom Project Leads is your dedicated ${niche.name.toLowerCase()} lead gen for ${county}. We answer, we screen, we send the job to your truck — not four others.
+Dedicated ${niche.name.toLowerCase()} lead gen for ${county}. We screen. You roll. First 2 free, then $500/wk.
 
-First 2 free. Then $500 a week. Pause anytime.
+Need jobs this week? $300 EDDM · 5,000 homes.
 
-One company in ${county}. ${area} only.
-
-Reply YES if you want ${county} dedicated.`;
+Reply YES or MAIL.`;
 }
 
 export function seatEmail(buyer: Buyer) {

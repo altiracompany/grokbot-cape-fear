@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Headset, LayoutGrid, Menu, MessageSquare, Shield, Users } from "lucide-react";
+import { Headset, LayoutGrid, Menu, MessageSquare, Sunrise, Users } from "lucide-react";
 import { Toaster } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -14,10 +14,10 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/desk", label: "Desk", icon: LayoutGrid },
+  { to: "/scrub", label: "Scrub", icon: Sunrise },
   { to: "/outreach", label: "Send", icon: MessageSquare },
   { to: "/queue", label: "Queue", icon: Headset },
   { to: "/buyers", label: "Hunt", icon: Users },
-  { to: "/guard", label: "Guard", icon: Shield },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -150,6 +150,9 @@ function NavList({ pathname, unsold }: { pathname: string; unsold: number }) {
           </Link>
         );
       })}
+      <Link to="/guard" className="px-3 text-xs text-subtle hover:text-muted">
+        Guard
+      </Link>
       <Link to="/playbook" className="px-3 text-xs text-subtle hover:text-muted">
         Playbook
       </Link>

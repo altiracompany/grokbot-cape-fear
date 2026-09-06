@@ -111,7 +111,7 @@ function GoPage() {
       <section className="grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:py-16">
         <div>
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Start now</p>
-          <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">Pay. Line live. Jobs on your phone.</h1>
+          <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">$500 a week. Two free. Mail this week if you want.</h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
             One company per county. Cove answers. We screen. Need jobs this week? Add EDDM — {money(EDDM_PRICE)} puts
             your ad in {EDDM_HOMES.toLocaleString()} homes on the route.
