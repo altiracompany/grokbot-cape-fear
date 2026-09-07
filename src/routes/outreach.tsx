@@ -54,7 +54,7 @@ function OutreachPage() {
   function copyOnly() {
     if (!body) return;
     void navigator.clipboard.writeText(body);
-    toast.success("Copied. Paste into OpenPhone from the " + lineId + " line.");
+    toast.success("Copied. Paste into Cove from the " + lineId + " line.");
   }
 
   return (

@@ -75,14 +75,23 @@ export function emptyPayLinks(): PayLinks {
 }
 
 export function loadPayLinks(): PayLinks {
-  if (typeof window === "undefined") return emptyPayLinks();
+  const env: PayLinks = {
+    dedicated: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_DEDICATED) || "",
+    turnkey: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_TURNKEY) || "",
+    eddm: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_EDDM) || "",
+  };
+  if (typeof window === "undefined") return env;
   try {
     const raw = window.localStorage.getItem(PAY_KEY);
-    if (!raw) return emptyPayLinks();
+    if (!raw) return env;
     const parsed = JSON.parse(raw) as Partial<PayLinks>;
-    return { dedicated: parsed.dedicated ?? "", turnkey: parsed.turnkey ?? "", eddm: parsed.eddm ?? "" };
+    return {
+      dedicated: parsed.dedicated || env.dedicated,
+      turnkey: parsed.turnkey || env.turnkey,
+      eddm: parsed.eddm || env.eddm,
+    };
   } catch {
-    return emptyPayLinks();
+    return env;
   }
 }
 
