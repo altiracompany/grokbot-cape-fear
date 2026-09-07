@@ -6,12 +6,12 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-view";
 import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
-import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { COMMENT_BANK, ICP_PAGES } from "@/lib/comments";
 import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
 
-const TABS = ["Field", "Rules", "Value", "Offers"] as const;
+const TABS = ["Field", "Rules", "Value", "Offers", "Comments"] as const;
 
 function Playbook() {
   const resetDesk = useAgency((s) => s.resetDesk);
@@ -187,9 +187,45 @@ function Playbook() {
             <ol className="mt-3 grid gap-2 text-sm text-muted">
               <li>1. Screen overnight. Handoff hot.</li>
               <li>2. Collect trials that burned 2 free.</li>
-              <li>3. Drop sold EDDM. Text 10 opens. Mark scrubbed.</li>
+              <li>3. Drop sold EDDM. Text 10. Comment 8 on ICP pages. Mark scrubbed.</li>
             </ol>
           </Card>
+        </div>
+      ) : null}
+
+      {tab === "Comments" ? (
+        <div className="grid gap-4">
+          <p className="text-sm text-muted">
+            8 comments after 5am scrub. No links. No “check my site.” Value first. Pitch only if they ask.
+          </p>
+          <Card>
+            <CardTitle>Pages they actually follow</CardTitle>
+            <ul className="mt-3 grid gap-3">
+              {ICP_PAGES.map((p) => (
+                <li key={p.name} className="text-sm">
+                  <span className="font-medium">{p.name}</span>
+                  <span className="block text-muted">{p.why} · {p.rule}</span>
+                </li>
+              ))}
+            </ul>
+          </Card>
+          {COMMENT_BANK.map((c) => (
+            <Card key={c.on}>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">{c.on}</p>
+              <p className="mt-2 text-sm leading-relaxed">{c.text}</p>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-3 h-10"
+                onClick={() => {
+                  void navigator.clipboard.writeText(c.text);
+                  toast.success("Copied.");
+                }}
+              >
+                Copy
+              </Button>
+            </Card>
+          ))}
         </div>
       ) : null}
     </main>
