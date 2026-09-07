@@ -7,13 +7,14 @@ import { scriptCall } from "./conversation";
 import { cityForCounties, defaultHoods } from "./territory";
 import { domainFor, trackingFor, uid } from "./utils";
 import { INITIAL_BUYERS, INITIAL_LEADS, INITIAL_MARKETS, inferCounty, withRolledUpCounts } from "./seed";
-import { FREE_TRIAL } from "./types";
+import { FREE_TRIAL, COUNTIES } from "./types";
 import { marketIdForNiche, nextHunt } from "./seats";
 import type {
   Buyer,
   BuyerStatus,
   CallTurn,
   County,
+  HandoffTarget,
   HuntStatus,
   Lead,
   LeadStatus,
@@ -52,6 +53,10 @@ type SpinInput = {
   code: string;
   paid: boolean;
   eddm?: boolean;
+  handoffTo?: HandoffTarget;
+  handoffName?: string;
+  handoffEmail?: string;
+  handoffPhone?: string;
 };
 
 type NewLeadInput = {
@@ -297,6 +302,10 @@ export const useAgency = create<AgencyState>()(
           offer: input.offer,
           liveCode: input.code,
           eddm: wantsEddm,
+          handoffTo: input.handoffTo ?? "founder",
+          handoffName: (input.handoffName ?? input.name).trim(),
+          handoffEmail: (input.handoffEmail ?? input.email).trim(),
+          handoffPhone: (input.handoffPhone ?? input.phone).trim(),
         };
         set({ buyers: [buyer, ...get().buyers] });
         return id;
@@ -361,6 +370,7 @@ export const useAgency = create<AgencyState>()(
                   hood,
                   service: input.service.trim() || niche.services[0] || niche.name,
                   tracking: market.trackingNumber,
+                  counties: market.counties.map((c) => COUNTIES.find((x) => x.id === c)?.label ?? c),
                 })
               : [],
           screenNotes: "",
@@ -482,6 +492,7 @@ export const useAgency = create<AgencyState>()(
             hood,
             service,
             tracking: market.trackingNumber,
+            counties: market.counties.map((c) => COUNTIES.find((x) => x.id === c)?.label ?? c),
           }),
           screenNotes: "",
         };

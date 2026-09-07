@@ -89,6 +89,8 @@ export type Market = {
   siteLiveAt?: string;
 };
 
+export type HandoffTarget = "founder" | "inbox" | "team";
+
 export type Buyer = {
   id: string;
   name: string;
@@ -111,6 +113,10 @@ export type Buyer = {
   offer?: "dedicated" | "turnkey" | "eddm";
   liveCode?: string;
   eddm?: boolean;
+  handoffTo?: HandoffTarget;
+  handoffName?: string;
+  handoffEmail?: string;
+  handoffPhone?: string;
 };
 
 export type CallTurn = {

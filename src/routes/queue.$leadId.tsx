@@ -136,7 +136,7 @@ function CallDesk() {
               lead.conversation.map((t, i) => (
                 <li key={`${t.at}-${i}`} className="grid gap-1">
                   <p className="font-mono text-xs text-subtle">
-                    {t.at} · {t.speaker === "agent" ? "Desk" : "Caller"}
+                    {t.at} · {t.speaker === "agent" ? "AI desk" : "Caller"}
                   </p>
                   <p
                     className={cn(
@@ -159,7 +159,7 @@ function CallDesk() {
                   variant={speaker === "agent" ? "default" : "secondary"}
                   onClick={() => setSpeaker("agent")}
                 >
-                  Desk
+                  AI desk
                 </Button>
                 <Button
                   type="button"
@@ -174,7 +174,7 @@ function CallDesk() {
                 <Input
                   value={turn}
                   onChange={(e) => setTurn(e.target.value)}
-                  placeholder="Log the next turn. We own this tape."
+                  placeholder="Log the next interview turn."
                 />
                 <Button type="submit" size="sm" className="shrink-0">
                   Capture

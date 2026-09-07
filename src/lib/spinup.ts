@@ -1,4 +1,4 @@
-import { COUNTIES, type County } from "./types";
+import { COUNTIES, type County, type HandoffTarget } from "./types";
 import { HOME_NICHES, RSVP_NICHES, SEAT_NICHES, countyLabel, marketIdForNiche, type SeatNicheId } from "./seats";
 import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
 import { nicheById } from "./niches";
@@ -115,6 +115,10 @@ export type PendingSpin = {
   nicheId: SeatNicheId;
   offer: OfferId;
   eddm: boolean;
+  handoffTo: HandoffTarget;
+  handoffName: string;
+  handoffEmail: string;
+  handoffPhone: string;
 };
 
 export function stashPending(p: PendingSpin) {

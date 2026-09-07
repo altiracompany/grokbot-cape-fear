@@ -426,6 +426,10 @@ export const SEED_BUYERS: Buyer[] = HUNT.map((row) => {
     status: huntStatus(row.hunt),
     hunt: row.hunt,
     notes: row.notes,
+    handoffTo: "founder",
+    handoffName: row.name,
+    handoffEmail: row.email,
+    handoffPhone: row.phone,
     freeRemaining: row.hunt === "paying" ? 0 : FREE_TRIAL,
     freeUsed: row.hunt === "paying" ? FREE_TRIAL : row.id === "by-storm" ? 1 : 0,
   });
@@ -451,7 +455,7 @@ const LEAD_SEEDS: LeadSeed[] = [
     urgency: "now",
     screenNotes: "Brunswick. Sewage in yard. Home now. Not a realtor. Wants a truck today.",
     conversation: turns([
-      ["0:00", "agent", "Freedom Project Leads, septic, this is the desk. You're on 910-555-0144."],
+      ["0:00", "agent", "Freedom Project interview desk. I'm an AI. You're on 910-555-0144. I'll send this to one local septic company if it's a real job."],
       ["0:07", "caller", "This is Carla in Leland. Sewage is in the yard. Both bathrooms are down."],
       ["0:16", "agent", "How long, and can a truck get in?"],
       ["0:20", "caller", "Since this morning. Driveway's clear. I'm home."],

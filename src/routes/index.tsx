@@ -5,16 +5,12 @@ import { Card } from "@/components/ui/card";
 import { PublicFrame } from "@/components/public-frame";
 import { BRAND, BRAND_PUBLIC, PUBLIC_AREAS, PUBLIC_URL } from "@/lib/brand";
 import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { HOW_STEPS } from "@/lib/how";
 import { money } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({ component: PublicHome });
 
-const STEPS = [
-  { n: "01", t: "Someone needs the job", d: "Quince date. Bounce house Saturday. Septic backup. They call." },
-  { n: "02", t: "We answer and screen", d: "County, address, what's wrong, can you be there. Tape on every call." },
-  { n: "03", t: "You get the packet", d: "Name, phone, job, urgency. One company. Not four trucks on the same ping." },
-  { n: "04", t: "You roll", d: "That's the whole product. Dedicated lead gen. Pause anytime." },
-];
+const STEPS = HOW_STEPS;
 
 const NICHES = [
   "Fence",
@@ -36,6 +32,10 @@ const FAQS = [
   {
     q: "Is this Angi or Thumbtack?",
     a: "No. Those sell the same name to 3–8 trucks. You pay whether you win. We send one screened job to you.",
+  },
+  {
+    q: "Is a person on the phone?",
+    a: "The interview desk is AI. It says so on the first line. County, address, job, can they be there. Tape goes to your inbox, your team, or you — you pick. Hot or warm only.",
   },
   {
     q: "Do you work my website?",

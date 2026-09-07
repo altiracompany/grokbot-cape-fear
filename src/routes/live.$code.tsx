@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PublicFrame } from "@/components/public-frame";
 import { offerById } from "@/lib/spinup";
+import { handoffDest, HOW_STEPS, sourceLine } from "@/lib/how";
 import { countyLabel } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
@@ -34,6 +35,10 @@ function LivePage() {
       code,
       paid: true,
       eddm: buyer.eddm,
+      handoffTo: buyer.handoffTo,
+      handoffName: buyer.handoffName,
+      handoffEmail: buyer.handoffEmail,
+      handoffPhone: buyer.handoffPhone,
     });
   }, [hydrated, paid, buyer, code, spinUp]);
 
@@ -62,6 +67,7 @@ function LivePage() {
   const niche = nicheById(buyer.nicheId);
   const offer = offerById(buyer.offer ?? "dedicated");
   const jobs = leads.filter((l) => l.soldToBuyerId === buyer.id);
+  const dest = handoffDest(buyer);
   const inbound = leads.filter(
     (l) => l.marketId === buyer.marketIds[0] && (l.screen === "hot" || l.screen === "warm") && l.status === "new",
   );
@@ -75,9 +81,19 @@ function LivePage() {
             {countyLabel(buyer.county)} {niche.name}
           </h1>
           <p className="mt-2 text-sm text-muted">
-            Dedicated lead gen. Cove answers. We screen. Jobs land here and we text {buyer.phone}.
+            AI interview. Packet to {dest.label}. SMS {dest.phone}. Inbox {dest.email}.
           </p>
         </div>
+
+        <ol className="grid gap-3 sm:grid-cols-2">
+          {HOW_STEPS.map((s) => (
+            <li key={s.n} className="rounded-xl bg-surface px-4 py-3 shadow-[var(--shadow-border)]">
+              <p className="font-mono text-xs text-subtle">{s.n}</p>
+              <p className="mt-1 text-sm font-medium">{s.t}</p>
+              <p className="mt-1 text-xs text-muted">{s.d}</p>
+            </li>
+          ))}
+        </ol>
 
         <div className="grid gap-3 sm:grid-cols-3">
           <Card className="rounded-xl p-5">
@@ -126,6 +142,12 @@ function LivePage() {
                   {l.service}
                   {l.urgency ? ` · ${l.urgency}` : ""}
                 </p>
+                <p className="mt-1 text-xs text-subtle">{sourceLine(l.source)}</p>
+                {l.conversation.length ? (
+                  <p className="mt-2 text-xs text-muted">
+                    AI: {l.conversation.find((t) => t.speaker === "agent")?.text}
+                  </p>
+                ) : null}
                 {l.address ? <p className="mt-1 text-sm text-muted">{l.address}</p> : null}
               </Card>
             ))}

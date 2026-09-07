@@ -23,7 +23,8 @@ import { countyLabel } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
 import { cn, money } from "@/lib/utils";
-import type { County } from "@/lib/types";
+import { HANDOFF_OPTIONS, HOW_STEPS } from "@/lib/how";
+import type { County, HandoffTarget } from "@/lib/types";
 
 export const Route = createFileRoute("/go")({ component: GoPage });
 
@@ -39,6 +40,10 @@ function GoPage() {
   const [nicheId, setNicheId] = useState<(typeof GO_NICHES)[number]>("septic");
   const [offer, setOffer] = useState<OfferId>("dedicated");
   const [addEddm, setAddEddm] = useState(false);
+  const [handoffTo, setHandoffTo] = useState<HandoffTarget>("founder");
+  const [teamName, setTeamName] = useState("");
+  const [teamPhone, setTeamPhone] = useState("");
+  const [teamEmail, setTeamEmail] = useState("");
   const [busy, setBusy] = useState(false);
 
   const taken = useMemo(
@@ -60,6 +65,9 @@ function GoPage() {
 
   function start() {
     const code = makeLiveCode();
+    const destName = handoffTo === "team" ? teamName || name : name;
+    const destPhone = handoffTo === "team" ? teamPhone || phone : phone;
+    const destEmail = handoffTo === "inbox" ? email : handoffTo === "team" ? teamEmail || email : email;
     const id = spinUp({
       name,
       company,
@@ -71,12 +79,30 @@ function GoPage() {
       code,
       paid: false,
       eddm: eddmOn,
+      handoffTo,
+      handoffName: destName,
+      handoffEmail: destEmail,
+      handoffPhone: destPhone,
     });
     if (!id) {
       toast.error("That county is taken. Pick another.");
       return null;
     }
-    stashPending({ code, name, company, phone, email, county, nicheId, offer, eddm: eddmOn });
+    stashPending({
+      code,
+      name,
+      company,
+      phone,
+      email,
+      county,
+      nicheId,
+      offer,
+      eddm: eddmOn,
+      handoffTo,
+      handoffName: destName,
+      handoffEmail: destEmail,
+      handoffPhone: destPhone,
+    });
     return code;
   }
 
@@ -113,8 +139,8 @@ function GoPage() {
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Start now</p>
           <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">$500 a week. Two free. Mail this week if you want.</h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-            One company per county. Cove answers. We screen. Need jobs this week? Add EDDM — {money(EDDM_PRICE)} puts
-            your ad in {EDDM_HOMES.toLocaleString()} homes on the route.
+            One company per county. We tell you how the phone rang. AI interviews. Packet to your inbox, your team, or
+            you. Need jobs this week? EDDM — {money(EDDM_PRICE)} to {EDDM_HOMES.toLocaleString()} homes.
           </p>
           <form onSubmit={submit} className="mt-10 grid gap-4">
             <Field label="Your name" htmlFor="n">
@@ -129,6 +155,38 @@ function GoPage() {
             <Field label="Email" htmlFor="e">
               <Input id="e" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
             </Field>
+            <fieldset className="grid gap-2">
+              <legend className="text-xs tracking-wider text-muted uppercase">Who gets the job</legend>
+              <div className="grid gap-2 sm:grid-cols-3">
+                {HANDOFF_OPTIONS.map((h) => (
+                  <button
+                    key={h.id}
+                    type="button"
+                    onClick={() => setHandoffTo(h.id)}
+                    className={cn(
+                      "rounded-xl px-3 py-3 text-left text-sm shadow-[var(--shadow-border)]",
+                      handoffTo === h.id ? "bg-elevated" : "bg-surface",
+                    )}
+                  >
+                    <span className="block font-medium">{h.label}</span>
+                    <span className="block text-xs text-muted">{h.blurb}</span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+            {handoffTo === "team" ? (
+              <div className="grid gap-4 sm:grid-cols-3">
+                <Field label="Team name" htmlFor="tn">
+                  <Input id="tn" value={teamName} onChange={(e) => setTeamName(e.target.value)} placeholder="Dispatcher" />
+                </Field>
+                <Field label="Team mobile" htmlFor="tp">
+                  <Input id="tp" value={teamPhone} onChange={(e) => setTeamPhone(e.target.value)} inputMode="tel" />
+                </Field>
+                <Field label="Team inbox" htmlFor="te">
+                  <Input id="te" type="email" value={teamEmail} onChange={(e) => setTeamEmail(e.target.value)} />
+                </Field>
+              </div>
+            ) : null}
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="County" htmlFor="co">
                 <select
@@ -194,6 +252,13 @@ function GoPage() {
           </form>
         </div>
         <div className="grid gap-3 content-start">
+          {HOW_STEPS.map((s) => (
+            <Card key={s.n} className="rounded-xl p-5">
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">{s.n}</p>
+              <p className="mt-1 text-sm font-medium">{s.t}</p>
+              <p className="mt-1 text-sm text-muted">{s.d}</p>
+            </Card>
+          ))}
           {OFFERS.map((o) => (
             <button
               key={o.id}
