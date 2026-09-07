@@ -7,6 +7,7 @@ import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-v
 import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
 import { COMMENT_BANK, ICP_PAGES } from "@/lib/comments";
+import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
