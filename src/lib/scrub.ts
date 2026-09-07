@@ -116,7 +116,7 @@ export function runScrub(buyers: Buyer[], leads: Lead[], _markets: Market[]): Sc
   }
 
   const opens = buyers.filter((b) => b.hunt === "open" && ["comal", "bexar", "guadalupe"].includes(b.county));
-  const priority = ["quince", "bounce", "dj", "catering", "septic", "generator"];
+  const priority = ["fence", "gutter", "foundation", "quince", "bounce", "septic", "wash"];
   const first = opens
     .slice()
     .sort((a, b) => priority.indexOf(a.nicheId) - priority.indexOf(b.nicheId) || a.county.localeCompare(b.county));

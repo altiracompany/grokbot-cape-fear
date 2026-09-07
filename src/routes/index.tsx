@@ -17,15 +17,15 @@ const STEPS = [
 ];
 
 const NICHES = [
-  "Septic",
+  "Fence",
+  "Foundation",
+  "Gutters",
+  "Windows",
+  "Pressure wash",
+  "Landscaper",
+  "Mobile detail",
   "Quinceañera",
-  "Bounce house",
-  "DJ",
-  "Catering",
-  "Party rental",
-  "Standby generator",
-  "Well pump",
-  "Pool",
+  "Septic",
 ];
 
 const FAQS = [

@@ -1,7 +1,7 @@
 import { inferCountyFromHood } from "./territory";
 import { monthlySeat, pplPrice } from "./pricing";
 import { nicheById } from "./niches";
-import { HUNT, RSVP_NICHES, SEAT_NICHES, marketIdForNiche } from "./seats";
+import { HUNT, HOME_NICHES, RSVP_NICHES, SEAT_NICHES, marketIdForNiche } from "./seats";
 import { domainFor } from "./utils";
 import { FREE_TRIAL } from "./types";
 import type { Buyer, CallTurn, County, HuntStatus, Lead, Market } from "./types";
@@ -52,9 +52,17 @@ const ALAMO_NOTES: Record<string, string> = {
   dj: "Quince + wedding DJ. The Knot mill. One county exclusive.",
   catering: "Event food. Steal WeddingWire overflow. High ticket.",
   rental: "Tents and chairs. Don't fight Aztec on brand. Own the county lead.",
+  fence: "Privacy cedar. Angi shares 5 crews. Exclusive county.",
+  gc: "Kitchen/bath one-crew. Not new-home GCs. Unincorporated + Comal.",
+  foundation: "Clay + slab. Angi mill is fat. Don't fight Olshan on brand.",
+  windows: "Replace + hail. Not Renewal by Andersen.",
+  gutter: "Storm dump + replace. Thin mill. Volume + ticket.",
+  wash: "House and driveway. Thumbtack leftover. Weekend volume.",
+  detail: "Mobile. RSVP auto bucket. We come to the HOA.",
+  landscape: "Mow + clean-up. Recurring. Don't price-fight franchises.",
 };
 
-const ALAMO_MARKETS: Market[] = [...SEAT_NICHES, ...RSVP_NICHES].map((id, i) => {
+const ALAMO_MARKETS: Market[] = [...SEAT_NICHES, ...RSVP_NICHES, ...HOME_NICHES].map((id, i) => {
   const niche = nicheById(id);
   return m({
     id: `alamo-${id}`,

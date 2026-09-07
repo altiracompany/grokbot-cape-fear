@@ -19,7 +19,13 @@ export const SEAT_NICHES = [
 
 export const RSVP_NICHES = ["quince", "bounce", "dj", "catering", "rental"] as const;
 
-export type SeatNicheId = (typeof SEAT_NICHES)[number] | (typeof RSVP_NICHES)[number];
+/** RSVP Home Improvement / Home Services / Automotive advertisers. Alamo only. */
+export const HOME_NICHES = ["fence", "gc", "foundation", "windows", "gutter", "wash", "detail", "landscape"] as const;
+
+export type SeatNicheId =
+  | (typeof SEAT_NICHES)[number]
+  | (typeof RSVP_NICHES)[number]
+  | (typeof HOME_NICHES)[number];
 
 export type HuntSeat = {
   id: string;
@@ -151,6 +157,38 @@ export const HUNT_ALAMO: HuntSeat[] = [
   { id: "tx-nb-rent", nicheId: "rental", county: "comal", name: "Brett Tents", company: "Comal Party Rent", phone: "(830) 555-6101", email: "brett@comalpartyrent.example", hunt: "open", notes: "Tents + chairs. Weekend only. Exclusive county." },
   { id: "tx-sa-rent", nicheId: "rental", county: "bexar", name: "Paola Linens", company: "Alamo Event Rent", phone: "(210) 555-6108", email: "paola@alamoeventrent.example", hunt: "open", notes: "Bexar tents. Don't fight Aztec." },
   { id: "tx-schertz-rent", nicheId: "rental", county: "guadalupe", name: "Hank Chairs", company: "Cibolo Tent Co", phone: "(210) 555-6114", email: "hank@cibolotent.example", hunt: "open", notes: "Schertz / Cibolo backyard + quince." },
+
+  { id: "tx-nb-fence", nicheId: "fence", county: "comal", name: "Dale Fences", company: "Comal Cedar", phone: "(830) 555-7101", email: "dale@comalcedar.example", hunt: "open", notes: "Comal privacy fence. Angi shares 5 crews." },
+  { id: "tx-sa-fence", nicheId: "fence", county: "bexar", name: "Ray Posts", company: "Northside Fence", phone: "(210) 555-7108", email: "ray@northsidefence.example", hunt: "open", notes: "North Bexar. Don't fight the big iron shops downtown." },
+  { id: "tx-seguin-fence", nicheId: "fence", county: "guadalupe", name: "Milo Gates", company: "Seguin Fence Co", phone: "(830) 555-7114", email: "milo@seguinfence.example", hunt: "open", notes: "Seguin / Cibolo wood + gate." },
+
+  { id: "tx-nb-gc", nicheId: "gc", county: "comal", name: "Todd Remodel", company: "Braunfels Build", phone: "(830) 555-7201", email: "todd@braunfelsbuild.example", hunt: "open", notes: "Comal kitchen/bath. Not new-home GCs." },
+  { id: "tx-sa-gc", nicheId: "gc", county: "bexar", name: "Marco Additions", company: "Helotes GC", phone: "(210) 555-7208", email: "marco@helotesgc.example", hunt: "open", notes: "Unincorporated Bexar remodel. Skip downtown high-rise." },
+  { id: "tx-cibolo-gc", nicheId: "gc", county: "guadalupe", name: "Pete Crew", company: "Cibolo Remodel", phone: "(210) 555-7214", email: "pete@ciboloremodel.example", hunt: "open", notes: "Schertz / Cibolo one-crew remodel." },
+
+  { id: "tx-nb-found", nicheId: "foundation", county: "comal", name: "Clay Piers", company: "Hill Country Level", phone: "(830) 555-7301", email: "clay@hclevel.example", hunt: "open", notes: "Comal clay. Angi mill is fat. Exclusive county." },
+  { id: "tx-sa-found", nicheId: "foundation", county: "bexar", name: "Hank Slab", company: "Alamo Piers", phone: "(210) 555-7308", email: "hank@alamopiers.example", hunt: "open", notes: "North Bexar slab. Don't fight Olshan on brand." },
+  { id: "tx-seguin-found", nicheId: "foundation", county: "guadalupe", name: "Wes Crack", company: "Seguin Foundation", phone: "(830) 555-7314", email: "wes@seguinfoundation.example", hunt: "open", notes: "Guadalupe level + inspect." },
+
+  { id: "tx-nb-win", nicheId: "windows", county: "comal", name: "Iris Glass", company: "Gruene Windows", phone: "(830) 555-7401", email: "iris@gruenewindows.example", hunt: "open", notes: "Comal replace. Hail leftover." },
+  { id: "tx-sa-win", nicheId: "windows", county: "bexar", name: "Paul Panes", company: "Stone Oak Windows", phone: "(210) 555-7408", email: "paul@stoneoakwindows.example", hunt: "open", notes: "North Bexar energy replace. Not Renewal by Andersen." },
+  { id: "tx-schertz-win", nicheId: "windows", county: "guadalupe", name: "Nina Sash", company: "Schertz Glass Co", phone: "(210) 555-7414", email: "nina@schertzglass.example", hunt: "open", notes: "Schertz / Cibolo one-day swap." },
+
+  { id: "tx-nb-gutter", nicheId: "gutter", county: "comal", name: "Gus Downs", company: "Comal Gutters", phone: "(830) 555-7501", email: "gus@comalgutters.example", hunt: "open", notes: "Storm dump + replace. Thin mill." },
+  { id: "tx-sa-gutter", nicheId: "gutter", county: "bexar", name: "Lane Fascia", company: "Northside Gutters", phone: "(210) 555-7508", email: "lane@northsidegutters.example", hunt: "open", notes: "North Bexar clean + guard." },
+  { id: "tx-seguin-gutter", nicheId: "gutter", county: "guadalupe", name: "Bo Spout", company: "Seguin Gutter Co", phone: "(830) 555-7514", email: "bo@seguingutter.example", hunt: "open", notes: "Guadalupe storm follow-up." },
+
+  { id: "tx-nb-wash", nicheId: "wash", county: "comal", name: "Jet Wash", company: "Braunfels Pressure", phone: "(830) 555-7601", email: "jet@braunfelspressure.example", hunt: "open", notes: "House + driveway. Thumbtack leftover." },
+  { id: "tx-sa-wash", nicheId: "wash", county: "bexar", name: "Soft Roof", company: "Alamo Soft Wash", phone: "(210) 555-7608", email: "soft@alamosoftwash.example", hunt: "open", notes: "North Bexar house wash. Volume." },
+  { id: "tx-cibolo-wash", nicheId: "wash", county: "guadalupe", name: "Pam Drive", company: "Cibolo Wash Co", phone: "(210) 555-7614", email: "pam@cibolowash.example", hunt: "open", notes: "Schertz / Cibolo HOA + driveway." },
+
+  { id: "tx-nb-detail", nicheId: "detail", county: "comal", name: "Mobile Shine", company: "Comal Mobile Detail", phone: "(830) 555-7701", email: "shine@comaldetail.example", hunt: "open", notes: "We come to you. RSVP auto bucket." },
+  { id: "tx-sa-detail", nicheId: "detail", county: "bexar", name: "Fleet Buff", company: "Stone Oak Detail", phone: "(210) 555-7708", email: "fleet@stoneoakdetail.example", hunt: "open", notes: "North Bexar mobile + fleet." },
+  { id: "tx-schertz-detail", nicheId: "detail", county: "guadalupe", name: "Wax Van", company: "Schertz Mobile Wash", phone: "(210) 555-7714", email: "wax@schertzmobile.example", hunt: "open", notes: "Schertz / Cibolo HOA driveways." },
+
+  { id: "tx-nb-land", nicheId: "landscape", county: "comal", name: "Yard Crew", company: "Gruene Lawn", phone: "(830) 555-7801", email: "yard@gruenelawn.example", hunt: "open", notes: "Comal mow + clean-up. Recurring." },
+  { id: "tx-sa-land", nicheId: "landscape", county: "bexar", name: "Mulch Route", company: "Helotes Landscape", phone: "(210) 555-7808", email: "mulch@heloteslandscape.example", hunt: "open", notes: "North Bexar weekly. Don't fight the big mow franchises on price." },
+  { id: "tx-cibolo-land", nicheId: "landscape", county: "guadalupe", name: "Sprinkler Joe", company: "Cibolo Green", phone: "(210) 555-7814", email: "joe@cibologreen.example", hunt: "open", notes: "Schertz / Cibolo mow + irrigation." },
 ];
 
 export const HUNT: HuntSeat[] = [...HUNT_CAPE, ...HUNT_ALAMO];

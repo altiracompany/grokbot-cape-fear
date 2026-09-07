@@ -496,7 +496,7 @@ export const useAgency = create<AgencyState>()(
         }),
     }),
     {
-      name: "freedom-project-v6",
+      name: "freedom-project-v7",
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : localStorage)),
       skipHydration: true,
       partialize: (s) => ({ markets: s.markets, buyers: s.buyers, leads: s.leads, lastScrubAt: s.lastScrubAt }),

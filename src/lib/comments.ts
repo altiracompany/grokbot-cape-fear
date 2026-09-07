@@ -37,6 +37,10 @@ export const COMMENT_BANK = [
     text: "Comal and Guadalupe still have one-truck shops that actually pick up. Downtown SA LSA is a knife fight. Work the county they live in, not the metro they Google.",
   },
   {
+    on: "Fence / foundation / gutter / windows rant",
+    text: "Angi still dumps the same fence or foundation job on 5 crews. First one to bid cheap wins a race, not a job. Exclusive county. Screen for address and timeline before you roll. Cost per booked job is the only number.",
+  },
+  {
     on: "After they reply / ask what you do",
     text: "Dedicated lead gen. One company per county. We screen. You roll. First 2 free, then $500/wk. Mail this week is $300 EDDM · 5k homes, your name only. Not a pack.",
   },
