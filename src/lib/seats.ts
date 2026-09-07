@@ -3,7 +3,7 @@ import { nicheById } from "./niches";
 import { MONTHLY_SEAT, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
 import { money } from "./utils";
 
-/** 10 niches we actually sell. 3 counties. 30 exclusive monthly seats. */
+/** 10 truck niches. RSVP lane is extra Alamo inventory. */
 export const SEAT_NICHES = [
   "septic",
   "generator",
@@ -17,7 +17,9 @@ export const SEAT_NICHES = [
   "dock",
 ] as const;
 
-export type SeatNicheId = (typeof SEAT_NICHES)[number];
+export const RSVP_NICHES = ["quince", "bounce", "dj", "catering", "rental"] as const;
+
+export type SeatNicheId = (typeof SEAT_NICHES)[number] | (typeof RSVP_NICHES)[number];
 
 export type HuntSeat = {
   id: string;
@@ -129,6 +131,26 @@ export const HUNT_ALAMO: HuntSeat[] = [
   { id: "tx-calaveras-dock", nicheId: "dock", county: "bexar", name: "Captain Rhee", company: "Calaveras Dock & Lift", phone: "(210) 555-9002", email: "rhee@calaverasdock.example", hunt: "open", notes: "Calaveras Lake. Thin SERP. Not River Walk." },
   { id: "tx-canyon-lift", nicheId: "dock", county: "comal", name: "Kara Inlet", company: "Canyon Lake Lifts", phone: "(830) 555-9010", email: "kara@canyonlakelifts.example", hunt: "open", notes: "Best TX dock seat. Canyon Lake boat lifts." },
   { id: "tx-mcqueeney-dock", nicheId: "dock", county: "guadalupe", name: "Miles Harbor", company: "McQueeney Boat Lift", phone: "(830) 555-9018", email: "miles@mcqueeneylift.example", hunt: "open", notes: "Lake McQueeney. High ticket, thin mill." },
+
+  { id: "tx-nb-quince", nicheId: "quince", county: "comal", name: "Lupita Reyes", company: "Gruene Quince Co", phone: "(830) 555-2101", email: "lupita@gruenequince.example", hunt: "open", notes: "Comal quince. The Knot dumps 6 planners. Exclusive county." },
+  { id: "tx-sa-quince", nicheId: "quince", county: "bexar", name: "Marisol Vega", company: "Westside Quince", phone: "(210) 555-2108", email: "marisol@westsidequince.example", hunt: "open", notes: "Bexar quince. Don't fight downtown ballrooms. Own the party lead." },
+  { id: "tx-seguin-quince", nicheId: "quince", county: "guadalupe", name: "Elena Cruz", company: "Seguin Celebrations", phone: "(830) 555-2114", email: "elena@seguincelebrations.example", hunt: "open", notes: "Seguin / Cibolo quince + baptism." },
+
+  { id: "tx-nb-bounce", nicheId: "bounce", county: "comal", name: "Ty Maddox", company: "Comal Jump", phone: "(830) 555-3101", email: "ty@comaljump.example", hunt: "open", notes: "Weekend inflatables. Thumbtack leftover." },
+  { id: "tx-sa-bounce", nicheId: "bounce", county: "bexar", name: "Rico Jump", company: "Alamo Inflate", phone: "(210) 555-3108", email: "rico@alamoinflate.example", hunt: "open", notes: "North Bexar weekend. Volume seat." },
+  { id: "tx-schertz-bounce", nicheId: "bounce", county: "guadalupe", name: "Kendra Bounce", company: "Schertz Jump Co", phone: "(210) 555-3114", email: "kendra@schertzjump.example", hunt: "open", notes: "Schertz / Cibolo church + birthday." },
+
+  { id: "tx-nb-dj", nicheId: "dj", county: "comal", name: "DJ Canyon", company: "Canyon Sound", phone: "(830) 555-4101", email: "canyon@canyonsound.example", hunt: "open", notes: "Comal wedding + quince DJ. The Knot shared." },
+  { id: "tx-sa-dj", nicheId: "dj", county: "bexar", name: "DJ Rio", company: "Rio Lights", phone: "(210) 555-4108", email: "rio@riolights.example", hunt: "open", notes: "Bexar quince DJ. Don't fight club DJs." },
+  { id: "tx-seguin-dj", nicheId: "dj", county: "guadalupe", name: "DJ Cibolo", company: "Cibolo Mix", phone: "(210) 555-4114", email: "mix@cibolomix.example", hunt: "open", notes: "Guadalupe school + quince." },
+
+  { id: "tx-nb-cater", nicheId: "catering", county: "comal", name: "Rosa Molina", company: "Braunfels Mesa", phone: "(830) 555-5101", email: "rosa@braunfelsmesa.example", hunt: "open", notes: "Comal taco bar + quince food. High ticket." },
+  { id: "tx-sa-cater", nicheId: "catering", county: "bexar", name: "Chef Paco", company: "Westside Mesa", phone: "(210) 555-5108", email: "paco@westsidemesa.example", hunt: "open", notes: "Bexar event catering. Steal WeddingWire overflow." },
+  { id: "tx-seguin-cater", nicheId: "catering", county: "guadalupe", name: "Ana Sosa", company: "Seguin Mesa", phone: "(830) 555-5114", email: "ana@seguinmesa.example", hunt: "open", notes: "Guadalupe catering. Recurring church." },
+
+  { id: "tx-nb-rent", nicheId: "rental", county: "comal", name: "Brett Tents", company: "Comal Party Rent", phone: "(830) 555-6101", email: "brett@comalpartyrent.example", hunt: "open", notes: "Tents + chairs. Weekend only. Exclusive county." },
+  { id: "tx-sa-rent", nicheId: "rental", county: "bexar", name: "Paola Linens", company: "Alamo Event Rent", phone: "(210) 555-6108", email: "paola@alamoeventrent.example", hunt: "open", notes: "Bexar tents. Don't fight Aztec." },
+  { id: "tx-schertz-rent", nicheId: "rental", county: "guadalupe", name: "Hank Chairs", company: "Cibolo Tent Co", phone: "(210) 555-6114", email: "hank@cibolotent.example", hunt: "open", notes: "Schertz / Cibolo backyard + quince." },
 ];
 
 export const HUNT: HuntSeat[] = [...HUNT_CAPE, ...HUNT_ALAMO];

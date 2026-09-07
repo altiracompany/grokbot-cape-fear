@@ -10,7 +10,7 @@ import { money } from "@/lib/utils";
 export const Route = createFileRoute("/")({ component: PublicHome });
 
 const STEPS = [
-  { n: "01", t: "Someone needs the job", d: "Backup. No water. Green pool. They call or tap a local page." },
+  { n: "01", t: "Someone needs the job", d: "Quince date. Bounce house Saturday. Septic backup. They call." },
   { n: "02", t: "We answer and screen", d: "County, address, what's wrong, can you be there. Tape on every call." },
   { n: "03", t: "You get the packet", d: "Name, phone, job, urgency. One company. Not four trucks on the same ping." },
   { n: "04", t: "You roll", d: "That's the whole product. Dedicated lead gen. Pause anytime." },
@@ -18,13 +18,14 @@ const STEPS = [
 
 const NICHES = [
   "Septic",
+  "Quinceañera",
+  "Bounce house",
+  "DJ",
+  "Catering",
+  "Party rental",
   "Standby generator",
   "Well pump",
-  "Dryer vent",
-  "Pool service",
-  "Dock / lift",
-  "Mosquito",
-  "Tree / storm",
+  "Pool",
 ];
 
 const FAQS = [

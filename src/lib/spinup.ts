@@ -1,5 +1,5 @@
 import { COUNTIES, type County } from "./types";
-import { SEAT_NICHES, countyLabel, marketIdForNiche, type SeatNicheId } from "./seats";
+import { RSVP_NICHES, SEAT_NICHES, countyLabel, marketIdForNiche, type SeatNicheId } from "./seats";
 import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
 import { nicheById } from "./niches";
 import { money, uid } from "./utils";
@@ -64,7 +64,7 @@ export function spinCopy(opts: { county: County; nicheId: string; offer: OfferId
 }
 
 export const GO_COUNTIES = COUNTIES.filter((c) => c.region === "alamo");
-export const GO_NICHES = SEAT_NICHES;
+export const GO_NICHES = [...SEAT_NICHES, ...RSVP_NICHES];
 
 const PAY_KEY = "fpl-pay-v1";
 

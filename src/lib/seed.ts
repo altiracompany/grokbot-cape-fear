@@ -1,7 +1,7 @@
 import { inferCountyFromHood } from "./territory";
 import { monthlySeat, pplPrice } from "./pricing";
 import { nicheById } from "./niches";
-import { HUNT, SEAT_NICHES, marketIdForNiche } from "./seats";
+import { HUNT, RSVP_NICHES, SEAT_NICHES, marketIdForNiche } from "./seats";
 import { domainFor } from "./utils";
 import { FREE_TRIAL } from "./types";
 import type { Buyer, CallTurn, County, HuntStatus, Lead, Market } from "./types";
@@ -47,9 +47,14 @@ const ALAMO_NOTES: Record<string, string> = {
   mosquito: "Recurring barrier. Franchises run ads, don't own the county page.",
   pool: "Strongest TX volume. Stone Oak / New Braunfels / Cibolo weekly.",
   dock: "Canyon Lake + McQueeney lifts. Not the River Walk. Thinnest SERP.",
+  quince: "Comal/Bexar quince. The Knot shares 6 planners. Exclusive county wins.",
+  bounce: "Weekend inflatables. Thumbtack leftover. Volume.",
+  dj: "Quince + wedding DJ. The Knot mill. One county exclusive.",
+  catering: "Event food. Steal WeddingWire overflow. High ticket.",
+  rental: "Tents and chairs. Don't fight Aztec on brand. Own the county lead.",
 };
 
-const ALAMO_MARKETS: Market[] = SEAT_NICHES.map((id, i) => {
+const ALAMO_MARKETS: Market[] = [...SEAT_NICHES, ...RSVP_NICHES].map((id, i) => {
   const niche = nicheById(id);
   return m({
     id: `alamo-${id}`,
