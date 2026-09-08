@@ -62,14 +62,14 @@ const COUNTY_ALIAS: Record<string, County> = {
   leland: "brunswick",
 };
 
+export const CLAY_MCP = "https://api.clay.com/v3/mcp";
+
 export const CLAY_RECIPE = [
-  "Clay table (or Outscraper CSV — same paste).",
-  "Source: Google Maps. Query: fence contractor New Braunfels. Then gutter Cibolo. Then pressure wash Schertz. One trade per run.",
-  "Keep: name, company, phone, website, rating, review count. Drop if rating < 3.8 or no phone.",
-  "Enrich: waterfall email (Hunter / Findymail). Mobile if Clay has it. Skip 800 numbers.",
-  "Columns we ingest: name, company, phone, email, county, niche, website, rating, reviews, maps.",
-  "HTTP API in Clay is optional. Faster: Export CSV → paste on /outreach. Don't wait on a webhook.",
-  "First YES in that county+trade locks the seat. Clay can keep finding; we stop texting that trade.",
+  "Clay is an MCP, not a CSV product. Endpoint: https://api.clay.com/v3/mcp",
+  "Connect Clay to Grok (custom MCP / connectors). Sign in the Clay workspace. Credits bill there — no MCP surcharge.",
+  "Then say: pull fence contractors in New Braunfels with phones. We ingest. We text from Cove.",
+  "Until MCP is connected here: export CSV from Clay or Outscraper and paste below. Same desk.",
+  "One trade per run. Drop 800s and under 3.8 stars. First YES locks the county+trade.",
 ] as const;
 
 export const CLAY_SAMPLE = `name,company,phone,email,county,niche,website,rating,reviews

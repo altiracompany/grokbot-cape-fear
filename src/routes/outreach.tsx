@@ -158,9 +158,9 @@ function OutreachPage() {
       </Card>
 
       <Card className="rounded-xl p-5">
-        <CardTitle>Clay — real phones, not 555s</CardTitle>
+        <CardTitle>Clay MCP</CardTitle>
         <p className="mt-2 text-sm text-muted">
-          Clay (or Outscraper CSV). Google Maps → fence New Braunfels. Paste. We text from Cove. We don't rebuild Clay.
+          Clay is MCP. Connect it on Grok, then we pull Maps and ingest. CSV paste is the fallback, not the product.
         </p>
         <ol className="mt-3 grid gap-1 text-sm text-muted">
           {CLAY_RECIPE.map((s) => (
