@@ -82,6 +82,15 @@ export const OWNER_ADS: OwnerAd[] = [
     cta: "Start this week",
   },
   {
+    id: "hvac-lsa",
+    market: "HVAC already on LSA",
+    hook: "HVAC owner still on Google LSA?",
+    primary:
+      "HVAC owner still on Google LSA?\n\nYou already pay for clicks. You lose the ones you miss.\n\nWe interview the missed call. It says it is AI. Then the job hits your phone — not three other techs.\n\nOne company. Comal or Guadalupe.\n\nFirst 2 free. Then $500 a week.\n\nDon't buy more ads until the desk answers.",
+    headline: "Stop missing the call you paid for.",
+    cta: "YES — cover the miss",
+  },
+  {
     id: "angi-tax",
     market: "Any home service already buying leads",
     hook: "Still paying Angi for leftovers?",
