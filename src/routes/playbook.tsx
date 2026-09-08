@@ -7,13 +7,14 @@ import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-v
 import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
 import { AD_RULES, OWNER_ADS, SYSTEM } from "@/lib/ads";
+import { CMO_DAILY, CMO_DM, CMO_PHASES, CMO_POSTS } from "@/lib/cmo";
 import { COMMENT_BANK, ICP_PAGES } from "@/lib/comments";
 import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
 
-const TABS = ["Field", "Rules", "Value", "Offers", "Comments", "Ads"] as const;
+const TABS = ["Field", "Rules", "Value", "Offers", "Comments", "Ads", "CMO"] as const;
 
 function Playbook() {
   const resetDesk = useAgency((s) => s.resetDesk);
@@ -281,6 +282,64 @@ function Playbook() {
               </Button>
             </Card>
           ))}
+        </div>
+      ) : null}
+
+      {tab === "CMO" ? (
+        <div className="grid gap-4">
+          <p className="text-sm text-muted">
+            App-growth playbook, rewritten. We don't grow an app. We grow YES from owners who already buy leads.
+            Post finds the offer. DM closes. Hate is reach.
+          </p>
+          {CMO_PHASES.map((p) => (
+            <Card key={p.n}>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">
+                Phase {p.n} · {p.name}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed">{p.we}</p>
+              <p className="mt-2 text-xs text-subtle">{p.they}</p>
+            </Card>
+          ))}
+          <Card>
+            <CardTitle>Daily (after 5am scrub)</CardTitle>
+            <ol className="mt-3 grid gap-2 text-sm text-muted">
+              {CMO_DAILY.map((d) => (
+                <li key={d}>{d}</li>
+              ))}
+            </ol>
+          </Card>
+          {CMO_POSTS.map((p) => (
+            <Card key={p.hook}>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">{p.hook}</p>
+              <pre className="mt-2 whitespace-pre-wrap font-sans text-sm leading-relaxed">{p.body}</pre>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-3 h-10"
+                onClick={() => {
+                  void navigator.clipboard.writeText(p.body);
+                  toast.success("Copied.");
+                }}
+              >
+                Copy post
+              </Button>
+            </Card>
+          ))}
+          <Card>
+            <CardTitle>DM after they bite</CardTitle>
+            <pre className="mt-2 whitespace-pre-wrap font-sans text-sm leading-relaxed">{CMO_DM}</pre>
+            <Button
+              type="button"
+              variant="secondary"
+              className="mt-3 h-10"
+              onClick={() => {
+                void navigator.clipboard.writeText(CMO_DM);
+                toast.success("Copied.");
+              }}
+            >
+              Copy DM
+            </Button>
+          </Card>
         </div>
       ) : null}
     </main>
