@@ -235,7 +235,7 @@ function Playbook() {
         <div className="grid gap-4">
           <p className="text-sm text-muted">
             AI bubble is their problem. Jobs are ours. Seven-part agency stacks get sold as a menu. We run a desk.
-            Paid ads target owners who already buy leads.
+            Paid ads target owners who already buy leads. Clay finds their real mobile — paste the CSV on /outreach.
           </p>
           <Card>
             <CardTitle>What we actually run</CardTitle>

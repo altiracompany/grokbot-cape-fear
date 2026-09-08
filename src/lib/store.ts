@@ -9,6 +9,7 @@ import { domainFor, trackingFor, uid } from "./utils";
 import { INITIAL_BUYERS, INITIAL_LEADS, INITIAL_MARKETS, inferCounty, withRolledUpCounts } from "./seed";
 import { FREE_TRIAL, COUNTIES } from "./types";
 import { marketIdForNiche, nextHunt } from "./seats";
+import type { ClayRow } from "./clay";
 import type {
   Buyer,
   BuyerStatus,
@@ -91,6 +92,7 @@ type AgencyState = {
   setScore: (id: string, score: Scorecard) => void;
   setStage: (id: string, stage: Stage) => void;
   addBuyer: (input: NewBuyerInput) => string;
+  ingestClay: (rows: ClayRow[]) => { added: number; skipped: string[] };
   spinUp: (input: SpinInput) => string;
   updateBuyer: (id: string, patch: Partial<Buyer>) => void;
   setBuyerStatus: (id: string, status: BuyerStatus) => void;
@@ -239,6 +241,63 @@ export const useAgency = create<AgencyState>()(
         };
         set({ buyers: [buyer, ...get().buyers] });
         return id;
+      },
+      ingestClay: (rows) => {
+        const skipped: string[] = [];
+        const next = [...get().buyers];
+        let added = 0;
+        for (const row of rows) {
+          const digits = row.phone.replace(/\D/g, "");
+          if (next.some((b) => b.phone.replace(/\D/g, "") === digits)) {
+            skipped.push(`${row.company} — already on the desk`);
+            continue;
+          }
+          const locked = next.find(
+            (b) =>
+              b.nicheId === row.nicheId &&
+              b.county === row.county &&
+              (b.hunt === "trial" || b.hunt === "paying") &&
+              b.status !== "paused",
+          );
+          if (locked) {
+            skipped.push(`${row.company} — ${row.county} ${row.nicheId} already locked`);
+            continue;
+          }
+          const niche = nicheById(row.nicheId);
+          next.unshift({
+            id: uid("by"),
+            name: row.name,
+            company: row.company,
+            phone: row.phone,
+            email: row.email,
+            marketIds: [marketIdForNiche(row.nicheId, row.county)],
+            nicheId: row.nicheId,
+            county: row.county,
+            pplRate: pplPrice(niche),
+            monthlySeat: monthlySeat(niche),
+            monthlyCap: 12,
+            status: "prospect",
+            hunt: "open",
+            soldThisMonth: 0,
+            spendThisMonth: 0,
+            freeRemaining: FREE_TRIAL,
+            freeUsed: 0,
+            notes: [
+              "Clay / Maps ingest.",
+              row.rating ? `Google ${row.rating}${row.reviews ? ` · ${row.reviews} reviews` : ""}` : "",
+              row.website ?? "",
+            ]
+              .filter(Boolean)
+              .join(" "),
+            handoffTo: "founder",
+            handoffName: row.name,
+            handoffEmail: row.email,
+            handoffPhone: row.phone,
+          });
+          added += 1;
+        }
+        if (added) set({ buyers: next });
+        return { added, skipped };
       },
       spinUp: (input) => {
         const marketId = marketIdForNiche(input.nicheId, input.county);

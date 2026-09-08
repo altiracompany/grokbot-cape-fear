@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { CLAY_RECIPE, CLAY_SAMPLE, parseClayPaste } from "@/lib/clay";
 import { AREA_LINES, e164, lineForCounty, loadLines, saveLines, smsHref, type SavedLines } from "@/lib/lines";
 import { emptyPayLinks, loadPayLinks, savePayLinks, type PayLinks } from "@/lib/spinup";
 import { seatSms, turnkeySms } from "@/lib/seats";
@@ -16,15 +18,20 @@ export const Route = createFileRoute("/outreach")({ component: OutreachPage });
 
 function OutreachPage() {
   const buyers = useAgency((s) => s.buyers);
+  const ingestClay = useAgency((s) => s.ingestClay);
   const [lines, setLines] = useState<SavedLines>(() => (typeof window === "undefined" ? { "210": "", "830": "" } : loadLines()));
   const [pay, setPay] = useState<PayLinks>(() => (typeof window === "undefined" ? emptyPayLinks() : loadPayLinks()));
   const [lineId, setLineId] = useState<"210" | "830">("830");
   const [offer, setOffer] = useState<"dedicated" | "turnkey">("dedicated");
   const [picked, setPicked] = useState<string | null>(null);
   const [manual, setManual] = useState("");
+  const [clay, setClay] = useState("");
 
   const alamo = useMemo(
-    () => buyers.filter((b) => ["bexar", "comal", "guadalupe"].includes(b.county) && b.hunt !== "paying"),
+    () =>
+      buyers
+        .filter((b) => ["bexar", "comal", "guadalupe"].includes(b.county) && b.hunt !== "paying")
+        .sort((a, b) => Number(a.phone.includes("555")) - Number(b.phone.includes("555"))),
     [buyers],
   );
   const buyer = alamo.find((b) => b.id === picked) ?? null;
@@ -147,6 +154,46 @@ function OutreachPage() {
               }}
             />
           </div>
+        </div>
+      </Card>
+
+      <Card className="rounded-xl p-5">
+        <CardTitle>Clay — real phones, not 555s</CardTitle>
+        <p className="mt-2 text-sm text-muted">
+          Clay (or Outscraper CSV). Google Maps → fence New Braunfels. Paste. We text from Cove. We don't rebuild Clay.
+        </p>
+        <ol className="mt-3 grid gap-1 text-sm text-muted">
+          {CLAY_RECIPE.map((s) => (
+            <li key={s}>{s}</li>
+          ))}
+        </ol>
+        <Textarea
+          className="mt-4 min-h-32 font-mono text-xs"
+          placeholder={CLAY_SAMPLE}
+          value={clay}
+          onChange={(e) => setClay(e.target.value)}
+        />
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Button
+            type="button"
+            className="h-11"
+            onClick={() => {
+              const { rows, errors } = parseClayPaste(clay);
+              if (!rows.length) {
+                toast.error(errors[0] ?? "Nothing to ingest.");
+                return;
+              }
+              const { added, skipped } = ingestClay(rows);
+              toast.success(`${added} on the desk.${skipped.length ? ` ${skipped.length} skipped.` : ""}`);
+              if (errors.length) toast.message(errors.slice(0, 3).join(" "));
+              setClay("");
+            }}
+          >
+            Ingest
+          </Button>
+          <Button type="button" variant="secondary" className="h-11" onClick={() => setClay(CLAY_SAMPLE)}>
+            Sample AMG + Kustom
+          </Button>
         </div>
       </Card>
 
