@@ -6,13 +6,14 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { CapeFearWedgeTable, EngageRules, RivalGrid } from "@/components/field-view";
 import { ValueShowcase } from "@/components/value-showcase";
 import { useAgency } from "@/lib/store";
+import { AD_RULES, OWNER_ADS, SYSTEM } from "@/lib/ads";
 import { COMMENT_BANK, ICP_PAGES } from "@/lib/comments";
 import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
 
-const TABS = ["Field", "Rules", "Value", "Offers", "Comments"] as const;
+const TABS = ["Field", "Rules", "Value", "Offers", "Comments", "Ads"] as const;
 
 function Playbook() {
   const resetDesk = useAgency((s) => s.resetDesk);
@@ -224,6 +225,59 @@ function Playbook() {
                 }}
               >
                 Copy
+              </Button>
+            </Card>
+          ))}
+        </div>
+      ) : null}
+
+      {tab === "Ads" ? (
+        <div className="grid gap-4">
+          <p className="text-sm text-muted">
+            AI bubble is their problem. Jobs are ours. Seven-part agency stacks get sold as a menu. We run a desk.
+            Paid ads target owners who already buy leads.
+          </p>
+          <Card>
+            <CardTitle>What we actually run</CardTitle>
+            <ul className="mt-3 grid gap-3">
+              {SYSTEM.map((s) => (
+                <li key={s.n} className="text-sm">
+                  <span className="font-mono text-xs text-subtle">{s.n}</span>{" "}
+                  <span className="font-medium">{s.name}</span>
+                  <span className="block text-muted">
+                    {s.we}{" "}
+                    <span className="text-subtle">
+                      {s.in === "skip" ? "Skip." : s.in === "turnkey" ? "Turnkey only." : "In the $500."}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Card>
+          <Card>
+            <CardTitle>Ad rules</CardTitle>
+            <ul className="mt-3 grid gap-1 text-sm text-muted">
+              {AD_RULES.map((r) => (
+                <li key={r}>{r}</li>
+              ))}
+            </ul>
+          </Card>
+          {OWNER_ADS.map((ad) => (
+            <Card key={ad.id}>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">{ad.market}</p>
+              <p className="mt-1 text-sm font-medium">{ad.headline}</p>
+              <pre className="mt-3 whitespace-pre-wrap font-sans text-sm leading-relaxed">{ad.primary}</pre>
+              <p className="mt-2 text-xs text-subtle">CTA: {ad.cta}</p>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-3 h-10"
+                onClick={() => {
+                  void navigator.clipboard.writeText(`${ad.headline}\n\n${ad.primary}\n\n${ad.cta}`);
+                  toast.success("Copied.");
+                }}
+              >
+                Copy ad
               </Button>
             </Card>
           ))}
