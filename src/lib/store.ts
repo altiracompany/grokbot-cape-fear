@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { nicheById } from "./niches";
 import { decide } from "./scoring";
-import { pplPrice, monthlySeat, TURNKEY_WEEKLY, WEEKLY_SEAT, EDDM_PRICE } from "./pricing";
+import { pplPrice, monthlySeat, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
+import { mailPrice } from "./mail";
 import { scriptCall } from "./conversation";
 import { cityForCounties, defaultHoods } from "./territory";
 import { domainFor, trackingFor, uid } from "./utils";
@@ -54,6 +55,7 @@ type SpinInput = {
   code: string;
   paid: boolean;
   eddm?: boolean;
+  eddmZip?: string;
   handoffTo?: HandoffTarget;
   handoffName?: string;
   handoffEmail?: string;
@@ -329,11 +331,12 @@ export const useAgency = create<AgencyState>()(
         );
         if (taken && taken.phone.replace(/\D/g, "") !== input.phone.replace(/\D/g, "")) return "";
         const wantsEddm = input.offer === "eddm" || Boolean(input.eddm);
+        const mailAmt = wantsEddm ? mailPrice(input.eddmZip) : 0;
         const weekly = input.offer === "turnkey" ? TURNKEY_WEEKLY * 4 : input.offer === "eddm" ? 0 : WEEKLY_SEAT * 4;
         const id = uid("by");
         const paidAmt = input.paid
-          ? (input.offer === "turnkey" ? 2500 : input.offer === "eddm" ? EDDM_PRICE : 500) +
-            (wantsEddm && input.offer !== "eddm" ? EDDM_PRICE : 0)
+          ? (input.offer === "turnkey" ? 2500 : input.offer === "eddm" ? mailAmt : 500) +
+            (wantsEddm && input.offer !== "eddm" ? mailAmt : 0)
           : 0;
         const buyer: Buyer = {
           id,
@@ -354,13 +357,15 @@ export const useAgency = create<AgencyState>()(
           freeRemaining: FREE_TRIAL,
           freeUsed: 0,
           notes: wantsEddm
-            ? "EDDM 5,000 homes queued. Screen inbound to this truck."
+            ? `Mail ${input.eddmZip ?? ""} · ${mailAmt} · 5,000 homes. Exclusive to this truck.`
             : input.paid
               ? "Paid. Line live. Screen to this truck."
               : "Self-serve. 2 free. Cove live.",
           offer: input.offer,
           liveCode: input.code,
           eddm: wantsEddm,
+          eddmZip: wantsEddm ? input.eddmZip : undefined,
+          eddmPrice: wantsEddm ? mailAmt : undefined,
           handoffTo: input.handoffTo ?? "founder",
           handoffName: (input.handoffName ?? input.name).trim(),
           handoffEmail: (input.handoffEmail ?? input.email).trim(),
@@ -566,7 +571,7 @@ export const useAgency = create<AgencyState>()(
         }),
     }),
     {
-      name: "freedom-project-v7",
+      name: "freedom-project-v8",
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : localStorage)),
       skipHydration: true,
       partialize: (s) => ({ markets: s.markets, buyers: s.buyers, leads: s.leads, lastScrubAt: s.lastScrubAt }),

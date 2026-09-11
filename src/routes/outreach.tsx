@@ -111,12 +111,11 @@ function OutreachPage() {
       <Card className="rounded-xl p-5">
         <CardTitle>Stripe — they pay, line goes live</CardTitle>
         <p className="mt-2 text-sm text-muted">
-          Stripe Dashboard → Payment links. Dedicated $500. Turnkey $2,500. EDDM $300. Success URL: this site
-          /live?paid=1
+          Stripe Dashboard → Payment links. $500. We run it $2,500. Mail $300 / $450 / $650 by zip. Success URL: /live?paid=1
         </p>
         <div className="mt-4 grid gap-3">
           <div className="grid gap-1.5">
-            <Label htmlFor="pay-d">Dedicated link</Label>
+            <Label htmlFor="pay-d">$500 link</Label>
             <Input
               id="pay-d"
               value={pay.dedicated}
@@ -129,7 +128,7 @@ function OutreachPage() {
             />
           </div>
           <div className="grid gap-1.5">
-            <Label htmlFor="pay-t">Turnkey link</Label>
+            <Label htmlFor="pay-t">We run it $2,500</Label>
             <Input
               id="pay-t"
               value={pay.turnkey}
@@ -142,13 +141,39 @@ function OutreachPage() {
             />
           </div>
           <div className="grid gap-1.5">
-            <Label htmlFor="pay-e">EDDM $300 · 5k homes</Label>
+            <Label htmlFor="pay-e">Mail $300 · standard zip</Label>
             <Input
               id="pay-e"
               value={pay.eddm}
               placeholder="https://buy.stripe.com/…"
               onChange={(e) => {
                 const next = { ...pay, eddm: e.target.value };
+                setPay(next);
+                savePayLinks(next);
+              }}
+            />
+          </div>
+          <div className="grid gap-1.5">
+            <Label htmlFor="pay-eb">Mail $450 · better zip</Label>
+            <Input
+              id="pay-eb"
+              value={pay.eddmBetter}
+              placeholder="https://buy.stripe.com/…"
+              onChange={(e) => {
+                const next = { ...pay, eddmBetter: e.target.value };
+                setPay(next);
+                savePayLinks(next);
+              }}
+            />
+          </div>
+          <div className="grid gap-1.5">
+            <Label htmlFor="pay-eh">Mail $650 · high zip</Label>
+            <Input
+              id="pay-eh"
+              value={pay.eddmHigh}
+              placeholder="https://buy.stripe.com/…"
+              onChange={(e) => {
+                const next = { ...pay, eddmHigh: e.target.value };
                 setPay(next);
                 savePayLinks(next);
               }}

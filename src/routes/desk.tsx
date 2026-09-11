@@ -75,7 +75,7 @@ function CommandCenter() {
           <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Freedom Project Leads · two footprints</p>
           <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">Alamo. Then Cape Fear.</h1>
           <p className="max-w-xl text-sm text-muted">
-            $500/wk. Two free. One company. Optional $300 EDDM to 5k homes. Scrub at 5am.
+            $500/wk. Two free. Exclusive to you. Mail from $300 — high zips $650. Scrub at 5am.
           </p>
         </div>
         <Button type="button" onClick={ping}>

@@ -113,6 +113,8 @@ export type Buyer = {
   offer?: "dedicated" | "turnkey" | "eddm";
   liveCode?: string;
   eddm?: boolean;
+  eddmZip?: string;
+  eddmPrice?: number;
   handoffTo?: HandoffTarget;
   handoffName?: string;
   handoffEmail?: string;

@@ -35,6 +35,7 @@ function LivePage() {
       code,
       paid: true,
       eddm: buyer.eddm,
+      eddmZip: buyer.eddmZip,
       handoffTo: buyer.handoffTo,
       handoffName: buyer.handoffName,
       handoffEmail: buyer.handoffEmail,
@@ -114,9 +115,11 @@ function LivePage() {
 
         {buyer.eddm ? (
           <Card className="rounded-xl p-5">
-            <p className="font-mono text-xs tracking-wider text-subtle uppercase">Mail</p>
-            <p className="mt-2 text-lg">5,000 homes. Your flyer.</p>
-            <p className="mt-1 text-sm text-muted">Your name, phone, work. One company on the piece. We answer the call.</p>
+            <p className="font-mono text-xs tracking-wider text-subtle uppercase">Mail · {buyer.eddmZip ?? "zip"}</p>
+            <p className="mt-2 text-lg">
+              {buyer.eddmPrice ? money(buyer.eddmPrice) : "Flyer"} · 5,000 homes. Exclusive to you.
+            </p>
+            <p className="mt-1 text-sm text-muted">Your name, phone, work. High zip costs more. We answer the call.</p>
           </Card>
         ) : null}
 

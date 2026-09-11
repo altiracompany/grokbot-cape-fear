@@ -9,7 +9,7 @@ import { useAgency } from "@/lib/store";
 import { AD_RULES, OWNER_ADS, SYSTEM } from "@/lib/ads";
 import { CMO_DAILY, CMO_DM, CMO_PHASES, CMO_POSTS } from "@/lib/cmo";
 import { COMMENT_BANK, ICP_PAGES } from "@/lib/comments";
-import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { EDDM_HOMES, EDDM_PRICE, EDDM_PRICE_HIGH, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
@@ -151,7 +151,7 @@ function Playbook() {
       {tab === "Offers" ? (
         <div className="grid gap-4">
           <p className="text-sm text-muted">
-            $500 a week. Two free. $300 mail if they need work this week. We run it only if they're slammed.
+            $500 a week. Two free. Mail from {money(EDDM_PRICE)}. High zips {money(EDDM_PRICE_HIGH)}. We run it only if they're slammed.
           </p>
           <div className="grid gap-3 md:grid-cols-3">
             <Card>
@@ -177,9 +177,11 @@ function Playbook() {
             <Card>
               <p className="font-mono text-xs tracking-wider text-subtle uppercase">This week</p>
               <CardTitle className="mt-1">Mail</CardTitle>
-              <p className="mt-2 font-mono text-2xl tabular-nums">{money(EDDM_PRICE)}</p>
+              <p className="mt-2 font-mono text-2xl tabular-nums">
+                {money(EDDM_PRICE)}–{money(EDDM_PRICE_HIGH)}
+              </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Flyer to {EDDM_HOMES.toLocaleString()} homes. Their name only. Phone rings while we ramp.
+                Flyer to {EDDM_HOMES.toLocaleString()} homes. Price is the zip. 78132 / Stone Oak / Wrightsville = high. Seguin / westside = $300.
               </p>
               <p className="mt-3 text-xs text-subtle">Reply MAIL</p>
             </Card>

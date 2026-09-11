@@ -1,6 +1,7 @@
 import { COUNTIES, type County, type HandoffTarget } from "./types";
 import { HOME_NICHES, RSVP_NICHES, SEAT_NICHES, countyLabel, marketIdForNiche, type SeatNicheId } from "./seats";
 import { EDDM_HOMES, EDDM_PRICE, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "./pricing";
+import { mailPrice, payKeyForZip } from "./mail";
 import { nicheById } from "./niches";
 import { money, uid } from "./utils";
 
@@ -25,7 +26,7 @@ export const OFFERS: {
     label: "Mail",
     dueToday: EDDM_PRICE,
     weekly: 0,
-    blurb: `Your flyer. ${EDDM_HOMES.toLocaleString()} homes. $300. Exclusive to you.`,
+    blurb: `Your flyer. ${EDDM_HOMES.toLocaleString()} homes. From $300. High zips $650. Exclusive to you.`,
   },
   {
     id: "turnkey",
@@ -40,10 +41,11 @@ export function offerById(id: OfferId) {
   return OFFERS.find((o) => o.id === id) ?? OFFERS[0];
 }
 
-export function dueToday(offer: OfferId, addEddm: boolean) {
+export function dueToday(offer: OfferId, addEddm: boolean, zip?: string) {
+  const mail = mailPrice(zip);
   const base = offerById(offer).dueToday;
-  if (offer === "eddm") return EDDM_PRICE;
-  return base + (addEddm ? EDDM_PRICE : 0);
+  if (offer === "eddm") return mail;
+  return base + (addEddm ? mail : 0);
 }
 
 export function makeLiveCode() {
@@ -68,10 +70,10 @@ export const GO_NICHES = [...SEAT_NICHES, ...RSVP_NICHES, ...HOME_NICHES];
 
 const PAY_KEY = "fpl-pay-v1";
 
-export type PayLinks = { dedicated: string; turnkey: string; eddm: string };
+export type PayLinks = { dedicated: string; turnkey: string; eddm: string; eddmBetter: string; eddmHigh: string };
 
 export function emptyPayLinks(): PayLinks {
-  return { dedicated: "", turnkey: "", eddm: "" };
+  return { dedicated: "", turnkey: "", eddm: "", eddmBetter: "", eddmHigh: "" };
 }
 
 export function loadPayLinks(): PayLinks {
@@ -79,6 +81,8 @@ export function loadPayLinks(): PayLinks {
     dedicated: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_DEDICATED) || "",
     turnkey: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_TURNKEY) || "",
     eddm: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_EDDM) || "",
+    eddmBetter: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_EDDM_BETTER) || "",
+    eddmHigh: (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAY_EDDM_HIGH) || "",
   };
   if (typeof window === "undefined") return env;
   try {
@@ -89,6 +93,8 @@ export function loadPayLinks(): PayLinks {
       dedicated: parsed.dedicated || env.dedicated,
       turnkey: parsed.turnkey || env.turnkey,
       eddm: parsed.eddm || env.eddm,
+      eddmBetter: parsed.eddmBetter || env.eddmBetter,
+      eddmHigh: parsed.eddmHigh || env.eddmHigh,
     };
   } catch {
     return env;
@@ -99,14 +105,14 @@ export function savePayLinks(links: PayLinks) {
   window.localStorage.setItem(PAY_KEY, JSON.stringify(links));
 }
 
-export function checkoutHref(offer: OfferId, code: string, email: string, addEddm = false) {
+export function checkoutHref(offer: OfferId, code: string, email: string, addEddm = false, zip?: string) {
   const links = loadPayLinks();
   let key: keyof PayLinks = "dedicated";
-  if (offer === "eddm") key = "eddm";
+  if (offer === "eddm" || addEddm) key = payKeyForZip(zip);
   else if (offer === "turnkey") key = "turnkey";
   else key = "dedicated";
-  if (addEddm && !links[key]) key = "eddm";
-  const base = links[key]?.trim();
+  if (addEddm && offer !== "eddm" && !links[key] && links.dedicated) key = "dedicated";
+  const base = (links[key] || (key !== "eddm" ? links.eddm : "") || "").trim();
   if (!base) return "";
   const url = new URL(base);
   url.searchParams.set("client_reference_id", code);
@@ -124,6 +130,7 @@ export type PendingSpin = {
   nicheId: SeatNicheId;
   offer: OfferId;
   eddm: boolean;
+  eddmZip?: string;
   handoffTo: HandoffTarget;
   handoffName: string;
   handoffEmail: string;

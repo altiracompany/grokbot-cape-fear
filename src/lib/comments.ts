@@ -42,6 +42,6 @@ export const COMMENT_BANK = [
   },
   {
     on: "After they reply / ask what you do",
-    text: "Exclusive to you in your county. We ask. You go. First 2 free, then $500 a week. Mail this week is $300 to 5k homes, your name only. Not a pack.",
+    text: "Exclusive to you in your county. We ask. You go. First 2 free, then $500 a week. Mail this week from $300 — high zip $650. 5k homes. Your name only. Not a pack.",
   },
 ];

@@ -18,7 +18,8 @@ import {
   stashPending,
   type OfferId,
 } from "@/lib/spinup";
-import { EDDM_HOMES, EDDM_PRICE } from "@/lib/pricing";
+import { EDDM_HOMES, EDDM_PRICE, EDDM_PRICE_HIGH } from "@/lib/pricing";
+import { defaultMailZip, mailPrice, mailZipsIn, MAIL_TIERS } from "@/lib/mail";
 import { countyLabel } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
@@ -40,6 +41,7 @@ function GoPage() {
   const [nicheId, setNicheId] = useState<(typeof GO_NICHES)[number]>("septic");
   const [offer, setOffer] = useState<OfferId>("dedicated");
   const [addEddm, setAddEddm] = useState(false);
+  const [mailZip, setMailZip] = useState(defaultMailZip("comal"));
   const [handoffTo, setHandoffTo] = useState<HandoffTarget>("founder");
   const [teamName, setTeamName] = useState("");
   const [teamPhone, setTeamPhone] = useState("");
@@ -61,7 +63,9 @@ function GoPage() {
   const picked = offerById(offer);
   const niche = nicheById(nicheId);
   const eddmOn = offer === "eddm" || addEddm;
-  const today = dueToday(offer, addEddm);
+  const zips = mailZipsIn(county);
+  const mailAmt = mailPrice(mailZip);
+  const today = dueToday(offer, addEddm, mailZip);
 
   function start() {
     const code = makeLiveCode();
@@ -79,6 +83,7 @@ function GoPage() {
       code,
       paid: false,
       eddm: eddmOn,
+      eddmZip: eddmOn ? mailZip : undefined,
       handoffTo,
       handoffName: destName,
       handoffEmail: destEmail,
@@ -98,6 +103,7 @@ function GoPage() {
       nicheId,
       offer,
       eddm: eddmOn,
+      eddmZip: eddmOn ? mailZip : undefined,
       handoffTo,
       handoffName: destName,
       handoffEmail: destEmail,
@@ -117,14 +123,14 @@ function GoPage() {
       return;
     }
     setBusy(true);
-    const payUrl = checkoutHref(offer, "pending", email, addEddm);
+      const payUrl = checkoutHref(offer, "pending", email, addEddm, mailZip);
     const code = start();
     if (!code) {
       setBusy(false);
       return;
     }
     if (payUrl) {
-      const href = checkoutHref(offer, code, email, addEddm);
+      const href = checkoutHref(offer, code, email, addEddm, mailZip);
       window.location.href = href;
       return;
     }
@@ -139,7 +145,7 @@ function GoPage() {
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Start now</p>
           <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">$500 a week. Two free. Mail this week if you want.</h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-            Exclusive to you in your county. We tell you how they found you. A robot asks — it says so — then we text you the name and street. Need work this week? Mail to {EDDM_HOMES.toLocaleString()} homes is {money(EDDM_PRICE)}.
+            Exclusive to you in your county. We tell you how they found you. A robot asks — it says so — then we text you the name and street. Need work this week? Mail to {EDDM_HOMES.toLocaleString()} homes from {money(EDDM_PRICE)}. High zips {money(EDDM_PRICE_HIGH)}.
           </p>
           <form onSubmit={submit} className="mt-10 grid gap-4">
             <Field label="Your name" htmlFor="n">
@@ -191,7 +197,11 @@ function GoPage() {
                 <select
                   id="co"
                   value={county}
-                  onChange={(e) => setCounty(e.target.value as County)}
+                  onChange={(e) => {
+                    const next = e.target.value as County;
+                    setCounty(next);
+                    setMailZip(defaultMailZip(next));
+                  }}
                   className="h-11 w-full rounded-md border border-input bg-elevated px-3 text-sm"
                 >
                   {GO_COUNTIES.map((c) => (
@@ -230,17 +240,36 @@ function GoPage() {
                   onChange={(e) => setAddEddm(e.target.checked)}
                 />
                 <span>
-                  Add mail — {money(EDDM_PRICE)} · {EDDM_HOMES.toLocaleString()} homes. Your name only. Drops while the phone ramps.
+                  Add mail — from {money(EDDM_PRICE)}. High zips {money(EDDM_PRICE_HIGH)}. {EDDM_HOMES.toLocaleString()} homes. Exclusive to you.
                 </span>
               </label>
             ) : null}
+            {eddmOn ? (
+              <Field label="Mail zip" htmlFor="zip">
+                <select
+                  id="zip"
+                  value={zips.some((z) => z.zip === mailZip) ? mailZip : (zips[0]?.zip ?? mailZip)}
+                  onChange={(e) => setMailZip(e.target.value)}
+                  className="h-11 w-full rounded-md border border-input bg-elevated px-3 text-sm"
+                >
+                  {zips.map((z) => (
+                    <option key={z.zip} value={z.zip}>
+                      {z.zip} · {z.city} · {money(MAIL_TIERS[z.tier].price)}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-1 text-xs text-subtle">
+                  Same {EDDM_HOMES.toLocaleString()} homes. Stamp is about the same. Expensive zip costs more because the job pays more.
+                </p>
+              </Field>
+            ) : null}
             <Button type="submit" className="h-12" disabled={busy || taken}>
-              {checkoutHref(offer, "x", "", addEddm)
+              {checkoutHref(offer, "x", "", addEddm, mailZip)
                 ? `Pay ${money(today)} · start`
                 : offer === "eddm"
-                  ? `Start mail · ${money(EDDM_PRICE)} · ${EDDM_HOMES.toLocaleString()} homes`
+                  ? `Start mail · ${money(mailAmt)} · ${mailZip}`
                   : addEddm
-                    ? `Start · 2 free + mail ${money(EDDM_PRICE)}`
+                    ? `Start · 2 free + mail ${money(mailAmt)}`
                     : `Start · 2 free then ${money(picked.weekly)}/wk`}
             </Button>
             <p className="text-xs text-subtle">
@@ -275,7 +304,7 @@ function GoPage() {
                 {o.id === "turnkey"
                   ? `${money(o.dueToday)} today`
                   : o.id === "eddm"
-                    ? `${money(o.dueToday)} · 5k homes`
+                    ? `${money(mailAmt)} · ${mailZip}`
                     : `${money(o.weekly)}/wk`}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">{o.blurb}</p>

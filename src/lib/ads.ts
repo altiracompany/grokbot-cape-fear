@@ -77,7 +77,7 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "Gutters / roof-adjacent",
     hook: "Gutter company tired of shared names?",
     primary:
-      "Gutter company tired of shared names?\n\nYou pay Angi. Four other crews get the same person.\n\nExclusive to you. Homeowner calls. We ask. You get the storm work — not a race.\n\nFirst 2 free. Then $500 a week. Pause anytime.\n\nNeed work this week? $300 flyer. Your name only. 5,000 homes.",
+      "Gutter company tired of shared names?\n\nYou pay Angi. Four other crews get the same person.\n\nExclusive to you. Homeowner calls. We ask. You get the storm work — not a race.\n\nFirst 2 free. Then $500 a week. Pause anytime.\n\nNeed work this week? Flyer from $300. High zip $650. Your name only. 5,000 homes.",
     headline: "Exclusive to you. One county.",
     cta: "Start this week",
   },
