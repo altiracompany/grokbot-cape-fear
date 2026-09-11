@@ -30,8 +30,8 @@ export function PublicFrame({ children }: { children: ReactNode }) {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-10 text-sm text-subtle md:px-8">
           <p>{BRAND}</p>
-          <p>Jobs for one company in the county. Bexar · Comal · Guadalupe · Cape Fear.</p>
-          <p>We text from 210 and 830. One company per county.</p>
+          <p>Jobs exclusive to you in the county. Bexar · Comal · Guadalupe · Cape Fear.</p>
+          <p>We text from 210 and 830. Exclusive to you in the county.</p>
         </div>
       </footer>
     </div>

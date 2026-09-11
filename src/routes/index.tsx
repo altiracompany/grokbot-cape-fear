@@ -27,7 +27,7 @@ const NICHES = [
 const FAQS = [
   {
     q: "Who is Freedom Project Leads?",
-    a: "We get jobs for one company in your county. A robot asks the homeowner the boring questions — it says it's a robot — then we text you the name and street. We do not sell your name to four other trucks.",
+    a: "We get jobs exclusive to you in your county. A robot asks the homeowner the boring questions — it says it's a robot — then we text you the name and street. We do not sell your name to four other trucks.",
   },
   {
     q: "Is this Angi or Thumbtack?",
@@ -83,12 +83,12 @@ function PublicHome() {
             <a href="#how">How it works</a>
           </Button>
         </div>
-        <p className="font-mono text-xs text-subtle">We text from 210 and 830. One company per county.</p>
+        <p className="font-mono text-xs text-subtle">We text from 210 and 830. Exclusive to you in the county.</p>
       </section>
 
       <section className="grid gap-3 border-t border-border py-12 md:grid-cols-3">
         {[
-          { k: "One", v: "company in your county. Not five trucks on the same name." },
+          { k: "One", v: "Exclusive to you in your county. Not five trucks on the same name." },
           { k: "Two", v: "jobs free so you see it before you pay." },
           { k: "Local", v: "We text from 210 and 830." },
         ].map((item) => (
@@ -120,7 +120,7 @@ function PublicHome() {
           <p className="font-mono text-xs tracking-wider text-subtle uppercase">The offer</p>
           <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(WEEKLY_SEAT)}/wk</p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            Two jobs free. Then $500 a week. One company. We ask. You go.
+            Two jobs free. Then $500 a week. Exclusive to you. We ask. You go.
           </p>
         </Card>
         <Card className="rounded-2xl p-8">

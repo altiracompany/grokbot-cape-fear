@@ -48,7 +48,7 @@ export const CMO_POSTS = [
   },
   {
     hook: "I wish this existed",
-    body: "The thing contractors keep asking for:\n\none name on the mailer.\none truck on the job.\nsomeone who already asked the homeowner the boring questions.\n\nThat's not a pack. That's one company.",
+    body: "The thing contractors keep asking for:\n\none name on the mailer.\none truck on the job.\nsomeone who already asked the homeowner the boring questions.\n\nExclusive to you. Not a pack.",
   },
   {
     hook: "Save this",
@@ -66,7 +66,7 @@ export const CMO_POSTS = [
 
 export const CMO_DM = `You asked how to stop buying leftovers.
 
-One company in your county. A robot asks — it says it's a robot — then the job hits your phone.
+Exclusive to you in your county. A robot asks — it says it's a robot — then the job hits your phone.
 
 First 2 free. Then $500 a week. Pause anytime.
 

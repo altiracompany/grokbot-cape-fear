@@ -38,10 +38,10 @@ export const COMMENT_BANK = [
   },
   {
     on: "Fence / foundation / gutter / windows rant",
-    text: "Angi still dumps the same fence or foundation job on 5 crews. First one to bid cheap wins a race, not a job. One company in the county. Ask for a street and a time before you roll. What you paid to book the job is the only number.",
+    text: "Angi still dumps the same fence or foundation job on 5 crews. First one to bid cheap wins a race, not a job. Exclusive to you in the county. Ask for a street and a time before you roll. What you paid to book the job is the only number.",
   },
   {
     on: "After they reply / ask what you do",
-    text: "One company in your county. We ask. You go. First 2 free, then $500 a week. Mail this week is $300 to 5k homes, your name only. Not a pack.",
+    text: "Exclusive to you in your county. We ask. You go. First 2 free, then $500 a week. Mail this week is $300 to 5k homes, your name only. Not a pack.",
   },
 ];

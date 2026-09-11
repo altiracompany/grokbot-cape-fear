@@ -18,14 +18,14 @@ export const OFFERS: {
     label: "The $500",
     dueToday: WEEKLY_SEAT,
     weekly: WEEKLY_SEAT,
-    blurb: "Two free jobs. Then $500 a week. One company. We ask. You go.",
+    blurb: "Two free jobs. Then $500 a week. Exclusive to you. We ask. You go.",
   },
   {
     id: "eddm",
     label: "Mail",
     dueToday: EDDM_PRICE,
     weekly: 0,
-    blurb: `Your flyer. ${EDDM_HOMES.toLocaleString()} homes. $300. This week.`,
+    blurb: `Your flyer. ${EDDM_HOMES.toLocaleString()} homes. $300. Exclusive to you.`,
   },
   {
     id: "turnkey",

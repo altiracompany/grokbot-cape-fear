@@ -70,9 +70,9 @@ ${lead.screenNotes || "In the county. Real job. Wants work. Not a shopper."}
 Tape
 ${lines || "(no transcript)"}
 
-We interviewed. This one's yours. Don't call them to "see if it's real" — we already did.`;
+We interviewed. Exclusive to you. Don't call them to "see if it's real" — we already did.`;
 }
 
 export function ownerOfferSms(market: Market, niche: Niche, ppl: number) {
-  return `Stop buying Angi leftovers. One ${niche.name.toLowerCase()} company. A robot asks on ${market.trackingNumber}. Job to your phone, not four other trucks. First 2 free. Then $500 a week. Reply YES.`;
+  return `Stop buying Angi leftovers. Exclusive to you. A robot asks on ${market.trackingNumber}. Job to your phone, not four other trucks. First 2 free. Then $500 a week. Reply YES.`;
 }

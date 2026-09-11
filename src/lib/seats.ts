@@ -252,13 +252,13 @@ ${buyer.name} —
 
 Bark and TaskRabbit don't make phones ring in ${area}. Angi and Thumbtack buy Google, then sell the same name to 3–8 trucks.
 
-We get the jobs for one company. A robot asks the questions. The job goes to your truck — not a card pack.
+We get the jobs exclusive to you. A robot asks the questions. The job goes to your truck — not a card pack.
 
 ${county} ${niche.name}
 First 2 jobs: free
 Then: $500 a week. Extra jobs ${money(buyer.pplRate)} if you want them.
 
-One company per county.${extra} Reply YES.`;
+One county. Exclusive to you.${extra} Reply YES.`;
 }
 
 export function turnkeySms(buyer: Buyer) {
@@ -287,7 +287,7 @@ We get the jobs:
 - We make the phone ring for ${county} ${niche.name.toLowerCase()}
 - We answer and ask every caller
 - You get a text: name, street, job, when, recording
-- You go. We don't share you with 4 other companies
+- You go. Exclusive to you. Not 4 other companies
 
 To start: ${money(TURNKEY_SETUP)}
 Then: ${money(TURNKEY_WEEKLY)} a week

@@ -14,12 +14,12 @@ export const HOW_STEPS = [
   {
     n: "03",
     t: "We text you",
-    d: "You, your inbox, or your dispatcher — you pick. Name, phone, job, when they need it, the recording. One company. Not four trucks.",
+    d: "You, your email, or your people — you pick. Name, phone, job, when they need it, the recording. Exclusive to you. Not four trucks.",
   },
   {
     n: "04",
     t: "You go",
-    d: "That's it. Pause anytime.",
+    d: "That's it. Exclusive to you. Pause anytime.",
   },
 ] as const;
 

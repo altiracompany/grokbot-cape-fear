@@ -68,8 +68,8 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "Comal fence",
     hook: "Fence company in New Braunfels?",
     primary:
-      "Fence company in New Braunfels?\n\nAngi still sends your job to 5 other trucks.\n\nWe send the job to you. One company in Comal.\n\nA robot asks the homeowner the boring questions. It says it is a robot. Street. What's down. Can they be there.\n\nWe text you. You go.\n\nFirst 2 jobs free. Then $500 a week.\n\nTap YES.",
-    headline: "Your fence job. Not 5 trucks.",
+      "Fence company in New Braunfels?\n\nAngi still sends your job to 5 other trucks.\n\nExclusive to you in Comal. Not five trucks.\n\nA robot asks the homeowner the boring questions. It says it is a robot. Street. What's down. Can they be there.\n\nWe text you. You go.\n\nFirst 2 jobs free. Then $500 a week.\n\nTap YES.",
+    headline: "Exclusive to you. Not 5 trucks.",
     cta: "YES — start 2 free",
   },
   {
@@ -77,8 +77,8 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "Gutters / roof-adjacent",
     hook: "Gutter company tired of shared names?",
     primary:
-      "Gutter company tired of shared names?\n\nYou pay Angi. Four other crews get the same person.\n\nHomeowner calls. We ask. You get the storm work — not a race.\n\nFirst 2 free. Then $500 a week. Pause anytime.\n\nNeed work this week? $300 flyer. Your name only. 5,000 homes.",
-    headline: "One gutter company. One county.",
+      "Gutter company tired of shared names?\n\nYou pay Angi. Four other crews get the same person.\n\nExclusive to you. Homeowner calls. We ask. You get the storm work — not a race.\n\nFirst 2 free. Then $500 a week. Pause anytime.\n\nNeed work this week? $300 flyer. Your name only. 5,000 homes.",
+    headline: "Exclusive to you. One county.",
     cta: "Start this week",
   },
   {
@@ -86,7 +86,7 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "HVAC already on LSA",
     hook: "HVAC owner still on Google LSA?",
     primary:
-      "HVAC owner still paying Google for clicks?\n\nYou already pay. You lose the ones you miss.\n\nWe ask on the missed call. It says it is a robot. Then the job hits your phone — not three other techs.\n\nOne company. Comal or Guadalupe.\n\nFirst 2 free. Then $500 a week.\n\nDon't buy more ads until someone answers.",
+      "HVAC owner still paying Google for clicks?\n\nYou already pay. You lose the ones you miss.\n\nWe ask on the missed call. It says it is a robot. Then the job hits your phone — exclusive to you, not three other techs.\n\nComal or Guadalupe.\n\nFirst 2 free. Then $500 a week.\n\nDon't buy more ads until someone answers.",
     headline: "Stop missing the call you paid for.",
     cta: "YES — cover the miss",
   },
@@ -95,7 +95,7 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "Any home service already buying leads",
     hook: "Still paying Angi for leftovers?",
     primary:
-      "Still paying Angi for leftovers?\n\nYou already know you need jobs. You don't need a webinar.\n\nOne company in your county. A robot asks. Job on your phone.\n\nFence. Gutters. HVAC. Foundation. Pressure wash.\n\nBexar. Comal. Guadalupe.\n\nFirst 2 free. Then $500 a week.",
+      "Still paying Angi for leftovers?\n\nYou already know you need jobs. You don't need a webinar.\n\nExclusive to you in your county. A robot asks. Job on your phone.\n\nFence. Gutters. HVAC. Foundation. Pressure wash.\n\nBexar. Comal. Guadalupe.\n\nFirst 2 free. Then $500 a week.",
     headline: "Stop buying leftovers.",
     cta: "Get the next job",
   },
