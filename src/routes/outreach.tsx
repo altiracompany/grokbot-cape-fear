@@ -220,7 +220,7 @@ function OutreachPage() {
           onClick={() => setOffer("turnkey")}
           className={cn("h-11 rounded-md px-4 text-sm", offer === "turnkey" ? "bg-elevated text-fg" : "text-muted")}
         >
-          Turnkey busy
+          We run it
         </button>
       </div>
 

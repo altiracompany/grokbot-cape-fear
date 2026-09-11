@@ -81,7 +81,7 @@ function LivePage() {
             {countyLabel(buyer.county)} {niche.name}
           </h1>
           <p className="mt-2 text-sm text-muted">
-            AI interview. Packet to {dest.label}. SMS {dest.phone}. Inbox {dest.email}.
+            A robot asks. We text {dest.label}. Phone {dest.phone}. Email {dest.email}.
           </p>
         </div>
 
@@ -114,21 +114,20 @@ function LivePage() {
 
         {buyer.eddm ? (
           <Card className="rounded-xl p-5">
-            <p className="font-mono text-xs tracking-wider text-subtle uppercase">EDDM</p>
-            <p className="mt-2 text-lg">5,000 homes on your routes. Flyer in drop.</p>
-            <p className="mt-1 text-sm text-muted">Your name, phone, service. One company on the piece. Cove takes the inbound.</p>
+            <p className="font-mono text-xs tracking-wider text-subtle uppercase">Mail</p>
+            <p className="mt-2 text-lg">5,000 homes. Your flyer.</p>
+            <p className="mt-1 text-sm text-muted">Your name, phone, work. One company on the piece. We answer the call.</p>
           </Card>
         ) : null}
 
         <section>
-          <h2 className="font-display text-2xl font-medium tracking-tight">Pre-screened jobs</h2>
-          <p className="mt-1 text-sm text-muted">Hot or warm only. Name, address, job, urgency. You roll.</p>
+          <h2 className="font-display text-2xl font-medium tracking-tight">Jobs</h2>
+          <p className="mt-1 text-sm text-muted">Real work only. Name, street, what they need. You go.</p>
           <div className="mt-6 grid gap-3">
             {jobs.length === 0 && inbound.length === 0 ? (
               <Card className="rounded-xl p-6">
                 <p className="text-sm leading-relaxed text-muted">
-                  Line is live. Cove is on. The next screened {niche.name.toLowerCase()} job in {countyLabel(buyer.county)}{" "}
-                  hits this page and your phone. Keep this link.
+                  You're on. Next {niche.name.toLowerCase()} job in {countyLabel(buyer.county)} hits this page and your phone. Keep this link.
                 </p>
               </Card>
             ) : null}

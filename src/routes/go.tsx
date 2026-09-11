@@ -139,8 +139,7 @@ function GoPage() {
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Start now</p>
           <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">$500 a week. Two free. Mail this week if you want.</h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-            One company per county. We tell you how the phone rang. AI interviews. Packet to your inbox, your team, or
-            you. Need jobs this week? EDDM — {money(EDDM_PRICE)} to {EDDM_HOMES.toLocaleString()} homes.
+            One company in your county. We tell you how they found you. A robot asks — it says so — then we text you the name and street. Need work this week? Mail to {EDDM_HOMES.toLocaleString()} homes is {money(EDDM_PRICE)}.
           </p>
           <form onSubmit={submit} className="mt-10 grid gap-4">
             <Field label="Your name" htmlFor="n">
@@ -231,8 +230,7 @@ function GoPage() {
                   onChange={(e) => setAddEddm(e.target.checked)}
                 />
                 <span>
-                  Add EDDM — {money(EDDM_PRICE)} · {EDDM_HOMES.toLocaleString()} homes on your routes. Mail drops while
-                  the line ramps.
+                  Add mail — {money(EDDM_PRICE)} · {EDDM_HOMES.toLocaleString()} homes. Your name only. Drops while the phone ramps.
                 </span>
               </label>
             ) : null}
@@ -240,9 +238,9 @@ function GoPage() {
               {checkoutHref(offer, "x", "", addEddm)
                 ? `Pay ${money(today)} · start`
                 : offer === "eddm"
-                  ? `Start EDDM · ${money(EDDM_PRICE)} · ${EDDM_HOMES.toLocaleString()} homes`
+                  ? `Start mail · ${money(EDDM_PRICE)} · ${EDDM_HOMES.toLocaleString()} homes`
                   : addEddm
-                    ? `Start · 2 free + EDDM ${money(EDDM_PRICE)}`
+                    ? `Start · 2 free + mail ${money(EDDM_PRICE)}`
                     : `Start · 2 free then ${money(picked.weekly)}/wk`}
             </Button>
             <p className="text-xs text-subtle">

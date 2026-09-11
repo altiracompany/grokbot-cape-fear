@@ -14,7 +14,7 @@ import { cn, money } from "@/lib/utils";
 
 export const Route = createFileRoute("/playbook")({ component: Playbook });
 
-const TABS = ["Field", "Rules", "Value", "Offers", "Comments", "Ads", "CMO"] as const;
+const TABS = ["Field", "Rules", "Value", "Offers", "Comments", "Ads", "Posts"] as const;
 
 function Playbook() {
   const resetDesk = useAgency((s) => s.resetDesk);
@@ -151,36 +151,35 @@ function Playbook() {
       {tab === "Offers" ? (
         <div className="grid gap-4">
           <p className="text-sm text-muted">
-            The offer is $500/wk. Two free. EDDM $300 if they need jobs this week. Turnkey only if they're slammed.
+            $500 a week. Two free. $300 mail if they need work this week. We run it only if they're slammed.
           </p>
           <div className="grid gap-3 md:grid-cols-3">
             <Card>
-              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Core</p>
-              <CardTitle className="mt-1">Dedicated</CardTitle>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">The $500</p>
+              <CardTitle className="mt-1">Jobs</CardTitle>
               <p className="mt-2 font-mono text-2xl tabular-nums">{money(WEEKLY_SEAT)}/wk</p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                We answer. We screen. Packet to their truck. First 2 free. For owners already hunting leads.
+                We answer. We ask. We text the name and street. First 2 free. For owners already buying names.
               </p>
               <p className="mt-3 text-xs text-subtle">Reply YES</p>
             </Card>
             <Card>
-              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Busy professional</p>
-              <CardTitle className="mt-1">Turnkey</CardTitle>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Slammed</p>
+              <CardTitle className="mt-1">We run it</CardTitle>
               <p className="mt-2 font-mono text-2xl tabular-nums">
                 {money(TURNKEY_SETUP)} + {money(TURNKEY_WEEKLY)}/wk
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                We run ads, the line, after-hours, the screen. They only roll. Checkbook close. Same one-company rule.
+                We run ads and the phone. They only go. Same one-company rule.
               </p>
-              <p className="mt-3 text-xs text-subtle">Reply TURNKEY</p>
+              <p className="mt-3 text-xs text-subtle">Reply RUN IT</p>
             </Card>
             <Card>
-              <p className="font-mono text-xs tracking-wider text-subtle uppercase">Start this week</p>
-              <CardTitle className="mt-1">EDDM</CardTitle>
+              <p className="font-mono text-xs tracking-wider text-subtle uppercase">This week</p>
+              <CardTitle className="mt-1">Mail</CardTitle>
               <p className="mt-2 font-mono text-2xl tabular-nums">{money(EDDM_PRICE)}</p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Ad on our route mailer. {EDDM_HOMES.toLocaleString()} homes. They get inbound while Cove ramps. One
-                company on the piece.
+                Flyer to {EDDM_HOMES.toLocaleString()} homes. Their name only. Phone rings while we ramp.
               </p>
               <p className="mt-3 text-xs text-subtle">Reply MAIL</p>
             </Card>
@@ -285,11 +284,10 @@ function Playbook() {
         </div>
       ) : null}
 
-      {tab === "CMO" ? (
+      {tab === "Posts" ? (
         <div className="grid gap-4">
           <p className="text-sm text-muted">
-            App-growth playbook, rewritten. We don't grow an app. We grow YES from owners who already buy leads.
-            Post finds the offer. DM closes. Hate is reach.
+            Posts for contractor groups. Value in public. Offer in the DM. Talk like a person, not an agency.
           </p>
           {CMO_PHASES.map((p) => (
             <Card key={p.n}>

@@ -68,16 +68,16 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "Comal fence",
     hook: "Fence company in New Braunfels?",
     primary:
-      "Fence company in New Braunfels?\n\nAngi still sends your job to 5 other trucks.\n\nWe send the job to you. One company in Comal.\n\nAn AI asks the homeowner the boring questions. It says it is AI. Street. What's down. Can they be there.\n\nYou get the packet. You roll.\n\nFirst 2 jobs free. Then $500 a week.\n\nTap YES.",
+      "Fence company in New Braunfels?\n\nAngi still sends your job to 5 other trucks.\n\nWe send the job to you. One company in Comal.\n\nA robot asks the homeowner the boring questions. It says it is a robot. Street. What's down. Can they be there.\n\nWe text you. You go.\n\nFirst 2 jobs free. Then $500 a week.\n\nTap YES.",
     headline: "Your fence job. Not 5 trucks.",
     cta: "YES — start 2 free",
   },
   {
     id: "gutter-storm",
     market: "Gutters / roof-adjacent",
-    hook: "Gutter company tired of shared leads?",
+    hook: "Gutter company tired of shared names?",
     primary:
-      "Gutter company tired of shared leads?\n\nYou pay Angi. Four other crews get the same name.\n\nWe run the county line. Homeowner calls. We interview. You get the storm dump — not a race.\n\nFirst 2 free. Then $500 a week. Pause anytime.\n\nNeed jobs this week? $300 mailer. Your name only. 5,000 homes.",
+      "Gutter company tired of shared names?\n\nYou pay Angi. Four other crews get the same person.\n\nHomeowner calls. We ask. You get the storm work — not a race.\n\nFirst 2 free. Then $500 a week. Pause anytime.\n\nNeed work this week? $300 flyer. Your name only. 5,000 homes.",
     headline: "One gutter company. One county.",
     cta: "Start this week",
   },
@@ -86,7 +86,7 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "HVAC already on LSA",
     hook: "HVAC owner still on Google LSA?",
     primary:
-      "HVAC owner still on Google LSA?\n\nYou already pay for clicks. You lose the ones you miss.\n\nWe interview the missed call. It says it is AI. Then the job hits your phone — not three other techs.\n\nOne company. Comal or Guadalupe.\n\nFirst 2 free. Then $500 a week.\n\nDon't buy more ads until the desk answers.",
+      "HVAC owner still paying Google for clicks?\n\nYou already pay. You lose the ones you miss.\n\nWe ask on the missed call. It says it is a robot. Then the job hits your phone — not three other techs.\n\nOne company. Comal or Guadalupe.\n\nFirst 2 free. Then $500 a week.\n\nDon't buy more ads until someone answers.",
     headline: "Stop missing the call you paid for.",
     cta: "YES — cover the miss",
   },
@@ -95,7 +95,7 @@ export const OWNER_ADS: OwnerAd[] = [
     market: "Any home service already buying leads",
     hook: "Still paying Angi for leftovers?",
     primary:
-      "Still paying Angi for leftovers?\n\nYou already know you need jobs. You don't need a webinar.\n\nDedicated lead gen. One company per county. AI interview. Job on your phone.\n\nFence. Gutters. HVAC. Foundation. Pressure wash.\n\nBexar. Comal. Guadalupe.\n\nFirst 2 free. Then $500 a week.",
+      "Still paying Angi for leftovers?\n\nYou already know you need jobs. You don't need a webinar.\n\nOne company in your county. A robot asks. Job on your phone.\n\nFence. Gutters. HVAC. Foundation. Pressure wash.\n\nBexar. Comal. Guadalupe.\n\nFirst 2 free. Then $500 a week.",
     headline: "Stop buying leftovers.",
     cta: "Get the next job",
   },
@@ -105,6 +105,6 @@ export const AD_RULES = [
   "5th grade. Short words. Periods.",
   "Trade in the first line. County in the first screen.",
   "High contrast: black field, one truck photo, yellow YES.",
-  "Sell the job on their phone. Not 'AI stack.' Not 'optimization.'",
-  "Ads to OWNERS get us clients. Ads to homeowners wait until the desk answers.",
+  "Sell the job on their phone. Not AI. Not 'optimization.'",
+  "Ads to owners get us clients. Ads to homeowners wait until we answer.",
 ];

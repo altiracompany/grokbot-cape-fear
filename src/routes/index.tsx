@@ -27,27 +27,27 @@ const NICHES = [
 const FAQS = [
   {
     q: "Who is Freedom Project Leads?",
-    a: "Your dedicated lead generation company. We screen every conversation and send the job to your truck. One company per county. We do not share you with four other contractors.",
+    a: "We get jobs for one company in your county. A robot asks the homeowner the boring questions — it says it's a robot — then we text you the name and street. We do not sell your name to four other trucks.",
   },
   {
     q: "Is this Angi or Thumbtack?",
-    a: "No. Those sell the same name to 3–8 trucks. You pay whether you win. We send one screened job to you.",
+    a: "No. Those sell the same name to 3–8 trucks. You pay whether you win. We send the job to you.",
   },
   {
     q: "Is a person on the phone?",
-    a: "The interview desk is AI. It says so on the first line. County, address, job, can they be there. Tape goes to your inbox, your team, or you — you pick. Hot or warm only.",
+    a: "No. A robot. First line: I'm not a person. County, street, what's wrong, can they be there. Recording goes to your phone, your email, or your people — you pick. Shoppers get cut.",
   },
   {
-    q: "Do you work my website?",
-    a: "We run the demand and the desk. You roll. Busy owners pick Turnkey and don't lift a finger. That's the point.",
+    q: "Do you work on my website?",
+    a: "No. We make the phone ring. You go do the work. If you're slammed, pick We run it and don't touch ads.",
   },
   {
     q: "What does it cost?",
-    a: `Dedicated ${money(WEEKLY_SEAT)} a week after two free jobs. Need jobs this week? EDDM ${money(EDDM_PRICE)} to ${EDDM_HOMES.toLocaleString()} homes. Turnkey is ${money(TURNKEY_SETUP)} + ${money(TURNKEY_WEEKLY)}/wk if you're slammed.`,
+    a: `${money(WEEKLY_SEAT)} a week after two free jobs. Need work this week? Mail to ${EDDM_HOMES.toLocaleString()} homes is ${money(EDDM_PRICE)}. We run it is ${money(TURNKEY_SETUP)} plus ${money(TURNKEY_WEEKLY)}/wk if you don't want to lift a finger.`,
   },
   {
     q: "Where do you work?",
-    a: PUBLIC_AREAS + " Cape Fear (New Hanover, Pender, Brunswick) is live too.",
+    a: PUBLIC_AREAS + " Also New Hanover, Pender, Brunswick.",
   },
 ];
 
@@ -69,7 +69,7 @@ function PublicHome() {
       <section className="flex flex-col gap-8 pt-10 pb-16 md:pt-16 md:pb-24">
         <p className="font-mono text-xs tracking-[0.22em] text-muted uppercase">Alamo · Cape Fear</p>
         <h1 className="max-w-3xl font-display text-4xl leading-[1.1] font-medium tracking-tight md:text-6xl">
-          Dedicated lead gen for the truck that's already busy.
+          Jobs for the truck that's already busy.
         </h1>
         <p className="max-w-xl text-lg leading-relaxed text-muted">{BRAND_PUBLIC}</p>
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -88,9 +88,9 @@ function PublicHome() {
 
       <section className="grid gap-3 border-t border-border py-12 md:grid-cols-3">
         {[
-          { k: "One", v: "company in your county. Not a mill dump." },
-          { k: "Two", v: "jobs free so you see the desk before you pay." },
-          { k: "Local", v: "210 Bexar. 830 Comal and Guadalupe." },
+          { k: "One", v: "company in your county. Not five trucks on the same name." },
+          { k: "Two", v: "jobs free so you see it before you pay." },
+          { k: "Local", v: "We text from 210 and 830." },
         ].map((item) => (
           <Card key={item.k} className="rounded-2xl p-6">
             <p className="font-mono text-xs tracking-wider text-subtle uppercase">{item.k}</p>
@@ -120,14 +120,14 @@ function PublicHome() {
           <p className="font-mono text-xs tracking-wider text-subtle uppercase">The offer</p>
           <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(WEEKLY_SEAT)}/wk</p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            Two jobs free. Then $500 a week. One company. We screen. You roll.
+            Two jobs free. Then $500 a week. One company. We ask. You go.
           </p>
         </Card>
         <Card className="rounded-2xl p-8">
           <p className="font-mono text-xs tracking-wider text-subtle uppercase">Start this week</p>
           <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(EDDM_PRICE)}</p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            EDDM. Your ad to {EDDM_HOMES.toLocaleString()} homes. Mail while the line ramps.
+            Your flyer to {EDDM_HOMES.toLocaleString()} homes. $300. Mail while the phone ramps.
           </p>
         </Card>
       </section>

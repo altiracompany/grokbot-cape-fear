@@ -11,25 +11,25 @@ export const CMO_PHASES = [
     n: "2",
     name: "Content finds the offer",
     they: "Post first, build second. 'I wish this existed' is the brief.",
-    we: "Comments already told us: exclusive county, screen before you roll, mail that's one name. That's the $500. Don't add SKUs because a guru has seven.",
+    we: "Comments already told us: one name, one truck, ask before you roll. That's the $500. Don't add a seventh product because a guru has seven.",
   },
   {
     n: "3",
     name: "Ship fast",
     they: "AI MVP in days.",
-    we: "Desk is live. /go takes the card. Don't rebuild Clay. Connect MCP. Don't wait on a domain to text 830.",
+    we: "Site is live. Don't wait on a tool to post.",
   },
   {
     n: "4",
     name: "Convert soft",
     they: "Value first. App as afterthought. Save-worthy. DMs close downloads.",
-    we: "Value in the post. Desk in the DM. 'Repeat for 7 days' on the Angi math. CTA is reply YES or DM YES — not a thread of features.",
+    we: "Value in the post. The offer in the DM. 'Repeat for 7 days' on the Angi math. CTA is reply YES — not a list of features.",
   },
   {
     n: "5",
     name: "Use the hate",
     they: "Criticism is reach. Innovate, don't copy.",
-    we: "'AI is fake' → we say it's AI on line one. 'Another mill' → one company, not five trucks. Don't argue. Post the tape rule. Block copycats of the pack.",
+    we: "'Robot is fake' → we say it's a robot on line one. 'Another Angi' → one company, not five trucks. Don't argue. Post the rule.",
   },
 ] as const;
 
@@ -48,7 +48,7 @@ export const CMO_POSTS = [
   },
   {
     hook: "I wish this existed",
-    body: "The thing contractors keep asking for:\n\none name on the mailer.\none truck on the job.\nsomeone who already asked the homeowner the boring questions.\n\nThat's not a pack. That's a desk.",
+    body: "The thing contractors keep asking for:\n\none name on the mailer.\none truck on the job.\nsomeone who already asked the homeowner the boring questions.\n\nThat's not a pack. That's one company.",
   },
   {
     hook: "Save this",
@@ -60,14 +60,14 @@ export const CMO_POSTS = [
   },
   {
     hook: "Afterthought CTA",
-    body: "LSA works if you answer in 30 seconds.\nAngi works if you like sharing.\nMail works if it's your piece.\n\nDedicated line if you want it screened before you leave the shop.\n\n(If you want that last one: DM YES.)",
+    body: "LSA works if you answer in 30 seconds.\nAngi works if you like sharing.\nMail works if it's your piece.\n\nOne company if you want it asked before you leave the shop.\n\n(If you want that last one: DM YES.)",
   },
 ];
 
 export const CMO_DM = `You asked how to stop buying leftovers.
 
-Dedicated lead gen. One company per county. AI interviews — it says it's AI — then the job hits your phone.
+One company in your county. A robot asks — it says it's a robot — then the job hits your phone.
 
-First 2 free. Then $500/wk. Pause anytime.
+First 2 free. Then $500 a week. Pause anytime.
 
 Reply YES and we start Comal.`;

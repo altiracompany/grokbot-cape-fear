@@ -15,24 +15,24 @@ export const OFFERS: {
 }[] = [
   {
     id: "dedicated",
-    label: "Dedicated",
+    label: "The $500",
     dueToday: WEEKLY_SEAT,
     weekly: WEEKLY_SEAT,
-    blurb: "The offer. We screen. You roll. 2 free, then $500/wk. One company.",
+    blurb: "Two free jobs. Then $500 a week. One company. We ask. You go.",
   },
   {
     id: "eddm",
-    label: "EDDM",
+    label: "Mail",
     dueToday: EDDM_PRICE,
     weekly: 0,
-    blurb: `Start this week. Your ad. ${EDDM_HOMES.toLocaleString()} homes. $300.`,
+    blurb: `Your flyer. ${EDDM_HOMES.toLocaleString()} homes. $300. This week.`,
   },
   {
     id: "turnkey",
-    label: "Turnkey",
+    label: "We run it",
     dueToday: TURNKEY_SETUP,
     weekly: TURNKEY_WEEKLY,
-    blurb: "Busy. We run it. $2,500 + $750/wk. Don't lead with this.",
+    blurb: "You're slammed. We run ads and the phone. $2,500 + $750/wk.",
   },
 ];
 

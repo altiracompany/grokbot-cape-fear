@@ -246,17 +246,17 @@ export function seatEmail(buyer: Buyer) {
   const county = countyLabel(buyer.county);
   const area = regionOf(buyer.county) === "alamo" ? "Bexar, Comal, and Guadalupe" : "Cape Fear";
   const extra = regionOf(buyer.county) === "alamo" ? " Atascosa and Wilson wait." : "";
-  return `Subject: Freedom Project Leads — your dedicated ${county} ${niche.name.toLowerCase()} line · 2 free then $500/week
+  return `Subject: ${county} ${niche.name.toLowerCase()} — 2 free jobs then $500 a week
 
 ${buyer.name} —
 
-Bark and TaskRabbit don't create ${area} demand. Angi and Thumbtack buy Google, then sell the same name to 3–8 trucks.
+Bark and TaskRabbit don't make phones ring in ${area}. Angi and Thumbtack buy Google, then sell the same name to 3–8 trucks.
 
-We're your dedicated lead gen. Desk screens every conversation. The job goes to your truck — not a credit pack.
+We get the jobs for one company. A robot asks the questions. The job goes to your truck — not a card pack.
 
-Your line: ${county} ${niche.name}
-First 2 screened jobs: free
-Then: $500 a week dedicated. Extra jobs ${money(buyer.pplRate)} if you want them.
+${county} ${niche.name}
+First 2 jobs: free
+Then: $500 a week. Extra jobs ${money(buyer.pplRate)} if you want them.
 
 One company per county.${extra} Reply YES.`;
 }
@@ -267,35 +267,35 @@ export function turnkeySms(buyer: Buyer) {
   const first = buyer.name.split(" ")[0] ?? "Hey";
   return `${first} — you're busy. Angi still sells your name to 4 trucks.
 
-Freedom Project Leads is your dedicated ${niche.name.toLowerCase()} lead gen for ${county}. Turnkey: we run the ads, we answer, we screen, we send the job to your truck. You roll. That's it.
+We get ${niche.name.toLowerCase()} jobs in ${county}. We run the ads, we answer, we ask, we send the job to your truck. You go. That's it.
 
-Stand-up ${money(TURNKEY_SETUP)}. Then ${money(TURNKEY_WEEKLY)} a week. First 2 jobs free so you see the desk.
+${money(TURNKEY_SETUP)} to start. Then ${money(TURNKEY_WEEKLY)} a week. First 2 jobs free so you see it.
 
-Reply TURNKEY.`;
+Reply RUN IT.`;
 }
 
 export function turnkeyEmail(buyer: Buyer) {
   const niche = nicheById(buyer.nicheId);
   const county = countyLabel(buyer.county);
-  return `Subject: Turnkey ${county} ${niche.name.toLowerCase()} lead gen — you just roll
+  return `Subject: We run ${county} ${niche.name.toLowerCase()} — you just go
 
 ${buyer.name} —
 
-You're booked. You don't have time to babysit Angi, ads, or a receptionist.
+You're booked. You don't have time to babysit Angi, ads, or a fake receptionist.
 
-We're your dedicated lead gen. Turnkey:
-- We run the ${county} ${niche.name.toLowerCase()} demand
-- Our desk answers and screens every call
-- You get a packet: name, address, job, urgency, tape
-- You roll. We don't share you with 4 other companies
+We get the jobs:
+- We make the phone ring for ${county} ${niche.name.toLowerCase()}
+- We answer and ask every caller
+- You get a text: name, street, job, when, recording
+- You go. We don't share you with 4 other companies
 
-Stand-up: ${money(TURNKEY_SETUP)} (line, ads, desk)
+To start: ${money(TURNKEY_SETUP)}
 Then: ${money(TURNKEY_WEEKLY)} a week
-First 2 screened jobs: free
+First 2 jobs: free
 
-Dedicated ${money(WEEKLY_SEAT)}/wk is the line if you still want to be in the mix. Turnkey is for owners who won't lift a finger.
+$500 a week if you still want to be in the mix. We run it is for owners who won't lift a finger.
 
-Reply TURNKEY and we start this week.`;
+Reply RUN IT and we start this week.`;
 }
 
 export function nextHunt(current: HuntStatus): HuntStatus | null {

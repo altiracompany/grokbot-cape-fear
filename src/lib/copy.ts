@@ -12,31 +12,30 @@ export function marketTitle(market: Market, niche: Niche) {
 export function pplPitch(market: Market, niche: Niche) {
   const math = pplMath(niche);
   const field = fieldFor(niche.id);
-  return `FREEDOM PROJECT LEADS — ${niche.name.toUpperCase()} / YOUR DEDICATED LINE
+  return `FREEDOM PROJECT LEADS — ${niche.name.toUpperCase()} / ${market.city.toUpperCase()}
 
 New Hanover · Pender · Brunswick · Bexar · Comal · Guadalupe.
-Your ${niche.name.toLowerCase()} lead gen. We answer ${market.trackingNumber}. You never talk to a raw caller.
+${niche.name} jobs. We answer ${market.trackingNumber}. You never talk to a raw caller.
 
-Wedge: ${field.wedge.toUpperCase()}
-Angi sells this at ${field.angiPpl}. Shared. Three other trucks on the same ping.
-You get one screened job — to your company.
+Angi sells this at ${field.angiPpl}. Shared. Three other trucks on the same name.
+You get one job — to your company.
 
 What you get
-- A screened handoff: name, phone, address, job, urgency, transcript
-- First ${FREE_TRIAL} free. Then $500 a week dedicated
+- Name, phone, street, job, when, recording
+- First ${FREE_TRIAL} free. Then $500 a week
 - Extra jobs ${money(market.pplPrice)}. Pause anytime
 
 What you do not get
-- A dump of unscreened form fills
-- Shared mill leads five other trucks already called
+- A dump of form fills
+- The same name five other trucks already called
 
 The math
 Typical job: ${niche.jobRange} (we model ${money(niche.jobValue)})
 Close we underwrite: ${pct(niche.closeRate)}
-Expected value of a screened lead: ${money(math.expectedValue)}
-After the 2 free: $500 a week dedicated to you
+A real job is worth about ${money(math.expectedValue)}
+After the 2 free: $500 a week to you
 
-Reply YES. We're your lead gen.`;
+Reply YES.`;
 }
 
 export function conservativePitch(niche: Niche) {

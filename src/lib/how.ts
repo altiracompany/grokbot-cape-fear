@@ -3,30 +3,30 @@ import type { Buyer, HandoffTarget } from "./types";
 export const HOW_STEPS = [
   {
     n: "01",
-    t: "We make the phone ring",
-    d: "Local pages, county ads, and optional EDDM to 5,000 homes. The homeowner is looking for the job — fence, gutter, quince, septic. They call or tap. We tell you which.",
+    t: "They call",
+    d: "A page, an ad, or a flyer to 5,000 homes. Someone needs a fence, a gutter, a quince, a septic. They call. We tell you how they found you.",
   },
   {
     n: "02",
-    t: "AI interview. Not a fake receptionist.",
-    d: "The desk says it's AI. County, address, what's wrong, can you be there. Tape on every call. Hot or warm only. Quote-shoppers get cut.",
+    t: "A robot asks. It says it's a robot.",
+    d: "County, street, what's wrong, can you be there. We keep the recording. If they're shopping five quotes, we cut them.",
   },
   {
     n: "03",
-    t: "Packet to you",
-    d: "Inbox, your team, or the founder — you pick. Name, phone, job, urgency, interview tape. One company. Not four trucks.",
+    t: "We text you",
+    d: "You, your inbox, or your dispatcher — you pick. Name, phone, job, when they need it, the recording. One company. Not four trucks.",
   },
   {
     n: "04",
-    t: "You roll",
-    d: "That's the product. Dedicated lead gen. Pause anytime.",
+    t: "You go",
+    d: "That's it. Pause anytime.",
   },
 ] as const;
 
 export const HANDOFF_OPTIONS: { id: HandoffTarget; label: string; blurb: string }[] = [
-  { id: "founder", label: "Founder", blurb: "Hits the owner. Phone + inbox." },
-  { id: "inbox", label: "Inbox", blurb: "Email first. SMS backup." },
-  { id: "team", label: "Team", blurb: "Named dispatcher or crew lead." },
+  { id: "founder", label: "You", blurb: "Hits your phone and email." },
+  { id: "inbox", label: "Email", blurb: "Email first. Text backup." },
+  { id: "team", label: "Your people", blurb: "Whoever runs the board." },
 ];
 
 export function handoffDest(b: Pick<Buyer, "name" | "email" | "phone" | "handoffTo" | "handoffName" | "handoffEmail" | "handoffPhone">) {
@@ -34,13 +34,13 @@ export function handoffDest(b: Pick<Buyer, "name" | "email" | "phone" | "handoff
   const who = b.handoffName?.trim() || b.name;
   const email = b.handoffEmail?.trim() || b.email;
   const phone = b.handoffPhone?.trim() || b.phone;
-  const label = to === "team" ? `Team · ${who}` : to === "inbox" ? `Inbox · ${who}` : `Founder · ${who}`;
+  const label = to === "team" ? `Crew · ${who}` : to === "inbox" ? `Email · ${who}` : `You · ${who}`;
   return { to, who, email, phone, label };
 }
 
 export function sourceLine(source: string) {
-  if (source === "eddm" || source === "mail") return "EDDM / mailer. They called the number on the piece.";
-  if (source === "form") return "Form on the local page.";
-  if (source === "gbp" || source === "maps") return "Maps / Google listing.";
-  return "Inbound call on the county line. Ads + local page.";
+  if (source === "eddm" || source === "mail") return "They called the number on your flyer.";
+  if (source === "form") return "They filled the form on the page.";
+  if (source === "gbp" || source === "maps") return "They found you on Google Maps.";
+  return "They called the county number. Ad or page.";
 }

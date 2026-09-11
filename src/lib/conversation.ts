@@ -65,7 +65,7 @@ How we got this
 ${sourceLine(lead.source)} ${market.domain}
 
 AI interview (they were told it's AI)
-${lead.screenNotes || "In territory. Real job. Wants service. Not a mill dump."}
+${lead.screenNotes || "In the county. Real job. Wants work. Not a shopper."}
 
 Tape
 ${lines || "(no transcript)"}
@@ -74,5 +74,5 @@ We interviewed. This one's yours. Don't call them to "see if it's real" — we a
 }
 
 export function ownerOfferSms(market: Market, niche: Niche, ppl: number) {
-  return `Stop buying Angi leftovers. Freedom Project Leads — your dedicated ${niche.name.toLowerCase()} lead gen. AI interview on ${market.trackingNumber}. Screened job to your inbox or crew, not a shared ping. First 2 free. Then $500/wk. Reply YES.`;
+  return `Stop buying Angi leftovers. One ${niche.name.toLowerCase()} company. A robot asks on ${market.trackingNumber}. Job to your phone, not four other trucks. First 2 free. Then $500 a week. Reply YES.`;
 }
