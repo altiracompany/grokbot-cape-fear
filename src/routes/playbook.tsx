@@ -151,7 +151,7 @@ function Playbook() {
       {tab === "Offers" ? (
         <div className="grid gap-4">
           <p className="text-sm text-muted">
-            $500 a week. Two free. Mail from {money(EDDM_PRICE)}. High zips {money(EDDM_PRICE_HIGH)}. We run it only if they're slammed.
+            $500 a week. Two free. Mail is parked. We run it only if they're slammed.
           </p>
           <div className="grid gap-3 md:grid-cols-3">
             <Card>
@@ -181,9 +181,9 @@ function Playbook() {
                 {money(EDDM_PRICE)}–{money(EDDM_PRICE_HIGH)}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Flyer to {EDDM_HOMES.toLocaleString()} homes. Price is the zip. 78132 / Stone Oak / Wrightsville = high. Seguin / westside = $300.
+                Parked. Zip prices live in code ($300 / $450 / $650). Don't sell the flyer until we turn MAIL_LIVE on.
               </p>
-              <p className="mt-3 text-xs text-subtle">Reply MAIL</p>
+              <p className="mt-3 text-xs text-subtle">Later</p>
             </Card>
           </div>
           <Card>

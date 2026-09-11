@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PublicFrame } from "@/components/public-frame";
 import { BRAND, BRAND_PUBLIC, PUBLIC_AREAS, PUBLIC_URL } from "@/lib/brand";
-import { EDDM_HOMES, EDDM_PRICE, EDDM_PRICE_HIGH, TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
+import { TURNKEY_SETUP, TURNKEY_WEEKLY, WEEKLY_SEAT } from "@/lib/pricing";
 import { HOW_STEPS } from "@/lib/how";
 import { money } from "@/lib/utils";
 
@@ -13,14 +13,14 @@ export const Route = createFileRoute("/")({ component: PublicHome });
 const STEPS = HOW_STEPS;
 
 const NICHES = [
+  "Tow",
+  "Christmas lights",
+  "Handyman",
+  "Painter",
+  "Roofer",
+  "Remodel",
   "Fence",
-  "Foundation",
   "Gutters",
-  "Windows",
-  "Pressure wash",
-  "Landscaper",
-  "Mobile detail",
-  "Quinceañera",
   "Septic",
 ];
 
@@ -43,7 +43,7 @@ const FAQS = [
   },
   {
     q: "What does it cost?",
-    a: `${money(WEEKLY_SEAT)} a week after two free jobs. Need work this week? Mail to ${EDDM_HOMES.toLocaleString()} homes from ${money(EDDM_PRICE)}. High zips ${money(EDDM_PRICE_HIGH)}. We run it is ${money(TURNKEY_SETUP)} plus ${money(TURNKEY_WEEKLY)}/wk if you don't want to lift a finger.`,
+    a: `${money(WEEKLY_SEAT)} a week after two free jobs. We run it is ${money(TURNKEY_SETUP)} plus ${money(TURNKEY_WEEKLY)}/wk if you don't want to lift a finger.`,
   },
   {
     q: "Where do you work?",
@@ -124,10 +124,10 @@ function PublicHome() {
           </p>
         </Card>
         <Card className="rounded-2xl p-8">
-          <p className="font-mono text-xs tracking-wider text-subtle uppercase">Start this week</p>
-          <p className="mt-3 font-display text-4xl font-medium tracking-tight">From {money(EDDM_PRICE)}</p>
+          <p className="font-mono text-xs tracking-wider text-subtle uppercase">We run it</p>
+          <p className="mt-3 font-display text-4xl font-medium tracking-tight">{money(TURNKEY_SETUP)}</p>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            Your flyer to {EDDM_HOMES.toLocaleString()} homes. Standard zip {money(EDDM_PRICE)}. High zip {money(EDDM_PRICE_HIGH)}. Exclusive to you.
+            Plus {money(TURNKEY_WEEKLY)} a week. You're slammed. We run ads and the phone. You go.
           </p>
         </Card>
       </section>

@@ -1,6 +1,7 @@
 import type { County } from "./types";
 
-/** Same 5,000 pieces. USPS stamp is ~the same. We charge the zip, not the postage. */
+/** Same 5,000 pieces. USPS stamp is ~the same. We charge the zip, not the postage. Parked — don't sell mail until we turn this on. */
+export const MAIL_LIVE = false;
 export const MAIL_HOMES = 5000;
 
 export const MAIL_TIERS = {

@@ -4,7 +4,7 @@ export const HOW_STEPS = [
   {
     n: "01",
     t: "They call",
-    d: "A page, an ad, or a flyer to 5,000 homes. Standard zip $300. High zip $650 — Stone Oak, 78132, Wrightsville. Someone needs a fence. They call.",
+    d: "A page and an ad. Someone needs a tow, a roof, lights, a fence. They call. We tell you how they found you.",
   },
   {
     n: "02",

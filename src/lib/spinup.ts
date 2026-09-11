@@ -37,6 +37,8 @@ export const OFFERS: {
   },
 ];
 
+export const PUBLIC_OFFERS = OFFERS.filter((o) => o.id !== "eddm");
+
 export function offerById(id: OfferId) {
   return OFFERS.find((o) => o.id === id) ?? OFFERS[0];
 }

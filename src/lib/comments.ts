@@ -37,11 +37,15 @@ export const COMMENT_BANK = [
     text: "Comal and Guadalupe still have one-truck shops that actually pick up. Downtown SA LSA is a knife fight. Work the county they live in, not the metro they Google.",
   },
   {
+    on: "Tow / roof / paint / handy / lights",
+    text: "Tow is 24/7 or it's leftover. Christmas lights book in October. Paint and handy hate shared names. Roofers don't need another storm chaser. Exclusive county. We ask. You go.",
+  },
+  {
     on: "Fence / foundation / gutter / windows rant",
     text: "Angi still dumps the same fence or foundation job on 5 crews. First one to bid cheap wins a race, not a job. Exclusive to you in the county. Ask for a street and a time before you roll. What you paid to book the job is the only number.",
   },
   {
     on: "After they reply / ask what you do",
-    text: "Exclusive to you in your county. We ask. You go. First 2 free, then $500 a week. Mail this week from $300 — high zip $650. 5k homes. Your name only. Not a pack.",
+    text: "Exclusive to you in your county. We ask. You go. First 2 free, then $500 a week.",
   },
 ];

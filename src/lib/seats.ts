@@ -20,7 +20,21 @@ export const SEAT_NICHES = [
 export const RSVP_NICHES = ["quince", "bounce", "dj", "catering", "rental"] as const;
 
 /** RSVP Home Improvement / Home Services / Automotive advertisers. Alamo only. */
-export const HOME_NICHES = ["fence", "gc", "foundation", "windows", "gutter", "wash", "detail", "landscape"] as const;
+export const HOME_NICHES = [
+  "fence",
+  "gc",
+  "foundation",
+  "windows",
+  "gutter",
+  "wash",
+  "detail",
+  "landscape",
+  "tow",
+  "lights",
+  "handyman",
+  "painter",
+  "roof",
+] as const;
 
 export type SeatNicheId =
   | (typeof SEAT_NICHES)[number]
@@ -189,6 +203,26 @@ export const HUNT_ALAMO: HuntSeat[] = [
   { id: "tx-nb-land", nicheId: "landscape", county: "comal", name: "Yard Crew", company: "Gruene Lawn", phone: "(830) 555-7801", email: "yard@gruenelawn.example", hunt: "open", notes: "Comal mow + clean-up. Recurring." },
   { id: "tx-sa-land", nicheId: "landscape", county: "bexar", name: "Mulch Route", company: "Helotes Landscape", phone: "(210) 555-7808", email: "mulch@heloteslandscape.example", hunt: "open", notes: "North Bexar weekly. Don't fight the big mow franchises on price." },
   { id: "tx-cibolo-land", nicheId: "landscape", county: "guadalupe", name: "Sprinkler Joe", company: "Cibolo Green", phone: "(210) 555-7814", email: "joe@cibologreen.example", hunt: "open", notes: "Schertz / Cibolo mow + irrigation." },
+
+  { id: "tx-nb-tow", nicheId: "tow", county: "comal", name: "Night Hook", company: "Comal Towing", phone: "(830) 555-8101", email: "hook@comaltow.example", hunt: "open", notes: "Comal 24/7. Don't fight the I-35 giants on police rotation." },
+  { id: "tx-sa-tow", nicheId: "tow", county: "bexar", name: "Jump Van", company: "Northside Roadside", phone: "(210) 555-8108", email: "jump@northsideroad.example", hunt: "open", notes: "North Bexar lockout + jump. Light duty." },
+  { id: "tx-seguin-tow", nicheId: "tow", county: "guadalupe", name: "Winch Co", company: "Cibolo Tow", phone: "(210) 555-8114", email: "winch@cibolotow.example", hunt: "open", notes: "Schertz / Cibolo. Same-day hook." },
+
+  { id: "tx-nb-lights", nicheId: "lights", county: "comal", name: "Hang Crew", company: "Gruene Lights", phone: "(830) 555-8201", email: "hang@gruenelights.example", hunt: "open", notes: "Comal hang + take-down. Oct book now." },
+  { id: "tx-sa-lights", nicheId: "lights", county: "bexar", name: "Peak Roof", company: "Stone Oak Lights", phone: "(210) 555-8208", email: "peak@stoneoaklights.example", hunt: "open", notes: "North Bexar HOA + storefront. Seasonal." },
+  { id: "tx-cibolo-lights", nicheId: "lights", county: "guadalupe", name: "Timer Joe", company: "Cibolo Holiday", phone: "(210) 555-8214", email: "timer@ciboloholiday.example", hunt: "open", notes: "Schertz / Cibolo. Take-down in Jan." },
+
+  { id: "tx-nb-handy", nicheId: "handyman", county: "comal", name: "Fix It Dale", company: "Braunfels Handy", phone: "(830) 555-8301", email: "dale@braunfelshandy.example", hunt: "open", notes: "Comal punch list. Not a mill dump." },
+  { id: "tx-sa-handy", nicheId: "handyman", county: "bexar", name: "Same Day Ray", company: "Helotes Handy", phone: "(210) 555-8308", email: "ray@heloteshandy.example", hunt: "open", notes: "North Bexar. TV, doors, small jobs." },
+  { id: "tx-seguin-handy", nicheId: "handyman", county: "guadalupe", name: "One Truck", company: "Seguin Handy Co", phone: "(830) 555-8314", email: "one@seguinhandy.example", hunt: "open", notes: "Guadalupe one-man. Exclusive county." },
+
+  { id: "tx-nb-paint", nicheId: "painter", county: "comal", name: "Brush Co", company: "Comal Paint", phone: "(830) 555-8401", email: "brush@comalpaint.example", hunt: "open", notes: "Comal interior/exterior. One crew." },
+  { id: "tx-sa-paint", nicheId: "painter", county: "bexar", name: "Roll North", company: "Stone Oak Paint", phone: "(210) 555-8408", email: "roll@stoneoakpaint.example", hunt: "open", notes: "North Bexar. Don't fight the big paint franchises on price." },
+  { id: "tx-cibolo-paint", nicheId: "painter", county: "guadalupe", name: "Stain Gate", company: "Cibolo Paint Co", phone: "(210) 555-8414", email: "stain@cibolopaint.example", hunt: "open", notes: "Schertz / Cibolo exterior + fence stain." },
+
+  { id: "tx-nb-roof", nicheId: "roof", county: "comal", name: "Hail Deck", company: "Hill Country Roof", phone: "(830) 555-8501", email: "hail@hcroof.example", hunt: "open", notes: "Comal leak + hail. Not the storm chasers." },
+  { id: "tx-sa-roof", nicheId: "roof", county: "bexar", name: "Leak Van", company: "Northside Roof", phone: "(210) 555-8508", email: "leak@northsideroof.example", hunt: "open", notes: "North Bexar repair. Skip the $80k replace mills." },
+  { id: "tx-seguin-roof", nicheId: "roof", county: "guadalupe", name: "Shingle Co", company: "Seguin Roofing", phone: "(830) 555-8514", email: "shingle@seguinroof.example", hunt: "open", notes: "Guadalupe leak + inspect." },
 ];
 
 export const HUNT: HuntSeat[] = [...HUNT_CAPE, ...HUNT_ALAMO];
@@ -234,11 +268,9 @@ export function seatSms(buyer: Buyer) {
   const county = countyLabel(buyer.county);
   return `Angi still sells your name to 4 trucks.
 
-Dedicated ${niche.name.toLowerCase()} lead gen for ${county}. We screen. You roll. First 2 free, then $500/wk.
+Exclusive ${niche.name.toLowerCase()} jobs in ${county}. We ask. You go. First 2 free, then $500 a week.
 
-Need jobs this week? $300 EDDM · 5,000 homes.
-
-Reply YES or MAIL.`;
+Reply YES.`;
 }
 
 export function seatEmail(buyer: Buyer) {

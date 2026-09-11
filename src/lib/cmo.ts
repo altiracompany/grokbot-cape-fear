@@ -60,7 +60,7 @@ export const CMO_POSTS = [
   },
   {
     hook: "Afterthought CTA",
-    body: "LSA works if you answer in 30 seconds.\nAngi works if you like sharing.\nMail works if it's your piece.\n\nOne company if you want it asked before you leave the shop.\n\n(If you want that last one: DM YES.)",
+    body: "LSA works if you answer in 30 seconds.\nAngi works if you like sharing.\n\nExclusive to you if you want it asked before you leave the shop.\n\n(If you want that last one: DM YES.)",
   },
 ];
 

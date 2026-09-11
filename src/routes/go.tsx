@@ -14,12 +14,12 @@ import {
   GO_NICHES,
   makeLiveCode,
   offerById,
-  OFFERS,
+  PUBLIC_OFFERS,
   stashPending,
   type OfferId,
 } from "@/lib/spinup";
 import { EDDM_HOMES, EDDM_PRICE, EDDM_PRICE_HIGH } from "@/lib/pricing";
-import { defaultMailZip, mailPrice, mailZipsIn, MAIL_TIERS } from "@/lib/mail";
+import { defaultMailZip, MAIL_LIVE, mailPrice, mailZipsIn, MAIL_TIERS } from "@/lib/mail";
 import { countyLabel } from "@/lib/seats";
 import { nicheById } from "@/lib/niches";
 import { useAgency } from "@/lib/store";
@@ -38,7 +38,7 @@ function GoPage() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [county, setCounty] = useState<County>("comal");
-  const [nicheId, setNicheId] = useState<(typeof GO_NICHES)[number]>("septic");
+  const [nicheId, setNicheId] = useState<(typeof GO_NICHES)[number]>("tow");
   const [offer, setOffer] = useState<OfferId>("dedicated");
   const [addEddm, setAddEddm] = useState(false);
   const [mailZip, setMailZip] = useState(defaultMailZip("comal"));
@@ -62,7 +62,7 @@ function GoPage() {
 
   const picked = offerById(offer);
   const niche = nicheById(nicheId);
-  const eddmOn = offer === "eddm" || addEddm;
+  const eddmOn = MAIL_LIVE && (offer === "eddm" || addEddm);
   const zips = mailZipsIn(county);
   const mailAmt = mailPrice(mailZip);
   const today = dueToday(offer, addEddm, mailZip);
@@ -143,9 +143,9 @@ function GoPage() {
       <section className="grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:py-16">
         <div>
           <p className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">Start now</p>
-          <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">$500 a week. Two free. Mail this week if you want.</h1>
+          <h1 className="mt-2 font-display text-4xl font-medium tracking-tight">$500 a week. Two free. Exclusive to you.</h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-            Exclusive to you in your county. We tell you how they found you. A robot asks — it says so — then we text you the name and street. Need work this week? Mail to {EDDM_HOMES.toLocaleString()} homes from {money(EDDM_PRICE)}. High zips {money(EDDM_PRICE_HIGH)}.
+            Exclusive to you in your county. We tell you how they found you. A robot asks — it says so — then we text you the name and street.
           </p>
           <form onSubmit={submit} className="mt-10 grid gap-4">
             <Field label="Your name" htmlFor="n">
@@ -231,7 +231,7 @@ function GoPage() {
             ) : (
               <p className="text-sm text-go">{countyLabel(county)} {niche.name} is open. Exclusive to you if you take it.</p>
             )}
-            {offer !== "eddm" ? (
+            {MAIL_LIVE && offer !== "eddm" ? (
               <label className="flex min-h-11 items-start gap-3 text-sm leading-relaxed">
                 <input
                   type="checkbox"
@@ -244,7 +244,7 @@ function GoPage() {
                 </span>
               </label>
             ) : null}
-            {eddmOn ? (
+            {MAIL_LIVE && eddmOn ? (
               <Field label="Mail zip" htmlFor="zip">
                 <select
                   id="zip"
@@ -286,7 +286,7 @@ function GoPage() {
               <p className="mt-1 text-sm text-muted">{s.d}</p>
             </Card>
           ))}
-          {OFFERS.map((o) => (
+          {PUBLIC_OFFERS.map((o) => (
             <button
               key={o.id}
               type="button"
