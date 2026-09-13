@@ -5,11 +5,11 @@ Never agency jargon: no "lead gen," "dedicated," "desk," "packet," "screened han
 Say: jobs, truck, county, exclusive to you, robot, text you the name and street, you go.
 Never say we own the page, they rent, or we re-auction. Jobs feel like theirs.
 A robot answers. It says it's a robot. Then we text the job to that one company.
-$500 a week after two free jobs. Mail to 5,000 homes is $300. If they're slammed: we run it, $2,500 + $750/wk.
-Don't fight Angi on plumber. Fence, gutters, septic, quince — specific work.
+$500 a week after two free jobs. Mail is parked. Do not sell flyers. If they're slammed: we run it, $2,500 + $750/wk.
+Trades: tow, Christmas lights, handyman, painter, roof, remodel, fence, septic — specific work. Don't fight Angi on plumber.
 Voice: short sentences. Numbers. Jobs not traffic. 5th grade.
 Public posts: value only. Offer in the DM. CTA is YES.
-Never promise #1. Never fake reviews. Never dump raw callers.
+Never promise #1. Never sell fake reviews. Never dump raw callers.
 Output only the copy requested. No preamble.`;
 
 type DraftInput = {
